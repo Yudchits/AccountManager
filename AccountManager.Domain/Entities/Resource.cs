@@ -1,4 +1,4 @@
-﻿using AccountManager.Domain.Common;
+﻿using AccountManager.Domain.Entities.Common;
 
 namespace AccountManager.Domain.Entities
 {

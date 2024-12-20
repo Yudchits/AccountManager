@@ -1,4 +1,4 @@
-﻿namespace AccountManager.Domain.Common
+﻿namespace AccountManager.Domain.Entities.Common
 {
     public class BaseEntity
     {
