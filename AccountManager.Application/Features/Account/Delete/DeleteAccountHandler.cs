@@ -1,11 +1,10 @@
 ﻿using AccountManager.Application.Repositories;
-using AccountManager.Domain.Entities;
 using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccountManager.Application.Features.Delete
+namespace AccountManager.Application.Features.Account.Delete
 {
     public class DeleteAccountHandler : IRequestHandler<DeleteAccountRequest, DeleteAccountResponse>
     {
@@ -20,7 +19,7 @@ namespace AccountManager.Application.Features.Delete
 
         public async Task<DeleteAccountResponse> Handle(DeleteAccountRequest request, CancellationToken cancellationToken)
         {
-            var account = _mapper.Map<Account>(request);
+            var account = _mapper.Map<Domain.Entities.Account>(request);
             await _repository.DeleteAsync(account);
             return _mapper.Map<DeleteAccountResponse>(account);
         }

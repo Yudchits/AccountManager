@@ -1,4 +1,4 @@
-﻿namespace AccountManager.Application.Features.Create
+﻿namespace AccountManager.Application.Features.Account.Create
 {
     public sealed record CreateAccountResponse
     {

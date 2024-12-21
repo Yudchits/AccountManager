@@ -1,11 +1,10 @@
 ﻿using AccountManager.Application.Repositories;
-using AccountManager.Domain.Entities;
 using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccountManager.Application.Features.Create
+namespace AccountManager.Application.Features.Account.Create
 {
     public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, CreateAccountResponse>
     {
@@ -20,7 +19,7 @@ namespace AccountManager.Application.Features.Create
 
         public async Task<CreateAccountResponse> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
         {
-            var account = _mapper.Map<Account>(request);
+            var account = _mapper.Map<Domain.Entities.Account>(request);
             await _repository.CreateAsync(account);
             return _mapper.Map<CreateAccountResponse>(account);
         }

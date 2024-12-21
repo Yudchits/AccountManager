@@ -1,4 +1,4 @@
-﻿namespace AccountManager.Application.Features.Delete
+﻿namespace AccountManager.Application.Features.Account.Delete
 {
     public sealed record DeleteAccountResponse
     {

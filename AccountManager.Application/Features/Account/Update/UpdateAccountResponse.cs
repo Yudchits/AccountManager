@@ -1,4 +1,4 @@
-﻿namespace AccountManager.Application.Features.Update
+﻿namespace AccountManager.Application.Features.Account.Update
 {
     public sealed record UpdateAccountResponse
     {
