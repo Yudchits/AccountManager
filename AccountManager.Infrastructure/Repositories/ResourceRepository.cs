@@ -12,20 +12,22 @@ namespace AccountManager.Infrastructure.Repositories
 {
     public class ResourceRepository : IResourceRepository
     {
+        private readonly string _accountManagerPath;
         private readonly string _resourceFilePath;
         private readonly string _resourceImagesPath;
 
         public ResourceRepository()
         {
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            
-            _resourceFilePath = Path.Combine(appDataPath, "Resources.json");
+            _accountManagerPath = Path.Combine(appDataPath, "AccountManager");
+
+            _resourceFilePath = Path.Combine(_accountManagerPath, "Resources.json");
             if (!File.Exists(_resourceFilePath))
             {
                 File.Create(_resourceFilePath);
             }
 
-            _resourceImagesPath = Path.Combine(appDataPath, "Images", "Resource");
+            _resourceImagesPath = Path.Combine(_accountManagerPath, "Images", "Resources");
             if (!Directory.Exists(_resourceImagesPath))
             {
                 Directory.CreateDirectory(_resourceImagesPath);
@@ -53,6 +55,16 @@ namespace AccountManager.Infrastructure.Repositories
         public async Task CreateAsync(Resource entity)
         {
             var resources = await GetAllAsync();
+            
+            int id = 0;
+            var lastResource = resources.LastOrDefault();
+            if (lastResource != null)
+            {
+                id = lastResource.Id + 1;
+            }
+
+            entity.Id = id;
+
             resources.Add(entity);
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
