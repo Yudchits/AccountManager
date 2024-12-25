@@ -17,9 +17,8 @@ namespace AccountManagerWinForm.Forms.Resource
 
         public GetAllResourcesForm(IMediator mediator)
         {
-            _mediator = mediator;
-
             InitializeComponent();
+            _mediator = mediator;
         }
 
         private void CloseBtn_Click(object sender, EventArgs e)
@@ -34,11 +33,11 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private async Task LoadResources()
         {
-            var resources = await _mediator.Send(new GetAllResourceRequest());
+            var resources = await _mediator.Send(new GetAllResourcesRequest());
             DisplayResources(resources);
         }
 
-        private void DisplayResources(ICollection<GetAllResourceResponse> resources)
+        private void DisplayResources(ICollection<GetAllResourcesResponse> resources)
         {
             ResourcesFLP.Controls.Clear();
             ResourcesFLP.AutoScroll = false;
@@ -104,7 +103,7 @@ namespace AccountManagerWinForm.Forms.Resource
         private void SetMaximumScrollVerticalValue(int resourceCount)
         {
             int resourcesOnPage = 4;
-            double multiplier = resourceCount > resourcesOnPage ? (resourceCount / resourcesOnPage) - 1 : 1;
+            double multiplier = resourceCount > resourcesOnPage ? resourceCount / resourcesOnPage : 1;
 
             ResourcesFLP.VerticalScroll.Maximum = ResourcesFLP.Height * (int)Math.Floor(multiplier);
         }

@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace AccountManager.Application.Features.Resource.GetAll
 {
-    public class GetAllResourceHandler : IRequestHandler<GetAllResourceRequest, ICollection<GetAllResourceResponse>>
+    public class GetAllResourcesHandler : IRequestHandler<GetAllResourcesRequest, ICollection<GetAllResourcesResponse>>
     {
         private readonly IResourceRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetAllResourceHandler(IResourceRepository repository, IMapper mapper)
+        public GetAllResourcesHandler(IResourceRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<ICollection<GetAllResourceResponse>> Handle(GetAllResourceRequest request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetAllResourcesResponse>> Handle(GetAllResourcesRequest request, CancellationToken cancellationToken)
         {
             var resources = await _repository.GetAllAsync();
-            return _mapper.Map<ICollection<GetAllResourceResponse>>(resources);
+            return _mapper.Map<ICollection<GetAllResourcesResponse>>(resources);
         }
     }
 }
