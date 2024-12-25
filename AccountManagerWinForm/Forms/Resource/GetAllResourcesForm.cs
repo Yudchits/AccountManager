@@ -1,19 +1,21 @@
 ﻿using AccountManager.Application.Features.Resource.GetAll;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Resource
 {
-    public partial class GetAllResource : Form
+    public partial class GetAllResourcesForm : Form
     {
         private int verticalScroll = 0;
         private readonly IMediator _mediator;
 
-        public GetAllResource(IMediator mediator)
+        public GetAllResourcesForm(IMediator mediator)
         {
             _mediator = mediator;
 
@@ -26,6 +28,11 @@ namespace AccountManagerWinForm.Forms.Resource
         }
 
         private async void GetAllResource_Load(object sender, EventArgs e)
+        {
+            await LoadResources();
+        }
+
+        private async Task LoadResources()
         {
             var resources = await _mediator.Send(new GetAllResourceRequest());
             DisplayResources(resources);
@@ -73,8 +80,8 @@ namespace AccountManagerWinForm.Forms.Resource
             ResourcesFLP.Width = (imageWidth * 2) + imagePadding * 5;
             ResourcesFLP.Height = (imageHeight * 2) + imagePadding * 4;
 
-            int windowWidth = ActiveForm.Width;
-            int windowHeight = ActiveForm.Height;
+            int windowWidth = Width;
+            int windowHeight = Height;
 
             int resourceFLP_X = (windowWidth - ResourcesFLP.Width) / 2;
             int resourceFLP_Y = (windowHeight - ResourcesFLP.Height) / 2;
@@ -82,20 +89,24 @@ namespace AccountManagerWinForm.Forms.Resource
             ResourcesFLP.Location = new Point(resourceFLP_X, resourceFLP_Y);
 
             int btnMargin = 15;
+            int scrollBtnX = ResourcesFLP.Location.X + (ResourcesFLP.Width / 2) - (ScrollUpBtn.Width / 2);
             int scrollUpBtnY = ResourcesFLP.Location.Y - btnMargin - ScrollUpBtn.Height;
-            ScrollUpBtn.Location = new Point(ScrollUpBtn.Location.X, scrollUpBtnY);
+            ScrollUpBtn.Location = new Point(scrollBtnX, scrollUpBtnY);
 
             int scrollDownBtnY = ResourcesFLP.Location.Y + ResourcesFLP.Height + btnMargin;
-            ScrollDownBtn.Location = new Point(ScrollDownBtn.Location.X, scrollDownBtnY);
+            ScrollDownBtn.Location = new Point(scrollBtnX, scrollDownBtnY);
+
+            int createResourceBtnX = ResourcesFLP.Location.X + ResourcesFLP.Width - CreateResourceBtn.Width - (imagePadding * 2);
+            int createResourceBtnY = ResourcesFLP.Location.Y - CreateResourceBtn.Height - btnMargin;
+            CreateResourceBtn.Location = new Point(createResourceBtnX, createResourceBtnY);
         }
 
-        private void SetMaximumScrollVerticalValue(int resouceCount)
+        private void SetMaximumScrollVerticalValue(int resourceCount)
         {
             int resourcesOnPage = 4;
-            int multiplier = resouceCount > resourcesOnPage ? resouceCount / resourcesOnPage : 1;
-            multiplier = multiplier % 2 == 0 ? multiplier : multiplier + 1;
+            double multiplier = resourceCount > resourcesOnPage ? (resourceCount / resourcesOnPage) - 1 : 1;
 
-            ResourcesFLP.VerticalScroll.Maximum = ResourcesFLP.Height * multiplier;
+            ResourcesFLP.VerticalScroll.Maximum = ResourcesFLP.Height * (int)Math.Floor(multiplier);
         }
 
         private void ScrollUpBtn_Click(object sender, EventArgs e)
@@ -130,6 +141,19 @@ namespace AccountManagerWinForm.Forms.Resource
 
             verticalScroll = newVerticalScroll;
             ResourcesFLP.VerticalScroll.Value = newVerticalScroll;
+        }
+
+        private async void CreateResourceBtn_Click(object sender, EventArgs e)
+        {
+            Opacity = 0.95;
+            var createResult = Program.ServiceProvider?.GetRequiredService<CreateResourceForm>()
+                .ShowDialog();
+
+            Opacity = 1;
+            if (createResult == DialogResult.OK)
+            {
+                await LoadResources();
+            }
         }
     }
 }

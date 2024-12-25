@@ -63,6 +63,16 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ChooseImage {
+            get {
+                object obj = ResourceManager.GetObject("ChooseImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SlideDown {
             get {
                 object obj = ResourceManager.GetObject("SlideDown", resourceCulture);

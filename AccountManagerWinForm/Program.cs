@@ -31,7 +31,7 @@ namespace AccountManagerWinForm
             var host = builder.Build();
             ServiceProvider = host.Services;
 
-            Application.Run(ServiceProvider.GetRequiredService<GetAllResource>());
+            Application.Run(ServiceProvider.GetRequiredService<GetAllResourcesForm>());
         }
     }
 }

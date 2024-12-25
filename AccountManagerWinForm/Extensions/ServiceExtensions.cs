@@ -7,7 +7,8 @@ namespace AccountManagerWinForm.Extensions
     {
         public static void ConfigureWinForm(this IServiceCollection services)
         {
-            services.AddTransient<GetAllResource>();
+            services.AddTransient<GetAllResourcesForm>();
+            services.AddTransient<CreateResourceForm>();
         }
     }
 }

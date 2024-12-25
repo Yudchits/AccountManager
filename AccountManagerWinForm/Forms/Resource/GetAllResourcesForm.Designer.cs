@@ -1,6 +1,6 @@
 ﻿namespace AccountManagerWinForm.Forms.Resource
 {
-    partial class GetAllResource
+    partial class GetAllResourcesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,25 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            MainPanel = new System.Windows.Forms.Panel();
+            GetAllResourcesMainPanel = new System.Windows.Forms.Panel();
+            CreateResourceBtn = new System.Windows.Forms.Button();
             ScrollDownBtn = new System.Windows.Forms.Button();
             ScrollUpBtn = new System.Windows.Forms.Button();
             ResourcesFLP = new System.Windows.Forms.FlowLayoutPanel();
             CloseBtn = new System.Windows.Forms.Button();
-            MainPanel.SuspendLayout();
+            GetAllResourcesMainPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // MainPanel
+            // GetAllResourcesMainPanel
             // 
-            MainPanel.BackColor = System.Drawing.Color.FromArgb(28, 29, 35);
-            MainPanel.Controls.Add(ScrollDownBtn);
-            MainPanel.Controls.Add(ScrollUpBtn);
-            MainPanel.Controls.Add(ResourcesFLP);
-            MainPanel.Controls.Add(CloseBtn);
-            MainPanel.Location = new System.Drawing.Point(0, 0);
-            MainPanel.Name = "MainPanel";
-            MainPanel.Size = new System.Drawing.Size(1000, 800);
-            MainPanel.TabIndex = 1;
+            GetAllResourcesMainPanel.BackColor = System.Drawing.Color.FromArgb(28, 29, 35);
+            GetAllResourcesMainPanel.Controls.Add(CreateResourceBtn);
+            GetAllResourcesMainPanel.Controls.Add(ScrollDownBtn);
+            GetAllResourcesMainPanel.Controls.Add(ScrollUpBtn);
+            GetAllResourcesMainPanel.Controls.Add(ResourcesFLP);
+            GetAllResourcesMainPanel.Controls.Add(CloseBtn);
+            GetAllResourcesMainPanel.Location = new System.Drawing.Point(0, 0);
+            GetAllResourcesMainPanel.Name = "GetAllResourcesMainPanel";
+            GetAllResourcesMainPanel.Size = new System.Drawing.Size(1000, 800);
+            GetAllResourcesMainPanel.TabIndex = 1;
+            // 
+            // CreateResourceBtn
+            // 
+            CreateResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CreateResourceBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CreateResourceBtn.ForeColor = System.Drawing.Color.White;
+            CreateResourceBtn.Location = new System.Drawing.Point(720, 36);
+            CreateResourceBtn.Name = "CreateResourceBtn";
+            CreateResourceBtn.Padding = new System.Windows.Forms.Padding(3);
+            CreateResourceBtn.Size = new System.Drawing.Size(180, 48);
+            CreateResourceBtn.TabIndex = 4;
+            CreateResourceBtn.Text = "Добавить ресурс";
+            CreateResourceBtn.UseVisualStyleBackColor = true;
+            CreateResourceBtn.Click += CreateResourceBtn_Click;
             // 
             // ScrollDownBtn
             // 
@@ -100,30 +116,31 @@
             CloseBtn.UseVisualStyleBackColor = true;
             CloseBtn.Click += CloseBtn_Click;
             // 
-            // GetAllResource
+            // GetAllResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1000, 800);
             ControlBox = false;
-            Controls.Add(MainPanel);
+            Controls.Add(GetAllResourcesMainPanel);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "GetAllResource";
+            Name = "GetAllResourcesForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "GetAllResource";
             Load += GetAllResource_Load;
-            MainPanel.ResumeLayout(false);
+            GetAllResourcesMainPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel MainPanel;
+        private System.Windows.Forms.Panel GetAllResourcesMainPanel;
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.FlowLayoutPanel ResourcesFLP;
         private System.Windows.Forms.Button ScrollDownBtn;
         private System.Windows.Forms.Button ScrollUpBtn;
+        private System.Windows.Forms.Button CreateResourceBtn;
     }
 }
