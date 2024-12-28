@@ -151,6 +151,7 @@
             Controls.Add(CreateResourceMainPanel);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Name = "CreateResourceForm";
+            ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "CreateResourceForm";
             CreateResourceMainPanel.ResumeLayout(false);

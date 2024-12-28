@@ -63,8 +63,11 @@ namespace AccountManagerWinForm.Forms.Resource
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Dock = DockStyle.None,
                         Anchor = AnchorStyles.None,
-                        Margin = new Padding(imagePadding)
+                        Margin = new Padding(imagePadding),
+                        Tag = resource.Id
                     };
+
+                    pictureBox.Click += ResourcePictureBox_Click;
 
                     var tooltip = new ToolTip();
                     tooltip.SetToolTip(pictureBox, resource.Name);
@@ -106,6 +109,15 @@ namespace AccountManagerWinForm.Forms.Resource
             double multiplier = resourceCount > resourcesOnPage ? resourceCount / resourcesOnPage : 1;
 
             ResourcesFLP.VerticalScroll.Maximum = ResourcesFLP.Height * (int)Math.Floor(multiplier);
+        }
+
+        private void ResourcePictureBox_Click(object sender, EventArgs e)
+        {
+            if (sender is PictureBox pictureBox)
+            {
+                var resourceId = pictureBox.Tag;
+
+            }
         }
 
         private void ScrollUpBtn_Click(object sender, EventArgs e)

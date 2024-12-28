@@ -9,6 +9,7 @@ namespace AccountManager.Infrastructure.Extensions
         public static void ConfigureInfrastructure(this IServiceCollection services)
         {
             services.AddTransient<IResourceRepository, ResourceRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
         }
     }
 }

@@ -56,14 +56,8 @@ namespace AccountManager.Infrastructure.Repositories
         {
             var resources = await GetAllAsync();
             
-            int id = 0;
             var lastResource = resources.LastOrDefault();
-            if (lastResource != null)
-            {
-                id = lastResource.Id + 1;
-            }
-
-            entity.Id = id;
+            entity.Id = lastResource != null ? lastResource.Id + 1 : 1;
 
             resources.Add(entity);
             var serializedResources = JsonConvert.SerializeObject(resources);
