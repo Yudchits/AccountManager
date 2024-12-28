@@ -46,7 +46,7 @@ namespace AccountManager.Infrastructure.Repositories
             return accounts.FirstOrDefault(a => a.Id == id);
         }
 
-        public async Task<ICollection<Account>> GetByResourceId(int resourceId)
+        public async Task<ICollection<Account>> GetByResourceIdAsync(int resourceId)
         {
             var accounts = await GetAllAsync();
             return accounts.Where(a => a.ResourceId == resourceId).ToList();

@@ -7,6 +7,6 @@ namespace AccountManager.Application.Repositories
 {
     public interface IAccountRepository : IBaseRepository<Account>
     {
-        Task<ICollection<Account>> GetByResourceId(int resourceId);
+        Task<ICollection<Account>> GetByResourceIdAsync(int resourceId);
     }
 }

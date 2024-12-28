@@ -1,13 +1,13 @@
 ﻿using AccountManager.Application.Repositories;
 using AutoMapper;
 using MediatR;
-using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AccountManager.Application.Features.Account.GetByResourceId
 {
-    public class GetAccountsByResourceIdHandler : IRequestHandler<GetAccountsByResourceIdRequest, GetAccountsByResourceIdResponse>
+    public class GetAccountsByResourceIdHandler : IRequestHandler<GetAccountsByResourceIdRequest, ICollection<GetAccountsByResourceIdResponse>>
     {
         private readonly IAccountRepository _repository;
         private readonly IMapper _mapper;
@@ -18,9 +18,10 @@ namespace AccountManager.Application.Features.Account.GetByResourceId
             _mapper = mapper;
         }
 
-        public Task<GetAccountsByResourceIdResponse> Handle(GetAccountsByResourceIdRequest request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetAccountsByResourceIdResponse>> Handle(GetAccountsByResourceIdRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var accounts = await _repository.GetByResourceIdAsync(request.ResourceId);
+            return _mapper.Map<ICollection<GetAccountsByResourceIdResponse>>(accounts);
         }
     }
 }
