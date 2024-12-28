@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace AccountManager.Application.Features.Account.GetAll
 {
-    public class GetAllAccountHandler : IRequestHandler<GetAllAccountRequest, ICollection<GetAllAccountResponse>>
+    public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsRequest, ICollection<GetAllAccountsResponse>>
     {
         private readonly IAccountRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetAllAccountHandler(IAccountRepository repository, IMapper mapper)
+        public GetAllAccountsHandler(IAccountRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<ICollection<GetAllAccountResponse>> Handle(GetAllAccountRequest request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetAllAccountsResponse>> Handle(GetAllAccountsRequest request, CancellationToken cancellationToken)
         {
             var accounts = await _repository.GetAllAsync();
-            return _mapper.Map<ICollection<GetAllAccountResponse>>(accounts);
+            return _mapper.Map<ICollection<GetAllAccountsResponse>>(accounts);
         }
     }
 }

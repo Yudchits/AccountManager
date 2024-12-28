@@ -1,6 +1,6 @@
-﻿namespace AccountManager.Application.Features.Account.GetById
+﻿namespace AccountManager.Application.Features.Account.GetAll
 {
-    public sealed record GetByIdAccountResponse
+    public sealed record GetAllAccountsResponse
     {
         public int Id { get; set; }
         public int ResourceId { get; set; }
