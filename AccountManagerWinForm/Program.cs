@@ -1,8 +1,8 @@
 using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
+using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Common;
-using AccountManagerWinForm.Forms.Resource;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -39,7 +39,7 @@ namespace AccountManagerWinForm
             var host = builder.Build();
             ServiceProvider = host.Services;
 
-            Application.Run(ServiceProvider.GetRequiredService<GetAllResourcesForm>());
+            Application.Run(ServiceProvider.GetRequiredService<IndexForm>());
         }
 
         private static void HandleUnhandledExceptions(object sender, UnhandledExceptionEventArgs e)
