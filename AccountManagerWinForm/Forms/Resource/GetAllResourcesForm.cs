@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Features.Resource.GetAll;
+using AccountManagerWinForm.Forms.Accounts;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -67,7 +68,7 @@ namespace AccountManagerWinForm.Forms.Resource
                         Tag = resource.Id
                     };
 
-                    pictureBox.Click += ResourcePictureBox_Click;
+                    pictureBox.Click += ResourcePictureBox_ClickAsync;
 
                     var tooltip = new ToolTip();
                     tooltip.SetToolTip(pictureBox, resource.Name);
@@ -111,12 +112,21 @@ namespace AccountManagerWinForm.Forms.Resource
             ResourcesFLP.VerticalScroll.Maximum = ResourcesFLP.Height * (int)Math.Floor(multiplier);
         }
 
-        private void ResourcePictureBox_Click(object sender, EventArgs e)
+        private async void ResourcePictureBox_ClickAsync(object sender, EventArgs e)
         {
             if (sender is PictureBox pictureBox)
             {
-                var resourceId = pictureBox.Tag;
-
+                var resourceTag = pictureBox.Tag;
+                var isParsed = int.TryParse(resourceTag.ToString(), out int resourceId);
+                if (isParsed)
+                {
+                    var accountsForm = Program.ServiceProvider?.GetRequiredService<GetAccountsByResourceIdForm>();
+                    if (accountsForm != null)
+                    {
+                        await accountsForm.GetAccountsByResourceId(resourceId);
+                        accountsForm.ShowDialog();
+                    }
+                }
             }
         }
 
