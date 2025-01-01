@@ -37,7 +37,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = System.Drawing.Color.FromArgb(18, 25, 22);
+            panel1.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             panel1.Controls.Add(MessageTextBox);
             panel1.Controls.Add(OkBtn);
             panel1.Controls.Add(CloseBtn);
@@ -48,7 +48,7 @@
             // 
             // MessageTextBox
             // 
-            MessageTextBox.BackColor = System.Drawing.Color.FromArgb(18, 25, 22);
+            MessageTextBox.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             MessageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             MessageTextBox.ForeColor = System.Drawing.Color.White;
             MessageTextBox.Location = new System.Drawing.Point(50, 69);
@@ -97,7 +97,7 @@
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "MessageForm";
             ShowInTaskbar = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "MessageForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -109,6 +109,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button OkBtn;
-        public System.Windows.Forms.TextBox MessageTextBox;
+        private System.Windows.Forms.TextBox MessageTextBox;
     }
 }

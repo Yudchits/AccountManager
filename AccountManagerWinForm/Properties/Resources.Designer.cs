@@ -63,9 +63,29 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ChooseImage {
+        internal static System.Drawing.Bitmap Add24 {
             get {
-                object obj = ResourceManager.GetObject("ChooseImage", resourceCulture);
+                object obj = ResourceManager.GetObject("Add24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Delete24 {
+            get {
+                object obj = ResourceManager.GetObject("Delete24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Edit24 {
+            get {
+                object obj = ResourceManager.GetObject("Edit24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,6 +113,26 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Next64 {
+            get {
+                object obj = ResourceManager.GetObject("Next64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Previous64 {
+            get {
+                object obj = ResourceManager.GetObject("Previous64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Resources24 {
             get {
                 object obj = ResourceManager.GetObject("Resources24", resourceCulture);
@@ -106,26 +146,6 @@ namespace AccountManagerWinForm.Properties {
         internal static System.Drawing.Bitmap Settings24 {
             get {
                 object obj = ResourceManager.GetObject("Settings24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SlideDown {
-            get {
-                object obj = ResourceManager.GetObject("SlideDown", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SlideUp {
-            get {
-                object obj = ResourceManager.GetObject("SlideUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

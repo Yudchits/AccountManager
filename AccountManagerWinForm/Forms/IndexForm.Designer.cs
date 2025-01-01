@@ -37,9 +37,13 @@
             DashboardNameLabel = new System.Windows.Forms.Label();
             DashboardLogoPicture = new System.Windows.Forms.PictureBox();
             CloseBtn = new System.Windows.Forms.Button();
+            HeaderPnl = new System.Windows.Forms.Panel();
+            ActiveFormNameLbl = new System.Windows.Forms.Label();
+            BodyPnl = new System.Windows.Forms.Panel();
             DashboardMainPnl.SuspendLayout();
             DashboardTopPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DashboardLogoPicture).BeginInit();
+            HeaderPnl.SuspendLayout();
             SuspendLayout();
             // 
             // DashboardMainPnl
@@ -60,7 +64,7 @@
             // ActivePnl
             // 
             ActivePnl.BackColor = System.Drawing.Color.FromArgb(0, 126, 249);
-            ActivePnl.Location = new System.Drawing.Point(0, 150);
+            ActivePnl.Location = new System.Drawing.Point(0, 110);
             ActivePnl.Name = "ActivePnl";
             ActivePnl.Size = new System.Drawing.Size(3, 60);
             ActivePnl.TabIndex = 2;
@@ -88,7 +92,7 @@
             Btn_ToResources.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Btn_ToResources.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             Btn_ToResources.Image = Properties.Resources.Resources24;
-            Btn_ToResources.Location = new System.Drawing.Point(0, 210);
+            Btn_ToResources.Location = new System.Drawing.Point(0, 170);
             Btn_ToResources.Name = "Btn_ToResources";
             Btn_ToResources.Size = new System.Drawing.Size(200, 60);
             Btn_ToResources.TabIndex = 1;
@@ -104,7 +108,7 @@
             Btn_ToMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Btn_ToMain.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             Btn_ToMain.Image = Properties.Resources.Home24;
-            Btn_ToMain.Location = new System.Drawing.Point(0, 150);
+            Btn_ToMain.Location = new System.Drawing.Point(0, 110);
             Btn_ToMain.Name = "Btn_ToMain";
             Btn_ToMain.Size = new System.Drawing.Size(200, 60);
             Btn_ToMain.TabIndex = 1;
@@ -120,7 +124,7 @@
             DashboardTopPnl.Dock = System.Windows.Forms.DockStyle.Top;
             DashboardTopPnl.Location = new System.Drawing.Point(0, 0);
             DashboardTopPnl.Name = "DashboardTopPnl";
-            DashboardTopPnl.Size = new System.Drawing.Size(200, 150);
+            DashboardTopPnl.Size = new System.Drawing.Size(200, 110);
             DashboardTopPnl.TabIndex = 0;
             // 
             // DashboardNameLabel
@@ -128,7 +132,7 @@
             DashboardNameLabel.AutoSize = true;
             DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             DashboardNameLabel.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            DashboardNameLabel.Location = new System.Drawing.Point(10, 100);
+            DashboardNameLabel.Location = new System.Drawing.Point(10, 73);
             DashboardNameLabel.Name = "DashboardNameLabel";
             DashboardNameLabel.Size = new System.Drawing.Size(180, 27);
             DashboardNameLabel.TabIndex = 1;
@@ -137,7 +141,7 @@
             // DashboardLogoPicture
             // 
             DashboardLogoPicture.Image = Properties.Resources.Logo;
-            DashboardLogoPicture.Location = new System.Drawing.Point(65, 24);
+            DashboardLogoPicture.Location = new System.Drawing.Point(65, 10);
             DashboardLogoPicture.Name = "DashboardLogoPicture";
             DashboardLogoPicture.Size = new System.Drawing.Size(65, 65);
             DashboardLogoPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -149,7 +153,7 @@
             CloseBtn.FlatAppearance.BorderSize = 0;
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            CloseBtn.Location = new System.Drawing.Point(940, 0);
+            CloseBtn.Location = new System.Drawing.Point(740, 0);
             CloseBtn.Name = "CloseBtn";
             CloseBtn.Size = new System.Drawing.Size(60, 30);
             CloseBtn.TabIndex = 1;
@@ -157,13 +161,43 @@
             CloseBtn.UseVisualStyleBackColor = true;
             CloseBtn.Click += CloseBtn_Click;
             // 
+            // HeaderPnl
+            // 
+            HeaderPnl.Controls.Add(ActiveFormNameLbl);
+            HeaderPnl.Controls.Add(CloseBtn);
+            HeaderPnl.Dock = System.Windows.Forms.DockStyle.Top;
+            HeaderPnl.Location = new System.Drawing.Point(200, 0);
+            HeaderPnl.Name = "HeaderPnl";
+            HeaderPnl.Size = new System.Drawing.Size(800, 110);
+            HeaderPnl.TabIndex = 2;
+            // 
+            // ActiveFormNameLbl
+            // 
+            ActiveFormNameLbl.AutoSize = true;
+            ActiveFormNameLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ActiveFormNameLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
+            ActiveFormNameLbl.Location = new System.Drawing.Point(33, 24);
+            ActiveFormNameLbl.Name = "ActiveFormNameLbl";
+            ActiveFormNameLbl.Size = new System.Drawing.Size(104, 30);
+            ActiveFormNameLbl.TabIndex = 2;
+            ActiveFormNameLbl.Text = "Главная";
+            // 
+            // BodyPnl
+            // 
+            BodyPnl.Dock = System.Windows.Forms.DockStyle.Fill;
+            BodyPnl.Location = new System.Drawing.Point(200, 110);
+            BodyPnl.Name = "BodyPnl";
+            BodyPnl.Size = new System.Drawing.Size(800, 490);
+            BodyPnl.TabIndex = 3;
+            // 
             // IndexForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(1000, 600);
-            Controls.Add(CloseBtn);
+            Controls.Add(BodyPnl);
+            Controls.Add(HeaderPnl);
             Controls.Add(DashboardMainPnl);
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.White;
@@ -172,11 +206,12 @@
             Name = "IndexForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Index";
-            Load += Index_Load;
             DashboardMainPnl.ResumeLayout(false);
             DashboardTopPnl.ResumeLayout(false);
             DashboardTopPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DashboardLogoPicture).EndInit();
+            HeaderPnl.ResumeLayout(false);
+            HeaderPnl.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -191,5 +226,8 @@
         private System.Windows.Forms.Panel ActivePnl;
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button Btn_ToResources;
+        private System.Windows.Forms.Panel HeaderPnl;
+        private System.Windows.Forms.Panel BodyPnl;
+        private System.Windows.Forms.Label ActiveFormNameLbl;
     }
 }

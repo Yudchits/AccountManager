@@ -58,7 +58,7 @@ namespace AccountManagerWinForm
             var messageForm = ServiceProvider?.GetRequiredService<MessageForm>();
             if (messageForm != null)
             {
-                messageForm.MessageTextBox.Text = exception.Message;
+                messageForm.Message = exception.Message;
                 messageForm.ShowDialog();
             }
         }

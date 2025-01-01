@@ -1,5 +1,4 @@
 ﻿using AccountManagerWinForm.Forms;
-using AccountManagerWinForm.Forms.Accounts;
 using AccountManagerWinForm.Forms.Common;
 using AccountManagerWinForm.Forms.Resource;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,10 +10,8 @@ namespace AccountManagerWinForm.Extensions
         public static void ConfigureWinForm(this IServiceCollection services)
         {
             services.AddSingleton<IndexForm>();
-            services.AddTransient<GetAllResourcesForm>();
-            services.AddTransient<CreateResourceForm>();
-            services.AddTransient<GetAccountsByResourceIdForm>();
             services.AddSingleton<MessageForm>();
+            services.AddTransient<ResourcesForm>();
         }
     }
 }
