@@ -32,7 +32,11 @@
             PreviousBtn = new System.Windows.Forms.Button();
             NextBtn = new System.Windows.Forms.Button();
             NoResourcesLbl = new System.Windows.Forms.Label();
+            HoverPnl = new System.Windows.Forms.Panel();
+            DeleteResourceBtn = new System.Windows.Forms.Button();
+            EditResourceBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).BeginInit();
+            HoverPnl.SuspendLayout();
             SuspendLayout();
             // 
             // ImagePctrBx
@@ -43,6 +47,7 @@
             ImagePctrBx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             ImagePctrBx.TabIndex = 2;
             ImagePctrBx.TabStop = false;
+            ImagePctrBx.MouseEnter += ImagePctrBx_MouseEnter;
             // 
             // PreviousBtn
             // 
@@ -80,12 +85,54 @@
             NoResourcesLbl.TabIndex = 4;
             NoResourcesLbl.Text = "Список ресурсов пуст";
             // 
+            // HoverPnl
+            // 
+            HoverPnl.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
+            HoverPnl.Controls.Add(DeleteResourceBtn);
+            HoverPnl.Controls.Add(EditResourceBtn);
+            HoverPnl.Location = new System.Drawing.Point(150, 241);
+            HoverPnl.Name = "HoverPnl";
+            HoverPnl.Size = new System.Drawing.Size(500, 106);
+            HoverPnl.TabIndex = 5;
+            HoverPnl.MouseLeave += HoverPnl_MouseLeave;
+            // 
+            // DeleteResourceBtn
+            // 
+            DeleteResourceBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            DeleteResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            DeleteResourceBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            DeleteResourceBtn.ForeColor = System.Drawing.Color.Red;
+            DeleteResourceBtn.Image = Properties.Resources.Delete24;
+            DeleteResourceBtn.Location = new System.Drawing.Point(268, 32);
+            DeleteResourceBtn.Name = "DeleteResourceBtn";
+            DeleteResourceBtn.Size = new System.Drawing.Size(175, 45);
+            DeleteResourceBtn.TabIndex = 0;
+            DeleteResourceBtn.Text = "Удалить";
+            DeleteResourceBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            DeleteResourceBtn.UseVisualStyleBackColor = true;
+            // 
+            // EditResourceBtn
+            // 
+            EditResourceBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            EditResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            EditResourceBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            EditResourceBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            EditResourceBtn.Image = Properties.Resources.Edit24;
+            EditResourceBtn.Location = new System.Drawing.Point(54, 32);
+            EditResourceBtn.Name = "EditResourceBtn";
+            EditResourceBtn.Size = new System.Drawing.Size(175, 45);
+            EditResourceBtn.TabIndex = 0;
+            EditResourceBtn.Text = "Редактировать";
+            EditResourceBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            EditResourceBtn.UseVisualStyleBackColor = true;
+            // 
             // ResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
+            Controls.Add(HoverPnl);
             Controls.Add(NoResourcesLbl);
             Controls.Add(NextBtn);
             Controls.Add(PreviousBtn);
@@ -98,6 +145,7 @@
             Text = "ResourcesForm";
             Load += ResourcesForm_Load;
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).EndInit();
+            HoverPnl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -108,5 +156,8 @@
         private System.Windows.Forms.Button NextBtn;
         private System.Windows.Forms.Label NoResourcesLbl;
         private System.Windows.Forms.TextBox SearchTxtBx;
+        private System.Windows.Forms.Panel HoverPnl;
+        private System.Windows.Forms.Button EditResourceBtn;
+        private System.Windows.Forms.Button DeleteResourceBtn;
     }
 }

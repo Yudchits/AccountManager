@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Features.Resource.GetAll;
+using AccountManagerWinForm.Extensions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace AccountManagerWinForm.Forms.Resource
     public partial class ResourcesForm : Form
     {
         private readonly IMediator _mediator;
+
         private ICollection<GetAllResourcesResponse> _resources;
         private ICollection<GetAllResourcesResponse> _resourcesToDisplay;
         private int _currentResourceId;
@@ -19,10 +21,42 @@ namespace AccountManagerWinForm.Forms.Resource
         public ResourcesForm(IMediator mediator)
         {
             InitializeComponent();
+            InitializeHoverPnl();
+            InitializeHoverPnlBtns();
+
             _mediator = mediator;
             _resources = new List<GetAllResourcesResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceId = 0;
+        }
+
+        private void InitializeHoverPnl()
+        {
+            HoverPnl.Visible = false;
+            HoverPnl.Parent = ImagePctrBx;
+            HoverPnl.Location = new Point(0, 0);
+            HoverPnl.Size = new Size(ImagePctrBx.Width, ImagePctrBx.Height);
+
+            var originalColor = HoverPnl.BackColor;
+            HoverPnl.BackColor = Color.FromArgb(128, originalColor.R, originalColor.G, originalColor.B);
+            HoverPnl.SetDoubleBuffered(true);
+        }
+
+        private void InitializeHoverPnlBtns()
+        {
+            EditResourceBtn.Parent = HoverPnl;
+            DeleteResourceBtn.Parent = HoverPnl;
+
+            int hoverPnlWidth = HoverPnl.Width;
+            int btnWidth = 175;
+            int btnHeight = 45;
+
+            int editBtnX = (hoverPnlWidth / 4) - (btnWidth / 2);
+            int deleteBtnX = (hoverPnlWidth / 2) + (hoverPnlWidth / 4) - (btnWidth / 2);
+            int btnY = HoverPnl.Height - btnHeight - 30;
+
+            EditResourceBtn.Location = new Point(editBtnX, btnY);
+            DeleteResourceBtn.Location = new Point(deleteBtnX, btnY);
         }
 
         private async void ResourcesForm_Load(object sender, EventArgs e)
@@ -83,6 +117,16 @@ namespace AccountManagerWinForm.Forms.Resource
             }
 
             UpdateUIWithCurrentResource();
+        }
+
+        private void ImagePctrBx_MouseEnter(object sender, EventArgs e)
+        {
+            HoverPnl.Visible = true;
+        }
+
+        private void HoverPnl_MouseLeave(object sender, EventArgs e)
+        {
+            HoverPnl.Visible = false;
         }
     }
 }
