@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using Microsoft.Extensions.DependencyInjection;
 using AccountManagerWinForm.Forms.Resource;
+using AccountManagerWinForm.Forms.Account;
 
 namespace AccountManagerWinForm.Forms
 {
@@ -23,6 +24,7 @@ namespace AccountManagerWinForm.Forms
         {
             InitializeComponent();
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
+            ActivePnl.BringToFront();
         }
 
         private void CloseBtn_Click(object sender, EventArgs e) => Application.Exit();

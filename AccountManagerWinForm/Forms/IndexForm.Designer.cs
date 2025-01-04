@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IndexForm));
             DashboardMainPnl = new System.Windows.Forms.Panel();
             ActivePnl = new System.Windows.Forms.Panel();
             Btn_ToSettings = new System.Windows.Forms.Button();
@@ -176,7 +177,7 @@
             ActiveFormNameLbl.AutoSize = true;
             ActiveFormNameLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ActiveFormNameLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
-            ActiveFormNameLbl.Location = new System.Drawing.Point(33, 24);
+            ActiveFormNameLbl.Location = new System.Drawing.Point(25, 25);
             ActiveFormNameLbl.Name = "ActiveFormNameLbl";
             ActiveFormNameLbl.Size = new System.Drawing.Size(104, 30);
             ActiveFormNameLbl.TabIndex = 2;
@@ -202,6 +203,7 @@
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.White;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4);
             Name = "IndexForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

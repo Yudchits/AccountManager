@@ -1,6 +1,8 @@
-﻿using AccountManager.Application.Features.Resource.GetAll;
+﻿using AccountManager.Application.Features.Resource.GetAllFull;
 using AccountManagerWinForm.Extensions;
+using AccountManagerWinForm.Forms.Account;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,9 +16,9 @@ namespace AccountManagerWinForm.Forms.Resource
     {
         private readonly IMediator _mediator;
 
-        private ICollection<GetAllResourcesResponse> _resources;
-        private ICollection<GetAllResourcesResponse> _resourcesToDisplay;
-        private int _currentResourceId;
+        private ICollection<GetAllFullResourcesResponse> _resources;
+        private ICollection<GetAllFullResourcesResponse> _resourcesToDisplay;
+        private int _currentResourceIndex;
 
         public ResourcesForm(IMediator mediator)
         {
@@ -25,9 +27,9 @@ namespace AccountManagerWinForm.Forms.Resource
             InitializeHoverPnlBtns();
 
             _mediator = mediator;
-            _resources = new List<GetAllResourcesResponse>();
+            _resources = new List<GetAllFullResourcesResponse>();
             _resourcesToDisplay = _resources;
-            _currentResourceId = 0;
+            _currentResourceIndex = 0;
         }
 
         private void InitializeHoverPnl()
@@ -46,6 +48,10 @@ namespace AccountManagerWinForm.Forms.Resource
         {
             EditResourceBtn.Parent = HoverPnl;
             DeleteResourceBtn.Parent = HoverPnl;
+            EditResourceBtn.BackColor = Color.Transparent;
+            DeleteResourceBtn.BackColor = Color.Transparent;
+            EditResourceBtn.FlatAppearance.MouseOverBackColor = EditResourceBtn.BackColor;
+            DeleteResourceBtn.FlatAppearance.MouseOverBackColor = DeleteResourceBtn.BackColor;
 
             int hoverPnlWidth = HoverPnl.Width;
             int btnWidth = 175;
@@ -66,7 +72,7 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private async Task UpdateResources()
         {
-            _resources = await _mediator.Send(new GetAllResourcesRequest());
+            _resources = await _mediator.Send(new GetAllFullResourcesRequest());
             _resourcesToDisplay = _resources;
 
             if (_resourcesToDisplay.Any())
@@ -85,20 +91,20 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void UpdateUIWithCurrentResource()
         {
-            var resource = _resourcesToDisplay.ElementAt(_currentResourceId);
+            var resource = _resourcesToDisplay.ElementAt(_currentResourceIndex);
             ImagePctrBx.Image = Image.FromFile(resource.ImagePath);
         }
 
         private void PreviousBtn_Click(object sender, EventArgs e)
         {
-            var isStart = _currentResourceId == 0;
+            var isStart = _currentResourceIndex == 0;
             if (!isStart)
             {
-                _currentResourceId--;
+                _currentResourceIndex--;
             }
             else
             {
-                _currentResourceId = _resourcesToDisplay.Count - 1;
+                _currentResourceIndex = _resourcesToDisplay.Count - 1;
             }
 
             UpdateUIWithCurrentResource();
@@ -106,14 +112,14 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void NextBtn_Click(object sender, EventArgs e)
         {
-            var isEnd = _currentResourceId == _resourcesToDisplay.Count - 1;
+            var isEnd = _currentResourceIndex == _resourcesToDisplay.Count - 1;
             if (isEnd)
             {
-                _currentResourceId = 0;
+                _currentResourceIndex = 0;
             }
             else
             {
-                _currentResourceId++;
+                _currentResourceIndex++;
             }
 
             UpdateUIWithCurrentResource();
@@ -127,6 +133,31 @@ namespace AccountManagerWinForm.Forms.Resource
         private void HoverPnl_MouseLeave(object sender, EventArgs e)
         {
             HoverPnl.Visible = false;
+        }
+
+        private void HoverPnl_Click(object sender, EventArgs e)
+        {
+            UpdateUIWithAccountsForm();
+        }
+
+        private void UpdateUIWithAccountsForm()
+        {
+            var accountsForm = Program.ServiceProvider?.GetRequiredService<AccountsForm>();
+            if (accountsForm != null)
+            {
+                Controls.Clear();
+                accountsForm.TopLevel = false;
+                accountsForm.TopMost = true;
+                accountsForm.Dock = DockStyle.Fill;
+                Controls.Add(accountsForm);
+                accountsForm.ResourceId = _currentResourceIndex + 1;
+                accountsForm.Show();
+            }
+        }
+
+        private void Btn_ToAccounts_Click(object sender, EventArgs e)
+        {
+            UpdateUIWithAccountsForm();
         }
     }
 }

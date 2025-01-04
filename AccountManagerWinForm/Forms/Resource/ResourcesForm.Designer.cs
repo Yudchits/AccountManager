@@ -35,6 +35,7 @@
             HoverPnl = new System.Windows.Forms.Panel();
             DeleteResourceBtn = new System.Windows.Forms.Button();
             EditResourceBtn = new System.Windows.Forms.Button();
+            Btn_ToAccounts = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).BeginInit();
             HoverPnl.SuspendLayout();
             SuspendLayout();
@@ -90,10 +91,12 @@
             HoverPnl.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             HoverPnl.Controls.Add(DeleteResourceBtn);
             HoverPnl.Controls.Add(EditResourceBtn);
+            HoverPnl.Cursor = System.Windows.Forms.Cursors.Hand;
             HoverPnl.Location = new System.Drawing.Point(150, 241);
             HoverPnl.Name = "HoverPnl";
             HoverPnl.Size = new System.Drawing.Size(500, 106);
             HoverPnl.TabIndex = 5;
+            HoverPnl.Click += HoverPnl_Click;
             HoverPnl.MouseLeave += HoverPnl_MouseLeave;
             // 
             // DeleteResourceBtn
@@ -126,6 +129,22 @@
             EditResourceBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             EditResourceBtn.UseVisualStyleBackColor = true;
             // 
+            // Btn_ToAccounts
+            // 
+            Btn_ToAccounts.Cursor = System.Windows.Forms.Cursors.Hand;
+            Btn_ToAccounts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Btn_ToAccounts.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            Btn_ToAccounts.Image = Properties.Resources.Account24;
+            Btn_ToAccounts.Location = new System.Drawing.Point(305, 380);
+            Btn_ToAccounts.Name = "Btn_ToAccounts";
+            Btn_ToAccounts.Size = new System.Drawing.Size(210, 45);
+            Btn_ToAccounts.TabIndex = 0;
+            Btn_ToAccounts.Text = "Данные аккаунтов";
+            Btn_ToAccounts.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            Btn_ToAccounts.UseVisualStyleBackColor = true;
+            Btn_ToAccounts.Click += Btn_ToAccounts_Click;
+            // 
             // ResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
@@ -133,6 +152,7 @@
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
             Controls.Add(HoverPnl);
+            Controls.Add(Btn_ToAccounts);
             Controls.Add(NoResourcesLbl);
             Controls.Add(NextBtn);
             Controls.Add(PreviousBtn);
@@ -159,5 +179,6 @@
         private System.Windows.Forms.Panel HoverPnl;
         private System.Windows.Forms.Button EditResourceBtn;
         private System.Windows.Forms.Button DeleteResourceBtn;
+        private System.Windows.Forms.Button Btn_ToAccounts;
     }
 }
