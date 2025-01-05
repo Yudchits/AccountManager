@@ -36,7 +36,7 @@
             // 
             AccountsFLPnl.Location = new System.Drawing.Point(35, 15);
             AccountsFLPnl.Name = "AccountsFLPnl";
-            AccountsFLPnl.Size = new System.Drawing.Size(730, 450);
+            AccountsFLPnl.Size = new System.Drawing.Size(730, 460);
             AccountsFLPnl.TabIndex = 1;
             // 
             // ScrollPnl

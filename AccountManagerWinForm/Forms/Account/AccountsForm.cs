@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Account
@@ -11,11 +12,20 @@ namespace AccountManagerWinForm.Forms.Account
     public partial class AccountsForm : Form
     {
         private const string PASSWORD_CHAR = "********";
+        private const int ACCOUNTS_ON_PAGE = 6;
+
         private readonly IMediator _mediator;
-        private ICollection<GetAccountsByResourceIdResponse> _accounts;
+        private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
+
+        private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
+
         private bool isDragging = false;
         private int initialMouseY;
         private int maxMouseY;
+
+        private Label? pageLbl;
+        private int currentPage = 1;
+        private int maxPageCount;
 
         public int ResourceId { get; set; }
 
@@ -26,7 +36,6 @@ namespace AccountManagerWinForm.Forms.Account
             MouseWheel += ScrollPnl_MouseWheel;
 
             _mediator = mediator;
-            _accounts = new List<GetAccountsByResourceIdResponse>();
             maxMouseY = Height - ScrollPnl.Height;
         }
 
@@ -39,45 +48,59 @@ namespace AccountManagerWinForm.Forms.Account
             }
 
             _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(ResourceId));
-            UpdateUIWithAccounts();
+
+            if (_accounts.Count == 0)
+            {
+                // TODO: add message
+            }
+            else
+            {
+                UpdateUIWithAccounts();
+                UpdatePaginationPnl();
+            }
         }
 
         private void UpdateUIWithAccounts()
         {
             AccountsFLPnl.Controls.Clear();
+            AccountsFLPnl.Height = 0;
 
-            int cardMarginBottom = 40;
+            int accountMarginBottom = 40;
             int descLblWidth = 100;
             int lblHeight = 27;
             int loginPnlMarginTop = 7;
             int btnWidth = 24;
             int passwordPnlMarginTop = 5;
 
-            foreach (var account in _accounts)
+            int lastAccountIdOnPage = currentPage * ACCOUNTS_ON_PAGE - 1;
+            int accountStartId = lastAccountIdOnPage - ACCOUNTS_ON_PAGE + 1;
+            for (int i = accountStartId; i <= lastAccountIdOnPage && i < _accounts.Count; i++)
             {
-                var cardPnl = new Panel
+                var account = _accounts.ElementAt(i);
+
+                var accountPnl = new Panel
                 {
                     Parent = AccountsFLPnl,
                     Dock = DockStyle.Top,
                     Width = AccountsFLPnl.Width,
-                    Margin = new Padding(0, 0, 0, cardMarginBottom)
+                    Margin = new Padding(0, 0, 0, accountMarginBottom)
                 };
 
                 var nameLbl = new Label
                 {
-                    Parent = cardPnl,
+                    Parent = accountPnl,
                     Text = account.Name,
                     Dock = DockStyle.Top,
                     AutoSize = true,
-                    Width = cardPnl.Width,
+                    Width = accountPnl.Width,
                     Font = new Font(Font, FontStyle.Underline)
                 };
-                cardPnl.Controls.Add(nameLbl);
+                accountPnl.Controls.Add(nameLbl);
 
                 var loginPnl = new Panel
                 {
-                    Parent = cardPnl,
-                    Width = cardPnl.Width,
+                    Parent = accountPnl,
+                    Width = accountPnl.Width,
                     BorderStyle = BorderStyle.None,
                     Location = new Point(0, nameLbl.Height + loginPnlMarginTop),
                 };
@@ -93,12 +116,11 @@ namespace AccountManagerWinForm.Forms.Account
 
                 loginPnl.Controls.Add(loginDescLbl);
 
-                var lightBlue = Color.FromArgb(0, 180, 249);
                 var loginValueLbl = new Label
                 {
                     Parent = loginPnl,
                     Text = account.Login,
-                    Location = new Point(loginDescLbl.Location.X + loginDescLbl.Width, loginDescLbl.Location.Y),
+                    Location = new Point(loginDescLbl.Right, loginDescLbl.Left),
                     ForeColor = lightBlue,
                     AutoSize = true,
                     MaximumSize = new Size(loginPnl.Width, loginDescLbl.Height)
@@ -107,12 +129,12 @@ namespace AccountManagerWinForm.Forms.Account
                 loginPnl.Height = loginValueLbl.Height;
                 loginPnl.Controls.Add(loginValueLbl);
 
-                cardPnl.Controls.Add(loginPnl);
+                accountPnl.Controls.Add(loginPnl);
 
                 var loginCopyBtn = new Button
                 {
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(loginValueLbl.Location.X + loginValueLbl.Width, loginValueLbl.Location.Y),
+                    Location = new Point(loginValueLbl.Right, loginValueLbl.Left),
                     Size = new Size(btnWidth, loginValueLbl.Height),
                     Image = Resources.Copy24,
                     Tag = account.Login
@@ -124,12 +146,12 @@ namespace AccountManagerWinForm.Forms.Account
 
                 var passwordPnl = new Panel
                 {
-                    Parent = cardPnl,
-                    Width = cardPnl.Width,
+                    Parent = accountPnl,
+                    Width = accountPnl.Width,
                     BorderStyle = BorderStyle.None,
-                    Location = new Point(0, loginPnl.Location.Y + loginPnl.Height + passwordPnlMarginTop),
+                    Location = new Point(0, loginPnl.Bottom + passwordPnlMarginTop),
                 };
-                cardPnl.Controls.Add(passwordPnl);
+                accountPnl.Controls.Add(passwordPnl);
 
                 var passwordLbl = new Label
                 {
@@ -145,7 +167,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     Text = PASSWORD_CHAR,
-                    Location = new Point(passwordLbl.Location.X + passwordLbl.Width, passwordLbl.Location.Y),
+                    Location = new Point(passwordLbl.Right, passwordLbl.Left),
                     ForeColor = lightBlue,
                     AutoSize = true,
                     MaximumSize = new Size(passwordPnl.Width, passwordPnl.Height),
@@ -158,7 +180,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordValueLbl.Location.X + passwordValueLbl.Width, passwordValueLbl.Location.Y),
+                    Location = new Point(passwordValueLbl.Right, passwordValueLbl.Left),
                     Size = new Size(btnWidth, passwordValueLbl.Height),
                     Image = Resources.Copy24,
                     Tag = passwordValueLbl.Tag
@@ -171,7 +193,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordCopyBtn.Location.X + passwordCopyBtn.Width, passwordCopyBtn.Location.Y),
+                    Location = new Point(passwordCopyBtn.Right, passwordCopyBtn.Left),
                     Size = new Size(btnWidth, passwordCopyBtn.Height),
                     Image = Resources.Eye24,
                     Tag = account.Password
@@ -180,10 +202,97 @@ namespace AccountManagerWinForm.Forms.Account
                 passwordEyeBtn.Click += PasswordEyeBtn_Click;
                 passwordPnl.Controls.Add(passwordEyeBtn);
 
-                cardPnl.Height = nameLbl.Height + loginPnlMarginTop + loginValueLbl.Height + passwordPnlMarginTop + passwordValueLbl.Height;
-             
-                AccountsFLPnl.Controls.Add(cardPnl);
+                accountPnl.Height = nameLbl.Height + loginPnlMarginTop + loginValueLbl.Height + passwordPnlMarginTop + passwordValueLbl.Height;
+
+                AccountsFLPnl.Height += accountPnl.Height + accountMarginBottom;
+                AccountsFLPnl.Controls.Add(accountPnl);
             }
+            AccountsFLPnl.Height -= accountMarginBottom;
+        }
+
+        private void UpdatePaginationPnl()
+        {
+            double countDouble = (double)_accounts.Count / ACCOUNTS_ON_PAGE;
+            maxPageCount = (int)Math.Floor(Math.Ceiling(countDouble));
+
+            int paginationPnlHeight = 60;
+            var paginationPnl = new Panel
+            {
+                Parent = this,
+                Width = AccountsFLPnl.Width,
+                Height = paginationPnlHeight
+            };
+
+            var previousBtn = new Button
+            {
+                Parent = paginationPnl,
+                FlatStyle = FlatStyle.Flat,
+                Dock = DockStyle.Left,
+                Text = "Предыдущая",
+                ForeColor = lightBlue,
+                Image = Resources.Previous24,
+                Width = 170,
+                Height = paginationPnlHeight,
+                TextImageRelation = TextImageRelation.ImageBeforeText
+            };
+            previousBtn.FlatAppearance.BorderSize = 0;
+            previousBtn.Click += PreviousBtn_Click;
+            paginationPnl.Controls.Add(previousBtn);
+
+            pageLbl = new Label
+            {
+                Parent = paginationPnl,
+                Height = paginationPnlHeight,
+                Text = $"{currentPage} из {maxPageCount}",
+                ForeColor = lightBlue,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            int pageLblX = (paginationPnl.Width / 2) - (pageLbl.Width / 2);
+            paginationPnl.Controls.Add(pageLbl);
+
+            var nextBtn = new Button
+            {
+                Parent = paginationPnl,
+                FlatStyle = FlatStyle.Flat,
+                Dock = DockStyle.Right,
+                Text = "Следующая",
+                ForeColor = lightBlue,
+                Image = Resources.Next24,
+                Width = 155,
+                Height = paginationPnlHeight,
+                TextImageRelation = TextImageRelation.TextBeforeImage
+            };
+            nextBtn.FlatAppearance.BorderSize = 0;
+            nextBtn.Click += NextBtn_Click;
+            paginationPnl.Controls.Add(nextBtn);
+
+            pageLbl.Location = new Point(pageLblX, (paginationPnl.Height / 2) - (pageLbl.Height / 2));
+            paginationPnl.Location = new Point(AccountsFLPnl.Left, Height - paginationPnl.Height);
+
+            Controls.Add(paginationPnl);
+            paginationPnl.BringToFront();
+        }
+
+        private void NextBtn_Click(object? sender, EventArgs e)
+        {
+            currentPage = currentPage < maxPageCount ? currentPage + 1 : 1;
+            OpenCurrentPage();
+        }
+
+        private void OpenCurrentPage()
+        {
+            ScrollAccountsFLPnl(-ScrollPnl.Top);
+            UpdateUIWithAccounts();
+            if (pageLbl != null)
+            {
+                pageLbl.Text = $"{currentPage} из {maxPageCount}";
+            }
+        }
+
+        private void PreviousBtn_Click(object? sender, EventArgs e)
+        {
+            currentPage = currentPage > 1 ? currentPage - 1 : maxPageCount; 
+            OpenCurrentPage();
         }
 
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
@@ -223,14 +332,17 @@ namespace AccountManagerWinForm.Forms.Account
             if (isDragging)
             {
                 int deltaY = e.Y - initialMouseY;
-                int currentMouseY = Math.Max(0, ScrollPnl.Top + deltaY);
-                currentMouseY = Math.Min(currentMouseY, maxMouseY);
-
-                ScrollPnl.Top = currentMouseY;
-
-                AccountsFLPnl.Top = 0 - currentMouseY;
-                AccountsFLPnl.Height += currentMouseY;
+                ScrollAccountsFLPnl(deltaY);
             }
+        }
+
+        private void ScrollAccountsFLPnl(int deltaY)
+        {
+            int currentMouseY = Math.Max(0, ScrollPnl.Top + deltaY);
+            currentMouseY = Math.Min(currentMouseY, maxMouseY);
+
+            ScrollPnl.Top = currentMouseY;
+            AccountsFLPnl.Top = 0 - currentMouseY;
         }
 
         private void ScrollPnl_MouseUp(object sender, MouseEventArgs e)
@@ -245,14 +357,7 @@ namespace AccountManagerWinForm.Forms.Account
         {
             int scrollStep = 15;
             int deltaY = e.Delta > 0 ? -scrollStep : scrollStep;
-
-            int newScrollTop = Math.Max(0, ScrollPnl.Top + deltaY);
-            newScrollTop = Math.Min(newScrollTop, maxMouseY);
-
-            ScrollPnl.Top = newScrollTop;
-
-            AccountsFLPnl.Top = 0 - newScrollTop;
-            AccountsFLPnl.Height += newScrollTop;
+            ScrollAccountsFLPnl(deltaY);
         }
     }
 }

@@ -163,9 +163,29 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Next24 {
+            get {
+                object obj = ResourceManager.GetObject("Next24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Next64 {
             get {
                 object obj = ResourceManager.GetObject("Next64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Previous24 {
+            get {
+                object obj = ResourceManager.GetObject("Previous24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
