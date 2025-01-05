@@ -120,7 +120,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = loginPnl,
                     Text = account.Login,
-                    Location = new Point(loginDescLbl.Right, loginDescLbl.Left),
+                    Location = new Point(loginDescLbl.Right, loginDescLbl.Top),
                     ForeColor = lightBlue,
                     AutoSize = true,
                     MaximumSize = new Size(loginPnl.Width, loginDescLbl.Height)
@@ -134,7 +134,7 @@ namespace AccountManagerWinForm.Forms.Account
                 var loginCopyBtn = new Button
                 {
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(loginValueLbl.Right, loginValueLbl.Left),
+                    Location = new Point(loginValueLbl.Right, loginValueLbl.Top),
                     Size = new Size(btnWidth, loginValueLbl.Height),
                     Image = Resources.Copy24,
                     Tag = account.Login
@@ -167,7 +167,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     Text = PASSWORD_CHAR,
-                    Location = new Point(passwordLbl.Right, passwordLbl.Left),
+                    Location = new Point(passwordLbl.Right, passwordLbl.Top),
                     ForeColor = lightBlue,
                     AutoSize = true,
                     MaximumSize = new Size(passwordPnl.Width, passwordPnl.Height),
@@ -180,7 +180,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordValueLbl.Right, passwordValueLbl.Left),
+                    Location = new Point(passwordValueLbl.Right, passwordValueLbl.Top),
                     Size = new Size(btnWidth, passwordValueLbl.Height),
                     Image = Resources.Copy24,
                     Tag = passwordValueLbl.Tag
@@ -193,7 +193,7 @@ namespace AccountManagerWinForm.Forms.Account
                 {
                     Parent = passwordPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordCopyBtn.Right, passwordCopyBtn.Left),
+                    Location = new Point(passwordCopyBtn.Right, passwordCopyBtn.Top),
                     Size = new Size(btnWidth, passwordCopyBtn.Height),
                     Image = Resources.Eye24,
                     Tag = account.Password
