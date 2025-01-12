@@ -75,6 +75,7 @@ namespace AccountManager.Infrastructure.Repositories
             }
 
             account.ResourceId = entity.ResourceId;
+            account.Name = entity.Name;
             account.Login = entity.Login;
             account.Password = entity.Password;
 

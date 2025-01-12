@@ -1,8 +1,7 @@
 ﻿using AccountManager.Application.Features.Resource.GetAllFull;
 using AccountManagerWinForm.Extensions;
-using AccountManagerWinForm.Forms.Account;
+using AccountManagerWinForm.Factories;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,18 +14,21 @@ namespace AccountManagerWinForm.Forms.Resource
     public partial class ResourcesForm : Form
     {
         private readonly IMediator _mediator;
-
+        private readonly IFormFactory _formFactory;
+        
         private ICollection<GetAllFullResourcesResponse> _resources;
         private ICollection<GetAllFullResourcesResponse> _resourcesToDisplay;
         private int _currentResourceIndex;
 
-        public ResourcesForm(IMediator mediator)
+        public ResourcesForm(IMediator mediator, IFormFactory formFactory)
         {
             InitializeComponent();
             InitializeHoverPnl();
             InitializeHoverPnlBtns();
 
             _mediator = mediator;
+            _formFactory = formFactory;
+            
             _resources = new List<GetAllFullResourcesResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceIndex = 0;
@@ -142,17 +144,14 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void UpdateUIWithAccountsForm()
         {
-            var accountsForm = Program.ServiceProvider?.GetRequiredService<AccountsForm>();
-            if (accountsForm != null)
-            {
-                Controls.Clear();
-                accountsForm.TopLevel = false;
-                accountsForm.TopMost = true;
-                accountsForm.Dock = DockStyle.Fill;
-                Controls.Add(accountsForm);
-                accountsForm.ResourceId = _currentResourceIndex + 1;
-                accountsForm.Show();
-            }
+            Controls.Clear();
+
+            var accountsForm = _formFactory.CreateAccountsForm(_currentResourceIndex + 1);
+            accountsForm.TopLevel = false;
+            accountsForm.TopMost = true;
+            accountsForm.Dock = DockStyle.Fill;
+            Controls.Add(accountsForm);
+            accountsForm.Show();
         }
 
         private void Btn_ToAccounts_Click(object sender, EventArgs e)

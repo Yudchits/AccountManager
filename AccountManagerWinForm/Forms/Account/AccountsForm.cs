@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
@@ -13,8 +14,12 @@ namespace AccountManagerWinForm.Forms.Account
     {
         private const string PASSWORD_CHAR = "********";
         private const int ACCOUNTS_ON_PAGE = 6;
+        private const int HEADER_HEIGHT = 60;
+        private const int FOOTER_HEIGHT = 60;
 
+        private readonly int _resourceId;
         private readonly IMediator _mediator;
+        private readonly IFormFactory _formFactory;
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
@@ -27,27 +32,23 @@ namespace AccountManagerWinForm.Forms.Account
         private int currentPage = 1;
         private int maxPageCount;
 
-        public int ResourceId { get; set; }
-
-        public AccountsForm(IMediator mediator)
+        public AccountsForm(int resourceId, IMediator mediator, IFormFactory formFactory)
         {
             InitializeComponent();
-            ScrollPnl.BringToFront();
-            MouseWheel += ScrollPnl_MouseWheel;
 
+            _resourceId = resourceId;
             _mediator = mediator;
+            _formFactory = formFactory;
+            
             maxMouseY = Height - ScrollPnl.Height;
         }
 
         private async void AccountsForm_Load(object sender, EventArgs e)
         {
-            if (ResourceId < 1)
-            {
-                Controls.Clear();
-                throw new ArgumentException("Идентификатор ресурса задан неверно");
-            }
+            ScrollPnl.BringToFront();
+            CreateAccBtn.SendToBack();
 
-            _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(ResourceId));
+            _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(_resourceId));
 
             if (_accounts.Count == 0)
             {
@@ -57,15 +58,16 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 UpdateUIWithAccounts();
                 UpdatePaginationPnl();
+                CheckScrollVisibility();
             }
         }
 
         private void UpdateUIWithAccounts()
         {
-            AccountsFLPnl.Controls.Clear();
-            AccountsFLPnl.Height = 0;
+            AccsFLPnl.Controls.Clear();
+            AccsFLPnl.Height = 0;
 
-            int accountMarginBottom = 40;
+            int accountMarginBottom = 30;
             int descLblWidth = 100;
             int lblHeight = 27;
             int loginPnlMarginTop = 7;
@@ -80,9 +82,9 @@ namespace AccountManagerWinForm.Forms.Account
 
                 var accountPnl = new Panel
                 {
-                    Parent = AccountsFLPnl,
+                    Parent = AccsFLPnl,
                     Dock = DockStyle.Top,
-                    Width = AccountsFLPnl.Width,
+                    Width = AccsFLPnl.Width,
                     Margin = new Padding(0, 0, 0, accountMarginBottom)
                 };
 
@@ -204,10 +206,10 @@ namespace AccountManagerWinForm.Forms.Account
 
                 accountPnl.Height = nameLbl.Height + loginPnlMarginTop + loginValueLbl.Height + passwordPnlMarginTop + passwordValueLbl.Height;
 
-                AccountsFLPnl.Height += accountPnl.Height + accountMarginBottom;
-                AccountsFLPnl.Controls.Add(accountPnl);
+                AccsFLPnl.Height += accountPnl.Height + accountMarginBottom;
+                AccsFLPnl.Controls.Add(accountPnl);
             }
-            AccountsFLPnl.Height -= accountMarginBottom;
+            AccsFLPnl.Height -= accountMarginBottom;
         }
 
         private void UpdatePaginationPnl()
@@ -215,12 +217,11 @@ namespace AccountManagerWinForm.Forms.Account
             double countDouble = (double)_accounts.Count / ACCOUNTS_ON_PAGE;
             maxPageCount = (int)Math.Floor(Math.Ceiling(countDouble));
 
-            int paginationPnlHeight = 60;
             var paginationPnl = new Panel
             {
                 Parent = this,
-                Width = AccountsFLPnl.Width,
-                Height = paginationPnlHeight
+                Width = AccsFLPnl.Width,
+                Height = FOOTER_HEIGHT
             };
 
             var previousBtn = new Button
@@ -232,7 +233,7 @@ namespace AccountManagerWinForm.Forms.Account
                 ForeColor = lightBlue,
                 Image = Resources.Previous24,
                 Width = 170,
-                Height = paginationPnlHeight,
+                Height = FOOTER_HEIGHT,
                 TextImageRelation = TextImageRelation.ImageBeforeText
             };
             previousBtn.FlatAppearance.BorderSize = 0;
@@ -242,7 +243,7 @@ namespace AccountManagerWinForm.Forms.Account
             pageLbl = new Label
             {
                 Parent = paginationPnl,
-                Height = paginationPnlHeight,
+                Height = FOOTER_HEIGHT,
                 Text = $"{currentPage} из {maxPageCount}",
                 ForeColor = lightBlue,
                 TextAlign = ContentAlignment.MiddleCenter
@@ -259,7 +260,7 @@ namespace AccountManagerWinForm.Forms.Account
                 ForeColor = lightBlue,
                 Image = Resources.Next24,
                 Width = 155,
-                Height = paginationPnlHeight,
+                Height = FOOTER_HEIGHT,
                 TextImageRelation = TextImageRelation.TextBeforeImage
             };
             nextBtn.FlatAppearance.BorderSize = 0;
@@ -267,7 +268,7 @@ namespace AccountManagerWinForm.Forms.Account
             paginationPnl.Controls.Add(nextBtn);
 
             pageLbl.Location = new Point(pageLblX, (paginationPnl.Height / 2) - (pageLbl.Height / 2));
-            paginationPnl.Location = new Point(AccountsFLPnl.Left, Height - paginationPnl.Height);
+            paginationPnl.Location = new Point(AccsFLPnl.Left, Height - paginationPnl.Height);
 
             Controls.Add(paginationPnl);
             paginationPnl.BringToFront();
@@ -283,15 +284,30 @@ namespace AccountManagerWinForm.Forms.Account
         {
             ScrollAccountsFLPnl(-ScrollPnl.Top);
             UpdateUIWithAccounts();
+            CheckScrollVisibility();
             if (pageLbl != null)
             {
                 pageLbl.Text = $"{currentPage} из {maxPageCount}";
             }
         }
 
+        private void CheckScrollVisibility()
+        {
+            if (AccsFLPnl.Height >= Height - HEADER_HEIGHT - FOOTER_HEIGHT)
+            {
+                MouseWheel += AccountsForm_MouseWheel;
+                ScrollPnl.Visible = true;
+            }
+            else
+            {
+                MouseWheel -= AccountsForm_MouseWheel;
+                ScrollPnl.Visible = false;
+            }
+        }
+
         private void PreviousBtn_Click(object? sender, EventArgs e)
         {
-            currentPage = currentPage > 1 ? currentPage - 1 : maxPageCount; 
+            currentPage = currentPage > 1 ? currentPage - 1 : maxPageCount;
             OpenCurrentPage();
         }
 
@@ -342,7 +358,7 @@ namespace AccountManagerWinForm.Forms.Account
             currentMouseY = Math.Min(currentMouseY, maxMouseY);
 
             ScrollPnl.Top = currentMouseY;
-            AccountsFLPnl.Top = 0 - currentMouseY;
+            AccsFLPnl.Top = HEADER_HEIGHT - currentMouseY;
         }
 
         private void ScrollPnl_MouseUp(object sender, MouseEventArgs e)
@@ -353,11 +369,26 @@ namespace AccountManagerWinForm.Forms.Account
             }
         }
 
-        private void ScrollPnl_MouseWheel(object? sender, MouseEventArgs e)
+        private void AccountsForm_MouseWheel(object? sender, MouseEventArgs e)
         {
             int scrollStep = 15;
             int deltaY = e.Delta > 0 ? -scrollStep : scrollStep;
             ScrollAccountsFLPnl(deltaY);
+        }
+
+        private void CreateAccBtn_Click(object sender, EventArgs e)
+        {
+            var createForm = _formFactory.CreateCreateAccountForm(_resourceId);
+            if (createForm != null)
+            {
+                Controls.Clear();
+                createForm.TopLevel = false;
+                createForm.TopMost = true;
+                createForm.Dock = DockStyle.Fill;
+                
+                Controls.Add(createForm);
+                createForm.Show();
+            }
         }
     }
 }

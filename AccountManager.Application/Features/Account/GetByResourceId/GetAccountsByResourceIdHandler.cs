@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +22,8 @@ namespace AccountManager.Application.Features.Account.GetByResourceId
         public async Task<ICollection<GetAccountsByResourceIdResponse>> Handle(GetAccountsByResourceIdRequest request, CancellationToken cancellationToken)
         {
             var accounts = await _repository.GetByResourceIdAsync(request.ResourceId);
-            return _mapper.Map<ICollection<GetAccountsByResourceIdResponse>>(accounts);
+            var accountsDescById = accounts.OrderByDescending(a => a.Id);
+            return _mapper.Map<ICollection<GetAccountsByResourceIdResponse>>(accountsDescById);
         }
     }
 }

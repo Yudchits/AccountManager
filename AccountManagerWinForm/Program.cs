@@ -1,7 +1,7 @@
 using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
-using AccountManagerWinForm.Forms;
+using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,7 +39,8 @@ namespace AccountManagerWinForm
             var host = builder.Build();
             ServiceProvider = host.Services;
 
-            Application.Run(ServiceProvider.GetRequiredService<IndexForm>());
+            var indexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
+            Application.Run(indexForm);
         }
 
         private static void HandleUnhandledExceptions(object sender, UnhandledExceptionEventArgs e)
@@ -55,12 +56,8 @@ namespace AccountManagerWinForm
 
         private static void HandleException(Exception exception)
         {
-            var messageForm = ServiceProvider?.GetRequiredService<MessageForm>();
-            if (messageForm != null)
-            {
-                messageForm.Message = exception.Message;
-                messageForm.ShowDialog();
-            }
+            var messageForm = new MessageForm(exception.Message);
+            messageForm.ShowDialog();
         }
     }
 }

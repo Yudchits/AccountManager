@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AccountsFLPnl = new System.Windows.Forms.FlowLayoutPanel();
+            AccsFLPnl = new System.Windows.Forms.FlowLayoutPanel();
             ScrollPnl = new System.Windows.Forms.Panel();
+            CreateAccBtn = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
-            // AccountsFLPnl
+            // AccsFLPnl
             // 
-            AccountsFLPnl.Location = new System.Drawing.Point(35, 15);
-            AccountsFLPnl.Name = "AccountsFLPnl";
-            AccountsFLPnl.Size = new System.Drawing.Size(730, 460);
-            AccountsFLPnl.TabIndex = 1;
+            AccsFLPnl.Location = new System.Drawing.Point(35, 60);
+            AccsFLPnl.Name = "AccsFLPnl";
+            AccsFLPnl.Size = new System.Drawing.Size(730, 430);
+            AccsFLPnl.TabIndex = 1;
             // 
             // ScrollPnl
             // 
@@ -51,14 +52,28 @@
             ScrollPnl.MouseMove += ScrollPnl_MouseMove;
             ScrollPnl.MouseUp += ScrollPnl_MouseUp;
             // 
+            // CreateAccBtn
+            // 
+            CreateAccBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CreateAccBtn.Image = Properties.Resources.Add16;
+            CreateAccBtn.Location = new System.Drawing.Point(35, 0);
+            CreateAccBtn.Name = "CreateAccBtn";
+            CreateAccBtn.Size = new System.Drawing.Size(150, 40);
+            CreateAccBtn.TabIndex = 3;
+            CreateAccBtn.Text = "Добавить";
+            CreateAccBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            CreateAccBtn.UseVisualStyleBackColor = true;
+            CreateAccBtn.Click += CreateAccBtn_Click;
+            // 
             // AccountsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
+            Controls.Add(CreateAccBtn);
             Controls.Add(ScrollPnl);
-            Controls.Add(AccountsFLPnl);
+            Controls.Add(AccsFLPnl);
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -70,9 +85,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.FlowLayoutPanel AccountsFLPnl;
+        private System.Windows.Forms.FlowLayoutPanel AccsFLPnl;
         private System.Windows.Forms.Label Scroller;
         private System.Windows.Forms.Label PnlTop;
         private System.Windows.Forms.Panel ScrollPnl;
+        private System.Windows.Forms.Button CreateAccBtn;
     }
 }

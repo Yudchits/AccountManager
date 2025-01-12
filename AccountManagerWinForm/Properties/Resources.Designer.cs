@@ -73,9 +73,9 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Add24 {
+        internal static System.Drawing.Bitmap Add16 {
             get {
-                object obj = ResourceManager.GetObject("Add24", resourceCulture);
+                object obj = ResourceManager.GetObject("Add16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -206,6 +206,16 @@ namespace AccountManagerWinForm.Properties {
         internal static System.Drawing.Bitmap Resources24 {
             get {
                 object obj = ResourceManager.GetObject("Resources24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Save24 {
+            get {
+                object obj = ResourceManager.GetObject("Save24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
