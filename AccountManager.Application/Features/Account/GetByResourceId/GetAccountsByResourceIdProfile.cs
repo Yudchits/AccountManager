@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AccountManager.Application.Features.Account.Create;
+using AutoMapper;
 
 namespace AccountManager.Application.Features.Account.GetByResourceId
 {
@@ -7,6 +8,7 @@ namespace AccountManager.Application.Features.Account.GetByResourceId
         public GetAccountsByResourceIdProfile()
         {
             CreateMap<Domain.Entities.Account, GetAccountsByResourceIdResponse>();
+            CreateMap<GetAccountsByResourceIdResponse, CreateAccountRequest>();
         }
     }
 }

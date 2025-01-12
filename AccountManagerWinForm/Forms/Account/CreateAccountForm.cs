@@ -1,15 +1,20 @@
 ﻿using AccountManager.Application.Features.Account.Create;
+using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManager.Application.Features.Account.Update;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
 using MediatR;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Account
 {
     public partial class CreateAccountForm : Form
     {
+        private readonly int? _accountId;
+
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
@@ -19,14 +24,38 @@ namespace AccountManagerWinForm.Forms.Account
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
 
-        public CreateAccountForm(int resourceId, IMediator mediator, IFormFactory formFactory)
+        private CreateAccountForm(int? accountId, int resourceId, IMediator mediator, IFormFactory formFactory)
         {
+            _accountId = accountId;
+
             InitializeComponent();
             InitializeCreateForm();
-            
+
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
+        }
+
+        public CreateAccountForm
+        (
+            int resourceId, 
+            IMediator mediator, 
+            IFormFactory formFactory
+        ) : this(null, resourceId, mediator, formFactory)
+        {
+        }
+
+        public CreateAccountForm
+        (
+            int resourceId, 
+            GetAccountsByResourceIdResponse account, 
+            IMediator mediator, 
+            IFormFactory formFactory
+        ) : this(account.Id, resourceId, mediator, formFactory)
+        {
+            nameTxtBx.Text = account.Name;
+            loginTxtBx.Text = account.Login;
+            passwordTxtBx.Text = account.Password;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -54,8 +83,8 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 Parent = createPnl,
                 AutoSize = true,
-                Text = "Создание",
-                Padding = new Padding(0, 0, 0, 15),
+                Text = _accountId == null ? "Создание" : "Редактирование",
+                Padding = new Padding(0, 0, 0, 35),
                 Font = new Font(Font.Name, 14f, FontStyle.Underline)
             };
             createLbl.Location = new Point((createPnl.Width / 2) - (createLbl.Width / 2), 0);
@@ -108,8 +137,14 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async void SaveBtn_Click(object sender, EventArgs e)
         {
-            var createRequest = new CreateAccountRequest(_resourceId, nameTxtBx.Text, loginTxtBx.Text, passwordTxtBx.Text);
-            await _mediator.Send(createRequest);
+            if (_accountId == null)
+            {
+                await CreateAccount();
+            }
+            else
+            {
+                await UpdateAccount();
+            }
 
             Controls.Clear();
             var accountsForm = _formFactory.CreateAccountsForm(_resourceId);
@@ -118,6 +153,21 @@ namespace AccountManagerWinForm.Forms.Account
             accountsForm.Dock = DockStyle.Fill;
             Controls.Add(accountsForm);
             accountsForm.Show();
+        }
+
+        private async Task CreateAccount()
+        {
+            var createRequest = new CreateAccountRequest(_resourceId, nameTxtBx.Text, loginTxtBx.Text, passwordTxtBx.Text);
+            await _mediator.Send(createRequest);
+        }
+
+        private async Task UpdateAccount()
+        {
+            if (_accountId != null)
+            {
+                var createRequest = new UpdateAccountRequest((int)_accountId, _resourceId, nameTxtBx.Text, loginTxtBx.Text, passwordTxtBx.Text);
+                await _mediator.Send(createRequest);
+            }
         }
 
         private void CreateAccountForm_Click(object sender, EventArgs e)

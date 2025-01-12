@@ -1,6 +1,9 @@
-﻿using AccountManagerWinForm.Forms;
+﻿using AccountManager.Application.Features.Account.Create;
+using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Resource;
+using AutoMapper;
 using MediatR;
 
 namespace AccountManagerWinForm.Factories
@@ -11,6 +14,7 @@ namespace AccountManagerWinForm.Factories
         ResourcesForm CreateResourcesForm();
         AccountsForm CreateAccountsForm(int resourceId);
         CreateAccountForm CreateCreateAccountForm(int resourceId);
+        CreateAccountForm CreateCreateAccountForm(int resourceId, GetAccountsByResourceIdResponse account);
     }
 
     public class FormFactory : IFormFactory
@@ -40,6 +44,11 @@ namespace AccountManagerWinForm.Factories
         public CreateAccountForm CreateCreateAccountForm(int resourceId)
         {
             return new CreateAccountForm(resourceId, _mediator, this);
+        }
+
+        public CreateAccountForm CreateCreateAccountForm(int resourceId, GetAccountsByResourceIdResponse account)
+        {
+            return new CreateAccountForm(resourceId, account, _mediator, this);
         }
     }
 }

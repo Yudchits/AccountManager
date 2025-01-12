@@ -1,6 +1,8 @@
-﻿using AccountManager.Application.Features.Account.GetByResourceId;
+﻿using AccountManager.Application.Features.Account.Create;
+using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
+using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -98,6 +100,19 @@ namespace AccountManagerWinForm.Forms.Account
                     Font = new Font(Font, FontStyle.Underline)
                 };
                 accountPnl.Controls.Add(nameLbl);
+
+                var editBtn = new Button
+                {
+                    Parent = accountPnl,
+                    FlatStyle = FlatStyle.Flat,
+                    Location = new Point(nameLbl.Right, nameLbl.Top),
+                    Image = Resources.Edit16,
+                    Size = new Size(btnWidth, nameLbl.Height),
+                    Tag = account.Id
+                };
+                editBtn.FlatAppearance.BorderSize = 0;
+                editBtn.Click += EditBtn_Click;
+                accountPnl.Controls.Add(editBtn);
 
                 var loginPnl = new Panel
                 {
@@ -309,6 +324,41 @@ namespace AccountManagerWinForm.Forms.Account
         {
             currentPage = currentPage > 1 ? currentPage - 1 : maxPageCount;
             OpenCurrentPage();
+        }
+
+        private void EditBtn_Click(object? sender, EventArgs e)
+        {
+            if (sender == null)
+            {
+                return;
+            }
+
+            var editBtn = sender as Button;
+            var isId = int.TryParse(editBtn?.Tag.ToString(), out int id);
+            if (!isId)
+            {
+                return;
+            }
+
+            var account = _accounts.FirstOrDefault(a => a.Id == id);
+            if (account == null)
+            {
+                return;
+            }
+
+            var createForm = _formFactory.CreateCreateAccountForm(_resourceId, account);
+            if (createForm == null)
+            {
+                return;
+            }
+
+            Controls.Clear();
+            createForm.TopLevel = false;
+            createForm.TopMost = true;
+            createForm.Dock = DockStyle.Fill;
+
+            Controls.Add(createForm);
+            createForm.Show();
         }
 
         private void LoginCopyBtn_Click(object? sender, EventArgs e)

@@ -8,8 +8,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
     public class MatTextBox : Panel
     {
         private readonly TextBox textBox;
-        private readonly Panel unfocusPanel;
-        private readonly Panel focusPanel;
+        private readonly Panel panel;
         
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
@@ -71,7 +70,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
 
             int panelMarginTop = 1;
             int panelHeight = 3;
-            unfocusPanel = new Panel
+            panel = new Panel
             {
                 Parent = this,
                 Width = Width,
@@ -80,31 +79,21 @@ namespace AccountManagerWinForm.Forms.Common.Elements
                 Margin = new Padding(0),
                 Location = new Point(0, textBox.Bottom + panelHeight + panelMarginTop)
             };
-            Controls.Add(unfocusPanel);
+            Controls.Add(panel);
 
-            focusPanel = new Panel
-            {
-                Parent = unfocusPanel,
-                Width = 0,
-                Height = unfocusPanel.Height,
-                BackColor = Color.FromArgb(0, 180, 249)
-            };
-            unfocusPanel.Controls.Add(focusPanel);
-            focusPanel.BringToFront();
-
-            Height = textBox.Height + unfocusPanel.Height + panelHeight + 30;
+            Height = textBox.Height + panel.Height + panelHeight + 30;
         }
 
         private void TextBox_LostFocus(object? sender, EventArgs e)
         {
             textBox.ForeColor = foreColor;
-            focusPanel.Width = 0;
+            panel.BackColor = foreColor;
         }
 
         private void TextBox_GotFocus(object? sender, EventArgs e)
         {
             textBox.ForeColor = activeColor;
-            focusPanel.Width = unfocusPanel.Width;
+            panel.BackColor = activeColor;
         }
 
         protected override void OnResize(EventArgs e)
@@ -115,7 +104,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.MinimumSize = new Size(0, textBox.Height);
             textBox.Multiline = false;
             textBox.Font = Font;
-            unfocusPanel.Width = Width;
+            panel.Width = Width;
         }
     }
 }
