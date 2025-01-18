@@ -3,6 +3,7 @@ using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
+using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
 using System.Drawing;
@@ -23,6 +24,8 @@ namespace AccountManagerWinForm.Forms.Account
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
+        private Button backBtn;
+        private Button saveBtn;
 
         private CreateAccountForm(int? accountId, int resourceId, IMediator mediator, IFormFactory formFactory)
         {
@@ -61,7 +64,7 @@ namespace AccountManagerWinForm.Forms.Account
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            SaveBtn.Focus();
+            createLbl.Focus();
         }
 
         private void InitializeCreateForm()
@@ -120,21 +123,61 @@ namespace AccountManagerWinForm.Forms.Account
             };
             createPnl.Controls.Add(passwordTxtBx);
 
-            int saveBtnMarginTop = 25;
-            SaveBtn.Parent = createPnl;
-            SaveBtn.Location = new Point(passwordTxtBx.Right - SaveBtn.Width, passwordTxtBx.Bottom + saveBtnMarginTop);
+            backBtn = new Button
+            {
+                Parent = createPnl,
+                FlatStyle = FlatStyle.Flat,
+                Text = "Назад",
+                Image = Resources.Back24,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                AutoSize = true,
+                Padding = new Padding(3)
+            };
+            backBtn.FlatAppearance.BorderSize = 0;
+            int btnMarginTop = 25;
+            int btnTop = passwordTxtBx.Bottom + btnMarginTop;
+            backBtn.Location = new Point(0, btnTop);
+            backBtn.Click += BackBtn_Click;
+            createPnl.Controls.Add(backBtn);
+
+            saveBtn = new Button
+            {
+                Parent = createPnl,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.FromArgb(0, 180, 249),
+                Text = "Сохранить",
+                Image = Resources.Save24,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                AutoSize = true,
+                Padding = new Padding(3)
+            };
+            saveBtn.Location = new Point(passwordTxtBx.Right - saveBtn.Width, btnTop);
+            saveBtn.Click += SaveBtn_Click;
+            createPnl.Controls.Add(saveBtn);
 
             createPnl.Height = createLbl.Height 
                 + nameTxtBx.Height 
                 + loginTxtBx.Height 
                 + passwordTxtBx.Height 
-                + SaveBtn.Height
+                + saveBtn.Height
                 + inputMarginBottom * 4
-                + saveBtnMarginTop;
+                + btnMarginTop;
             createPnl.Location = new Point(x, 30);
         }
 
-        private async void SaveBtn_Click(object sender, EventArgs e)
+        private void BackBtn_Click(object? sender, EventArgs e)
+        {
+            Controls.Clear();
+
+            var accountsForm = _formFactory.CreateAccountsForm(_resourceId);
+            accountsForm.TopLevel = false;
+            accountsForm.TopMost = true;
+            accountsForm.Dock = DockStyle.Fill;
+            Controls.Add(accountsForm);
+            accountsForm.Show();
+        }
+
+        private async void SaveBtn_Click(object? sender, EventArgs e)
         {
             if (_accountId == null)
             {

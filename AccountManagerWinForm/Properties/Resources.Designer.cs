@@ -83,6 +83,16 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Back24 {
+            get {
+                object obj = ResourceManager.GetObject("Back24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Copy24 {
             get {
                 object obj = ResourceManager.GetObject("Copy24", resourceCulture);

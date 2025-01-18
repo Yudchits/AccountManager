@@ -28,23 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            SaveBtn = new System.Windows.Forms.Button();
             SuspendLayout();
-            // 
-            // SaveBtn
-            // 
-            SaveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            SaveBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            SaveBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            SaveBtn.Image = Properties.Resources.Save24;
-            SaveBtn.Location = new System.Drawing.Point(618, 428);
-            SaveBtn.Name = "SaveBtn";
-            SaveBtn.Size = new System.Drawing.Size(150, 45);
-            SaveBtn.TabIndex = 2;
-            SaveBtn.Text = "Сохранить";
-            SaveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            SaveBtn.UseVisualStyleBackColor = true;
-            SaveBtn.Click += SaveBtn_Click;
             // 
             // CreateAccountForm
             // 
@@ -52,7 +36,6 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
-            Controls.Add(SaveBtn);
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -64,7 +47,5 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button SaveBtn;
     }
 }
