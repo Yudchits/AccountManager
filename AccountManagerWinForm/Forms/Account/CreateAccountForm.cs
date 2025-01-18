@@ -67,7 +67,7 @@ namespace AccountManagerWinForm.Forms.Account
         private void InitializeCreateForm()
         {
             int inputWidth = Width / 2;
-            int inputMarginBottom = 30;
+            int inputMarginBottom = 10;
             int x = inputWidth - (inputWidth / 2);
             var font = new Font("Cascadia Code", 12f);
 
@@ -84,7 +84,6 @@ namespace AccountManagerWinForm.Forms.Account
                 Parent = createPnl,
                 AutoSize = true,
                 Text = _accountId == null ? "Создание" : "Редактирование",
-                Padding = new Padding(0, 0, 0, 35),
                 Font = new Font(Font.Name, 14f, FontStyle.Underline)
             };
             createLbl.Location = new Point((createPnl.Width / 2) - (createLbl.Width / 2), 0);
@@ -94,10 +93,9 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 Parent = createPnl,
                 Width = inputWidth,
-                Placeholder = "Имя",
                 Font = font,
-                Location = new Point(0, createLbl.Bottom),
-                Padding = new Padding(0, 0, 0, inputMarginBottom),
+                Location = new Point(0, createLbl.Bottom + inputMarginBottom),
+                Label = "Имя"
             };
             createPnl.Controls.Add(nameTxtBx);
 
@@ -105,10 +103,9 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 Parent = createPnl,
                 Width = inputWidth,
-                Placeholder = "Логин",
-                Location = new Point(0, nameTxtBx.Bottom),
-                Font = font,
-                Padding = new Padding(0, 0, 0, inputMarginBottom)
+                Location = new Point(0, nameTxtBx.Bottom + inputMarginBottom),
+                Label = "Логин",
+                Font = font
             };
             createPnl.Controls.Add(loginTxtBx);
 
@@ -116,23 +113,25 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 Parent = createPnl,
                 Width = inputWidth,
-                Placeholder = "Пароль",
-                Location = new Point(0, loginTxtBx.Bottom),
+                Location = new Point(0, loginTxtBx.Bottom + inputMarginBottom),
+                Label = "Пароль",
                 Font = font,
-                Padding = new Padding(0, 0, 0, inputMarginBottom),
                 PasswordChar = '*'
             };
             createPnl.Controls.Add(passwordTxtBx);
 
+            int saveBtnMarginTop = 25;
             SaveBtn.Parent = createPnl;
-            SaveBtn.Location = new Point(passwordTxtBx.Right - SaveBtn.Width, passwordTxtBx.Bottom);
+            SaveBtn.Location = new Point(passwordTxtBx.Right - SaveBtn.Width, passwordTxtBx.Bottom + saveBtnMarginTop);
 
             createPnl.Height = createLbl.Height 
                 + nameTxtBx.Height 
                 + loginTxtBx.Height 
                 + passwordTxtBx.Height 
-                + SaveBtn.Height;
-            createPnl.Location = new Point(x, 50);
+                + SaveBtn.Height
+                + inputMarginBottom * 4
+                + saveBtnMarginTop;
+            createPnl.Location = new Point(x, 30);
         }
 
         private async void SaveBtn_Click(object sender, EventArgs e)

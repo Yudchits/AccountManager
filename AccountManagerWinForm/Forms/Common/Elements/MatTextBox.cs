@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace AccountManagerWinForm.Forms.Common.Elements
 {
     public class MatTextBox : Panel
     {
+        private readonly Label label;
         private readonly TextBox textBox;
         private readonly Panel panel;
         
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
+
+        public string Label
+        {
+            get { return label.Text; }
+            set { label.Text = value; }
+        }
 
         public override string Text
         {
@@ -35,12 +41,6 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             set { activeColor = value; }
         }
 
-        public string Placeholder
-        {
-            get { return textBox.PlaceholderText; }
-            set { textBox.PlaceholderText = value; }
-        }
-
         public char PasswordChar
         {
             get { return textBox.PasswordChar; }
@@ -49,49 +49,73 @@ namespace AccountManagerWinForm.Forms.Common.Elements
 
         public MatTextBox()
         {
+            label = new Label
+            {
+                AutoSize = true,
+                Cursor = Cursors.IBeam,
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+            };
+            label.Click += Label_Click;
+            Controls.Add(label);
+
             textBox = new TextBox
             {
                 Width = Width,
                 BorderStyle = BorderStyle.None,
                 BackColor = Color.FromArgb(46, 51, 73),
                 Margin = new Padding(0),
-                Location = new Point(0, 0),
                 ForeColor = foreColor,
                 Font = Font
             };
+            textBox.TextChanged += TextBox_TextChanged;
             textBox.GotFocus += TextBox_GotFocus;
             textBox.LostFocus += TextBox_LostFocus;
             Controls.Add(textBox);
 
-            /*textBox.Multiline = true;
-            var size = TextRenderer.MeasureText(textBox.Text, textBox.Font, Size.Empty, TextFormatFlags.TextBoxControl);
-            textBox.MinimumSize = new Size(0, size.Height);
-            textBox.Multiline = false;*/
-
-            int panelMarginTop = 1;
-            int panelHeight = 3;
             panel = new Panel
             {
-                Parent = this,
                 Width = Width,
-                Height = panelHeight,
+                Height = 3,
                 BackColor = Color.FromArgb(158, 161, 176),
                 Margin = new Padding(0),
-                Location = new Point(0, textBox.Bottom + panelHeight + panelMarginTop)
             };
             Controls.Add(panel);
 
-            Height = textBox.Height + panel.Height + panelHeight + 30;
+            Height = label.Height + textBox.Height + panel.Height;
+            label.Location = new Point(-5, label.Height);
+            textBox.Location = new Point(0, label.Height);
+            panel.Location = new Point(0, textBox.Bottom);
+        }
+
+        private void Label_Click(object? sender, EventArgs e)
+        {
+            textBox.Focus();
+        }
+
+        private void TextBox_TextChanged(object? sender, EventArgs e)
+        {
+            CheckLabelLocation();
         }
 
         private void TextBox_LostFocus(object? sender, EventArgs e)
         {
+            label.ForeColor = foreColor;
+            CheckLabelLocation();
             textBox.ForeColor = foreColor;
             panel.BackColor = foreColor;
         }
 
+        private void CheckLabelLocation()
+        {
+            int labelTop = textBox.Text.Length > 0 || textBox.Focused ? 0 : label.Height;
+            label.Location = new Point(label.Left, labelTop);
+        }
+
         private void TextBox_GotFocus(object? sender, EventArgs e)
         {
+            label.ForeColor = activeColor;
+            CheckLabelLocation();
             textBox.ForeColor = activeColor;
             panel.BackColor = activeColor;
         }
@@ -101,10 +125,16 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             base.OnResize(e);
             textBox.Width = Width;
             textBox.Multiline = true;
-            textBox.MinimumSize = new Size(0, textBox.Height);
+            textBox.MinimumSize = new Size(0, label.Height);
             textBox.Multiline = false;
             textBox.Font = Font;
             panel.Width = Width;
+            
+            label.Location = new Point(label.Left, label.Height);
+            //label.Font = new Font(textBox.Font.Name, (float)(textBox.Font.Size * 0.95));
+            textBox.Location = new Point(textBox.Left, label.Height);
+            panel.Location = new Point(panel.Left, textBox.Bottom);
+            Height = label.Height + textBox.Height + panel.Height;
         }
     }
 }
