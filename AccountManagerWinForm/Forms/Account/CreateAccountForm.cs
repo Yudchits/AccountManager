@@ -1,10 +1,12 @@
 ﻿using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
+using AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -14,12 +16,14 @@ namespace AccountManagerWinForm.Forms.Account
 {
     public partial class CreateAccountForm : Form
     {
+        private const string CRYPTO_KEY = "AMCryptoKey";
+
         private readonly int? _accountId;
 
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
-
+        private readonly IConfiguration? _configuration;
         private Label createLbl;
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
@@ -37,6 +41,7 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
+            _configuration = Program.Configuration;
         }
 
         public CreateAccountForm
@@ -65,6 +70,16 @@ namespace AccountManagerWinForm.Forms.Account
         {
             base.OnLoad(e);
             createLbl.Focus();
+
+            if (_accountId != null)
+            {
+                DecryptPassword();
+            }
+        }
+
+        private void DecryptPassword()
+        {
+
         }
 
         private void InitializeCreateForm()
@@ -199,16 +214,40 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async Task CreateAccount()
         {
-            var createRequest = new CreateAccountRequest(_resourceId, nameTxtBx.Text, loginTxtBx.Text, passwordTxtBx.Text);
-            await _mediator.Send(createRequest);
+            var encryptResult = await _mediator.Send(new AesEncryptRequest
+            (
+                passwordTxtBx.Text, 
+                _configuration?[CRYPTO_KEY])
+            );
+            var encyptedPassword = encryptResult.EncryptedText;
+            
+            await _mediator.Send(new CreateAccountRequest
+            (
+                _resourceId,
+                nameTxtBx.Text,
+                loginTxtBx.Text,
+                encyptedPassword
+            ));
         }
 
         private async Task UpdateAccount()
         {
             if (_accountId != null)
             {
-                var createRequest = new UpdateAccountRequest((int)_accountId, _resourceId, nameTxtBx.Text, loginTxtBx.Text, passwordTxtBx.Text);
-                await _mediator.Send(createRequest);
+                var encryptResult = await _mediator.Send(new AesEncryptRequest
+                (
+                    passwordTxtBx.Text,
+                    _configuration?[CRYPTO_KEY])
+                );
+                var encyptedPassword = encryptResult.EncryptedText;
+
+                await _mediator.Send(new UpdateAccountRequest(
+                    (int)_accountId, 
+                    _resourceId, 
+                    nameTxtBx.Text, 
+                    loginTxtBx.Text, 
+                    encyptedPassword
+                ));
             }
         }
 

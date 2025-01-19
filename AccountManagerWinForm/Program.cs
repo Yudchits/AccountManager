@@ -3,6 +3,7 @@ using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -14,6 +15,7 @@ namespace AccountManagerWinForm
     internal static class Program
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
+        public static IConfiguration? Configuration { get; private set; }
 
         [STAThread]
         static void Main()
@@ -38,6 +40,9 @@ namespace AccountManagerWinForm
 
             var host = builder.Build();
             ServiceProvider = host.Services;
+
+            var configBuilder = new ConfigurationBuilder().AddEnvironmentVariables();
+            Configuration = configBuilder.Build();
 
             var indexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
             Application.Run(indexForm);

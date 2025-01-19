@@ -1,10 +1,9 @@
-﻿using AccountManager.Application.Features.Account.Create;
-using AccountManager.Application.Features.Account.GetByResourceId;
+﻿using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Resource;
-using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace AccountManagerWinForm.Factories
 {
