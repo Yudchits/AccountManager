@@ -1,9 +1,11 @@
 ﻿using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,6 +24,7 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
+        private readonly IConfiguration? _configuration;
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
@@ -41,6 +44,7 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
+            _configuration = Program.Configuration;
             
             maxMouseY = Height - ScrollPnl.Height;
         }
@@ -203,7 +207,7 @@ namespace AccountManagerWinForm.Forms.Account
                     Tag = passwordValueLbl.Tag
                 };
                 passwordCopyBtn.FlatAppearance.BorderSize = 0;
-                passwordCopyBtn.Click += PasswordCopyBtn_Click;
+                passwordCopyBtn.Click += PasswordCopyBtn_ClickAsync;
                 passwordPnl.Controls.Add(passwordCopyBtn);
 
                 var passwordEyeBtn = new Button
@@ -360,22 +364,25 @@ namespace AccountManagerWinForm.Forms.Account
             Controls.Add(createForm);
             createForm.Show();
         }
-
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
         {
             if (sender is not null)
             {
                 var button = sender as Button;
-                Clipboard.SetText(button?.Tag.ToString());
+                Clipboard.SetText(button?.Tag?.ToString());
             }
         }
 
-        private void PasswordCopyBtn_Click(object? sender, EventArgs e)
+        private async void PasswordCopyBtn_ClickAsync(object? sender, EventArgs e)
         {
             if (sender is not null)
             {
                 var button = sender as Button;
-                Clipboard.SetText(button?.Tag.ToString());
+                var plainText = await _mediator.Send
+                (
+                    new AesDecryptRequest(button?.Tag?.ToString(), _configuration?["AMCryptoKey"])
+                ); 
+                Clipboard.SetText(plainText.PlainText);
             }
         }
 
