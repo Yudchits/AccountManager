@@ -2,12 +2,10 @@
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
 using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
-using AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -24,7 +22,6 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
-        private readonly IConfiguration? _configuration;
         private Label createLbl;
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
@@ -42,7 +39,6 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
-            _configuration = Program.Configuration;
         }
 
         public CreateAccountForm
@@ -80,11 +76,7 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async Task<string> DecryptText(string encryptedText)
         {
-            var decryptResult = await _mediator.Send(new AesDecryptRequest
-            (
-                encryptedText,
-                _configuration?[CRYPTO_KEY]
-            ));
+            var decryptResult = await _mediator.Send(new AesDecryptRequest(encryptedText));
             return decryptResult.PlainText;
         }
 
@@ -220,19 +212,12 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async Task CreateAccount()
         {
-            var encryptResult = await _mediator.Send(new AesEncryptRequest
-            (
-                passwordTxtBx.Text, 
-                _configuration?[CRYPTO_KEY])
-            );
-            var encyptedPassword = encryptResult.EncryptedText;
-
             await _mediator.Send(new CreateAccountRequest
             (
                 _resourceId,
                 nameTxtBx.Text,
                 loginTxtBx.Text,
-                encyptedPassword
+                passwordTxtBx.Text
             ));
         }
 
@@ -240,19 +225,12 @@ namespace AccountManagerWinForm.Forms.Account
         {
             if (_accountId != null)
             {
-                var encryptResult = await _mediator.Send(new AesEncryptRequest
-                (
-                    passwordTxtBx.Text,
-                    _configuration?[CRYPTO_KEY])
-                );
-                var encyptedPassword = encryptResult.EncryptedText;
-
                 await _mediator.Send(new UpdateAccountRequest(
                     (int)_accountId, 
                     _resourceId, 
                     nameTxtBx.Text, 
                     loginTxtBx.Text, 
-                    encyptedPassword
+                    passwordTxtBx.Text
                 ));
             }
         }

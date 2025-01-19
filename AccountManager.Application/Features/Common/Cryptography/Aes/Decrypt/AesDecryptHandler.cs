@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AccountManager.Application.Common.Settings;
+using MediatR;
+using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -10,12 +12,19 @@ namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
 {
     public class AesDecryptHandler : IRequestHandler<AesDecryptRequest, AesDecryptResponse>
     {
+        private readonly AesCryptographySettings _cryptoSettings;
+
+        public AesDecryptHandler(IOptions<AesCryptographySettings> cryptoOptions)
+        {
+            _cryptoSettings = cryptoOptions.Value;
+        }
+
         public Task<AesDecryptResponse> Handle(AesDecryptRequest request, CancellationToken cancellationToken)
         {
             byte[] key;
             using (var sha256 = SHA256.Create())
             {
-                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.Key));
+                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(_cryptoSettings.Key));
             }
 
             byte[] encryptedTextBytes = Convert.FromBase64String(request.EncryptedText);

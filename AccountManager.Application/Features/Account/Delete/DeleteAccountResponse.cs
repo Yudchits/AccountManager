@@ -2,6 +2,5 @@
 {
     public sealed record DeleteAccountResponse
     {
-        public int Id { get; set; }
     }
 }

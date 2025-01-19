@@ -2,7 +2,7 @@
 
 namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
 {
-    public sealed record AesDecryptRequest(string EncryptedText, string Key) : IRequest<AesDecryptResponse>
+    public sealed record AesDecryptRequest(string EncryptedText) : IRequest<AesDecryptResponse>
     {
     }
 }

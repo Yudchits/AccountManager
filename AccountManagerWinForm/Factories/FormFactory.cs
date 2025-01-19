@@ -3,7 +3,6 @@ using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Resource;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 
 namespace AccountManagerWinForm.Factories
 {
@@ -13,7 +12,9 @@ namespace AccountManagerWinForm.Factories
         ResourcesForm CreateResourcesForm();
         AccountsForm CreateAccountsForm(int resourceId);
         CreateAccountForm CreateCreateAccountForm(int resourceId);
-        CreateAccountForm CreateCreateAccountForm(int resourceId, GetAccountsByResourceIdResponse account);
+        CreateAccountForm CreateUpdateAccountForm(int resourceId, GetAccountsByResourceIdResponse account);
+        CreateResourceForm CreateCreateResourceForm();
+        CreateResourceForm CreateUpdateResourceForm(int resourceId);
     }
 
     public class FormFactory : IFormFactory
@@ -45,9 +46,19 @@ namespace AccountManagerWinForm.Factories
             return new CreateAccountForm(resourceId, _mediator, this);
         }
 
-        public CreateAccountForm CreateCreateAccountForm(int resourceId, GetAccountsByResourceIdResponse account)
+        public CreateAccountForm CreateUpdateAccountForm(int resourceId, GetAccountsByResourceIdResponse account)
         {
             return new CreateAccountForm(resourceId, account, _mediator, this);
+        }
+
+        public CreateResourceForm CreateCreateResourceForm()
+        {
+            return new CreateResourceForm(_mediator, this);
+        }
+
+        public CreateResourceForm CreateUpdateResourceForm(int resourceId)
+        {
+            return new CreateResourceForm(resourceId, _mediator, this);
         }
     }
 }

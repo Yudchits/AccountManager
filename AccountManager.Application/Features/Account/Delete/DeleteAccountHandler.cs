@@ -21,7 +21,7 @@ namespace AccountManager.Application.Features.Account.Delete
         {
             var account = _mapper.Map<Domain.Entities.Account>(request);
             await _repository.DeleteAsync(account);
-            return _mapper.Map<DeleteAccountResponse>(account);
+            return new DeleteAccountResponse();
         }
     }
 }

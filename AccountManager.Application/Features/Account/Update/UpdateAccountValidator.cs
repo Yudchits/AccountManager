@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace AccountManager.Application.Features.Account.Create
+namespace AccountManager.Application.Features.Account.Update
 {
-    public class CreateAccountValidator : AbstractValidator<CreateAccountRequest>
+    public class UpdateAccountValidator : AbstractValidator<UpdateAccountRequest>
     {
-        public CreateAccountValidator()
+        public UpdateAccountValidator()
         {
             ClassLevelCascadeMode = CascadeMode.Stop;
 

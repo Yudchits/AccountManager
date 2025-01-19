@@ -1,11 +1,8 @@
-﻿using AccountManager.Application.Features.Account.Create;
-using AccountManager.Application.Features.Account.GetByResourceId;
+﻿using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
-using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,7 +21,6 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
-        private readonly IConfiguration? _configuration;
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
@@ -44,7 +40,6 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
-            _configuration = Program.Configuration;
             
             maxMouseY = Height - ScrollPnl.Height;
         }
@@ -350,7 +345,7 @@ namespace AccountManagerWinForm.Forms.Account
                 return;
             }
 
-            var createForm = _formFactory.CreateCreateAccountForm(_resourceId, account);
+            var createForm = _formFactory.CreateUpdateAccountForm(_resourceId, account);
             if (createForm == null)
             {
                 return;
@@ -380,7 +375,7 @@ namespace AccountManagerWinForm.Forms.Account
                 var button = sender as Button;
                 var plainText = await _mediator.Send
                 (
-                    new AesDecryptRequest(button?.Tag?.ToString(), _configuration?["AMCryptoKey"])
+                    new AesDecryptRequest(button?.Tag?.ToString())
                 ); 
                 Clipboard.SetText(plainText.PlainText);
             }

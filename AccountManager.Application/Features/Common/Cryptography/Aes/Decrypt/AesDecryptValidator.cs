@@ -10,9 +10,6 @@ namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
 
             RuleFor(d => d.EncryptedText)
                 .NotEmpty().WithMessage("Зашифрованный текст не может быть пустым");
-
-            RuleFor(d => d.Key)
-                .NotEmpty().WithMessage("Ключ шифрования не может быть пустым");
         }
     }
 }
