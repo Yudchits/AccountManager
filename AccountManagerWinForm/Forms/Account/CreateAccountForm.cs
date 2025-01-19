@@ -1,6 +1,7 @@
 ﻿using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
+using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
 using AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
@@ -66,20 +67,25 @@ namespace AccountManagerWinForm.Forms.Account
             passwordTxtBx.Text = account.Password;
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected async override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             createLbl.Focus();
 
             if (_accountId != null)
             {
-                DecryptPassword();
+                passwordTxtBx.Text = await DecryptText(passwordTxtBx.Text);
             }
         }
 
-        private void DecryptPassword()
+        private async Task<string> DecryptText(string encryptedText)
         {
-
+            var decryptResult = await _mediator.Send(new AesDecryptRequest
+            (
+                encryptedText,
+                _configuration?[CRYPTO_KEY]
+            ));
+            return decryptResult.PlainText;
         }
 
         private void InitializeCreateForm()
@@ -220,7 +226,7 @@ namespace AccountManagerWinForm.Forms.Account
                 _configuration?[CRYPTO_KEY])
             );
             var encyptedPassword = encryptResult.EncryptedText;
-            
+
             await _mediator.Send(new CreateAccountRequest
             (
                 _resourceId,
