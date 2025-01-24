@@ -62,9 +62,6 @@ namespace AccountManager.Infrastructure.Repositories
             resources.Add(entity);
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
-
-            var imagePath = entity.ImagePath;
-            File.Copy(imagePath, Path.Combine(_resourceImagesPath, entity.Name));
         }
 
         public async Task<bool> UpdateAsync(Resource entity)
@@ -77,15 +74,11 @@ namespace AccountManager.Infrastructure.Repositories
                 return false;
             }
 
-            var name = entity.Name;
-            resource.Name = name;
-
-            var imagePath = entity.ImagePath;
-            resource.ImagePath = imagePath;
+            resource.Name = resource.Name;
+            resource.ImagePath = resource.ImagePath;
 
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
-            File.Copy(imagePath, Path.Combine(_resourceImagesPath, name), true);
 
             return true;
         }
