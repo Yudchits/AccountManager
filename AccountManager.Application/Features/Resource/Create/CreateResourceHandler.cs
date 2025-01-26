@@ -20,9 +20,6 @@ namespace AccountManager.Application.Features.Resource.Create
         public async Task<CreateResourceResponse> Handle(CreateResourceRequest request, CancellationToken cancellationToken)
         {
             var resourceDb = _mapper.Map<Domain.Entities.Resource>(request);
-
-            // TODO: Add Image
-
             await _repository.CreateAsync(resourceDb);
             return _mapper.Map<CreateResourceResponse>(resourceDb);
         }

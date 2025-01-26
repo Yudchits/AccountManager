@@ -66,7 +66,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
                 BackColor = Color.FromArgb(46, 51, 73),
                 Margin = new Padding(0),
                 ForeColor = foreColor,
-                Font = Font
+                Font = new Font("Cascadia Code", 12f)
             };
             textBox.TextChanged += TextBox_TextChanged;
             textBox.GotFocus += TextBox_GotFocus;
@@ -127,11 +127,10 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.Multiline = true;
             textBox.MinimumSize = new Size(0, label.Height);
             textBox.Multiline = false;
-            textBox.Font = Font;
+            textBox.Font = new Font("Cascadia Code", 12f);
             panel.Width = Width;
             
             label.Location = new Point(label.Left, label.Height);
-            //label.Font = new Font(textBox.Font.Name, (float)(textBox.Font.Size * 0.95));
             textBox.Location = new Point(textBox.Left, label.Height);
             panel.Location = new Point(panel.Left, textBox.Bottom);
             Height = label.Height + textBox.Height + panel.Height;

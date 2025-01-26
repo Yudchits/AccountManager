@@ -49,6 +49,11 @@ namespace AccountManagerWinForm.Forms.Account
             ScrollPnl.BringToFront();
             CreateAccBtn.SendToBack();
 
+            if (ActiveForm is IndexForm indexForm)
+            {
+                indexForm.ActiveFormNameLbl.Text = "Аккаунты";
+            }
+
             _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(_resourceId));
 
             if (_accounts.Count == 0)
@@ -345,7 +350,7 @@ namespace AccountManagerWinForm.Forms.Account
                 return;
             }
 
-            var createForm = _formFactory.CreateUpdateAccountForm(_resourceId, account);
+            var createForm = _formFactory.CreateUpdateAccountForm(account);
             if (createForm == null)
             {
                 return;

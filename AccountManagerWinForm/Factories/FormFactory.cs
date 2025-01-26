@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManager.Application.Features.Resource.GetAllFull;
 using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Resource;
@@ -12,9 +13,9 @@ namespace AccountManagerWinForm.Factories
         ResourcesForm CreateResourcesForm();
         AccountsForm CreateAccountsForm(int resourceId);
         CreateAccountForm CreateCreateAccountForm(int resourceId);
-        CreateAccountForm CreateUpdateAccountForm(int resourceId, GetAccountsByResourceIdResponse account);
+        CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account);
         CreateResourceForm CreateCreateResourceForm();
-        CreateResourceForm CreateUpdateResourceForm(int resourceId);
+        CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource);
     }
 
     public class FormFactory : IFormFactory
@@ -46,9 +47,9 @@ namespace AccountManagerWinForm.Factories
             return new CreateAccountForm(resourceId, _mediator, this);
         }
 
-        public CreateAccountForm CreateUpdateAccountForm(int resourceId, GetAccountsByResourceIdResponse account)
+        public CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account)
         {
-            return new CreateAccountForm(resourceId, account, _mediator, this);
+            return new CreateAccountForm(account, _mediator, this);
         }
 
         public CreateResourceForm CreateCreateResourceForm()
@@ -56,9 +57,9 @@ namespace AccountManagerWinForm.Factories
             return new CreateResourceForm(_mediator, this);
         }
 
-        public CreateResourceForm CreateUpdateResourceForm(int resourceId)
+        public CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource)
         {
-            return new CreateResourceForm(resourceId, _mediator, this);
+            return new CreateResourceForm(resource, _mediator, this);
         }
     }
 }

@@ -59,8 +59,18 @@ namespace AccountManager.Infrastructure.Repositories
             var lastResource = resources.LastOrDefault();
             entity.Id = lastResource != null ? lastResource.Id + 1 : 1;
 
+            var imagePath = entity.ImagePath;
+            var fileFormatStart = imagePath.LastIndexOf('.');
+            var fileFormat = imagePath.Substring(fileFormatStart);
+            var fileName = $"{entity.Id}{fileFormat}";
+            var editedImagePath = Path.Combine(_resourceImagesPath, fileName);
+            File.Copy(entity.ImagePath, editedImagePath, true);
+
+            entity.ImagePath = editedImagePath;
+
             resources.Add(entity);
             var serializedResources = JsonConvert.SerializeObject(resources);
+            
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
         }
 
@@ -75,7 +85,15 @@ namespace AccountManager.Infrastructure.Repositories
             }
 
             resource.Name = resource.Name;
-            resource.ImagePath = resource.ImagePath;
+            
+            var imagePath = resource.ImagePath;
+            var fileFormatStart = imagePath.LastIndexOf('.');
+            var fileFormat = imagePath.Substring(fileFormatStart);
+            var fileName = $"{entity.Id}{fileFormat}";
+            var editedImagePath = Path.Combine(_resourceImagesPath, fileName);
+            File.Copy(entity.ImagePath, editedImagePath, true);
+
+            resource.ImagePath = editedImagePath;
 
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);

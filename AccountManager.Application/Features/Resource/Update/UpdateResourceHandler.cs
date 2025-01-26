@@ -21,8 +21,6 @@ namespace AccountManager.Application.Features.Resource.Update
         public async Task<UpdateResourceResponse> Handle(UpdateResourceRequest request, CancellationToken cancellationToken)
         {
             var resourceDb = _mapper.Map<Domain.Entities.Resource>(request);
-            
-            //TODO: Update Image
 
             var isUpdated = await _repository.UpdateAsync(resourceDb);
             if (!isUpdated)

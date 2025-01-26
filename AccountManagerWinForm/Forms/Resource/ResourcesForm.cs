@@ -15,7 +15,7 @@ namespace AccountManagerWinForm.Forms.Resource
     {
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
-        
+
         private ICollection<GetAllFullResourcesResponse> _resources;
         private ICollection<GetAllFullResourcesResponse> _resourcesToDisplay;
         private int _currentResourceIndex;
@@ -28,7 +28,7 @@ namespace AccountManagerWinForm.Forms.Resource
 
             _mediator = mediator;
             _formFactory = formFactory;
-            
+
             _resources = new List<GetAllFullResourcesResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceIndex = 0;
@@ -48,12 +48,12 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void InitializeHoverPnlBtns()
         {
-            EditResourceBtn.Parent = HoverPnl;
-            DeleteResourceBtn.Parent = HoverPnl;
-            EditResourceBtn.BackColor = Color.Transparent;
-            DeleteResourceBtn.BackColor = Color.Transparent;
-            EditResourceBtn.FlatAppearance.MouseOverBackColor = EditResourceBtn.BackColor;
-            DeleteResourceBtn.FlatAppearance.MouseOverBackColor = DeleteResourceBtn.BackColor;
+            EditResBtn.Parent = HoverPnl;
+            DeleteResBtn.Parent = HoverPnl;
+            EditResBtn.BackColor = Color.Transparent;
+            DeleteResBtn.BackColor = Color.Transparent;
+            EditResBtn.FlatAppearance.MouseOverBackColor = EditResBtn.BackColor;
+            DeleteResBtn.FlatAppearance.MouseOverBackColor = DeleteResBtn.BackColor;
 
             int hoverPnlWidth = HoverPnl.Width;
             int btnWidth = 175;
@@ -63,8 +63,8 @@ namespace AccountManagerWinForm.Forms.Resource
             int deleteBtnX = (hoverPnlWidth / 2) + (hoverPnlWidth / 4) - (btnWidth / 2);
             int btnY = HoverPnl.Height - btnHeight - 30;
 
-            EditResourceBtn.Location = new Point(editBtnX, btnY);
-            DeleteResourceBtn.Location = new Point(deleteBtnX, btnY);
+            EditResBtn.Location = new Point(editBtnX, btnY);
+            DeleteResBtn.Location = new Point(deleteBtnX, btnY);
         }
 
         private async void ResourcesForm_Load(object sender, EventArgs e)
@@ -94,6 +94,10 @@ namespace AccountManagerWinForm.Forms.Resource
         private void UpdateUIWithCurrentResource()
         {
             var resource = _resourcesToDisplay.ElementAt(_currentResourceIndex);
+            ImagePctrBx.Image?.Dispose();
+            ImagePctrBx.Image = null;
+            ImagePctrBx.ImageLocation = null;
+
             ImagePctrBx.Image = Image.FromFile(resource.ImagePath);
         }
 
@@ -157,6 +161,42 @@ namespace AccountManagerWinForm.Forms.Resource
         private void Btn_ToAccounts_Click(object sender, EventArgs e)
         {
             UpdateUIWithAccountsForm();
+        }
+
+        private void CreateResBtn_Click(object sender, EventArgs e)
+        {
+            var createForm = _formFactory.CreateCreateResourceForm();
+            if (createForm != null)
+            {
+                Controls.Clear();
+                createForm.TopLevel = false;
+                createForm.TopMost = true;
+                createForm.Dock = DockStyle.Fill;
+
+                Controls.Add(createForm);
+                createForm.Show();
+            }
+        }
+
+        private void EditResBtn_Click(object sender, EventArgs e)
+        {
+            ImagePctrBx.Image.Dispose();
+            ImagePctrBx.Image = null;
+            ImagePctrBx.ImageLocation = null;
+
+            var currentResource = _resources.ElementAt(_currentResourceIndex);
+
+            var createForm = _formFactory.CreateUpdateResourceForm(currentResource);
+            if (createForm != null)
+            {
+                Controls.Clear();
+                createForm.TopLevel = false;
+                createForm.TopMost = true;
+                createForm.Dock = DockStyle.Fill;
+
+                Controls.Add(createForm);
+                createForm.Show();
+            }
         }
     }
 }

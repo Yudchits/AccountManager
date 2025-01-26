@@ -15,14 +15,11 @@ namespace AccountManagerWinForm.Forms.Account
 {
     public partial class CreateAccountForm : Form
     {
-        private const string CRYPTO_KEY = "AMCryptoKey";
-
         private readonly int? _accountId;
 
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
-        private Label createLbl;
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
@@ -52,11 +49,10 @@ namespace AccountManagerWinForm.Forms.Account
 
         public CreateAccountForm
         (
-            int resourceId, 
             GetAccountsByResourceIdResponse account, 
             IMediator mediator, 
             IFormFactory formFactory
-        ) : this(account.Id, resourceId, mediator, formFactory)
+        ) : this(account.Id, account.ResourceId, mediator, formFactory)
         {
             nameTxtBx.Text = account.Name;
             loginTxtBx.Text = account.Login;
@@ -66,7 +62,14 @@ namespace AccountManagerWinForm.Forms.Account
         protected async override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            createLbl.Focus();
+            backBtn.Focus();
+
+            if (ActiveForm is IndexForm indexForm)
+            {
+                indexForm.ActiveFormNameLbl.Text = _accountId == null
+                    ? "Создание аккаунта"
+                    : "Редактирование аккаунта";
+            }
 
             if (_accountId != null)
             {
@@ -95,22 +98,12 @@ namespace AccountManagerWinForm.Forms.Account
             };
             Controls.Add(createPnl);
 
-            createLbl = new Label
-            {
-                Parent = createPnl,
-                AutoSize = true,
-                Text = _accountId == null ? "Создание" : "Редактирование",
-                Font = new Font(Font.Name, 14f, FontStyle.Underline)
-            };
-            createLbl.Location = new Point((createPnl.Width / 2) - (createLbl.Width / 2), 0);
-            createPnl.Controls.Add(createLbl);
-
             nameTxtBx = new MatTextBox
             {
                 Parent = createPnl,
                 Width = inputWidth,
                 Font = font,
-                Location = new Point(0, createLbl.Bottom + inputMarginBottom),
+                Location = new Point(0, 15),
                 Label = "Имя"
             };
             createPnl.Controls.Add(nameTxtBx);
@@ -168,8 +161,7 @@ namespace AccountManagerWinForm.Forms.Account
             saveBtn.Click += SaveBtn_Click;
             createPnl.Controls.Add(saveBtn);
 
-            createPnl.Height = createLbl.Height 
-                + nameTxtBx.Height 
+            createPnl.Height = nameTxtBx.Height 
                 + loginTxtBx.Height 
                 + passwordTxtBx.Height 
                 + saveBtn.Height

@@ -39,9 +39,11 @@
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            Margin = new System.Windows.Forms.Padding(4);
             Name = "CreateResourceForm";
             Text = "CreateResourceForm";
+            Load += CreateResourceForm_Load;
+            Click += CreateResourceForm_Click;
             ResumeLayout(false);
         }
 

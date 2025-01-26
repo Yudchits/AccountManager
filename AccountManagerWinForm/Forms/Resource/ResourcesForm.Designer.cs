@@ -33,16 +33,17 @@
             NextBtn = new System.Windows.Forms.Button();
             NoResourcesLbl = new System.Windows.Forms.Label();
             HoverPnl = new System.Windows.Forms.Panel();
-            DeleteResourceBtn = new System.Windows.Forms.Button();
-            EditResourceBtn = new System.Windows.Forms.Button();
+            DeleteResBtn = new System.Windows.Forms.Button();
+            EditResBtn = new System.Windows.Forms.Button();
             Btn_ToAccounts = new System.Windows.Forms.Button();
+            CreateResBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).BeginInit();
             HoverPnl.SuspendLayout();
             SuspendLayout();
             // 
             // ImagePctrBx
             // 
-            ImagePctrBx.Location = new System.Drawing.Point(150, 47);
+            ImagePctrBx.Location = new System.Drawing.Point(150, 58);
             ImagePctrBx.Name = "ImagePctrBx";
             ImagePctrBx.Size = new System.Drawing.Size(500, 300);
             ImagePctrBx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -56,7 +57,7 @@
             PreviousBtn.FlatAppearance.BorderSize = 0;
             PreviousBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             PreviousBtn.Image = Properties.Resources.Previous64;
-            PreviousBtn.Location = new System.Drawing.Point(30, 167);
+            PreviousBtn.Location = new System.Drawing.Point(30, 178);
             PreviousBtn.Name = "PreviousBtn";
             PreviousBtn.Size = new System.Drawing.Size(80, 80);
             PreviousBtn.TabIndex = 3;
@@ -69,7 +70,7 @@
             NextBtn.FlatAppearance.BorderSize = 0;
             NextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             NextBtn.Image = Properties.Resources.Next64;
-            NextBtn.Location = new System.Drawing.Point(690, 167);
+            NextBtn.Location = new System.Drawing.Point(690, 178);
             NextBtn.Name = "NextBtn";
             NextBtn.Size = new System.Drawing.Size(80, 80);
             NextBtn.TabIndex = 3;
@@ -80,7 +81,7 @@
             // 
             NoResourcesLbl.AutoSize = true;
             NoResourcesLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
-            NoResourcesLbl.Location = new System.Drawing.Point(274, 194);
+            NoResourcesLbl.Location = new System.Drawing.Point(274, 205);
             NoResourcesLbl.Name = "NoResourcesLbl";
             NoResourcesLbl.Size = new System.Drawing.Size(252, 27);
             NoResourcesLbl.TabIndex = 4;
@@ -89,45 +90,46 @@
             // HoverPnl
             // 
             HoverPnl.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
-            HoverPnl.Controls.Add(DeleteResourceBtn);
-            HoverPnl.Controls.Add(EditResourceBtn);
+            HoverPnl.Controls.Add(DeleteResBtn);
+            HoverPnl.Controls.Add(EditResBtn);
             HoverPnl.Cursor = System.Windows.Forms.Cursors.Hand;
-            HoverPnl.Location = new System.Drawing.Point(150, 241);
+            HoverPnl.Location = new System.Drawing.Point(150, 252);
             HoverPnl.Name = "HoverPnl";
             HoverPnl.Size = new System.Drawing.Size(500, 106);
             HoverPnl.TabIndex = 5;
             HoverPnl.Click += HoverPnl_Click;
             HoverPnl.MouseLeave += HoverPnl_MouseLeave;
             // 
-            // DeleteResourceBtn
+            // DeleteResBtn
             // 
-            DeleteResourceBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            DeleteResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            DeleteResourceBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            DeleteResourceBtn.ForeColor = System.Drawing.Color.Red;
-            DeleteResourceBtn.Image = Properties.Resources.Delete24;
-            DeleteResourceBtn.Location = new System.Drawing.Point(268, 32);
-            DeleteResourceBtn.Name = "DeleteResourceBtn";
-            DeleteResourceBtn.Size = new System.Drawing.Size(175, 45);
-            DeleteResourceBtn.TabIndex = 0;
-            DeleteResourceBtn.Text = "Удалить";
-            DeleteResourceBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            DeleteResourceBtn.UseVisualStyleBackColor = true;
+            DeleteResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            DeleteResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            DeleteResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            DeleteResBtn.ForeColor = System.Drawing.Color.Red;
+            DeleteResBtn.Image = Properties.Resources.Delete24;
+            DeleteResBtn.Location = new System.Drawing.Point(268, 32);
+            DeleteResBtn.Name = "DeleteResBtn";
+            DeleteResBtn.Size = new System.Drawing.Size(175, 45);
+            DeleteResBtn.TabIndex = 0;
+            DeleteResBtn.Text = "Удалить";
+            DeleteResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            DeleteResBtn.UseVisualStyleBackColor = true;
             // 
-            // EditResourceBtn
+            // EditResBtn
             // 
-            EditResourceBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            EditResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            EditResourceBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            EditResourceBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            EditResourceBtn.Image = Properties.Resources.Edit24;
-            EditResourceBtn.Location = new System.Drawing.Point(54, 32);
-            EditResourceBtn.Name = "EditResourceBtn";
-            EditResourceBtn.Size = new System.Drawing.Size(175, 45);
-            EditResourceBtn.TabIndex = 0;
-            EditResourceBtn.Text = "Редактировать";
-            EditResourceBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            EditResourceBtn.UseVisualStyleBackColor = true;
+            EditResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            EditResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            EditResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            EditResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            EditResBtn.Image = Properties.Resources.Edit24;
+            EditResBtn.Location = new System.Drawing.Point(54, 32);
+            EditResBtn.Name = "EditResBtn";
+            EditResBtn.Size = new System.Drawing.Size(175, 45);
+            EditResBtn.TabIndex = 0;
+            EditResBtn.Text = "Редактировать";
+            EditResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            EditResBtn.UseVisualStyleBackColor = true;
+            EditResBtn.Click += EditResBtn_Click;
             // 
             // Btn_ToAccounts
             // 
@@ -136,7 +138,7 @@
             Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             Btn_ToAccounts.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             Btn_ToAccounts.Image = Properties.Resources.Account24;
-            Btn_ToAccounts.Location = new System.Drawing.Point(305, 380);
+            Btn_ToAccounts.Location = new System.Drawing.Point(305, 391);
             Btn_ToAccounts.Name = "Btn_ToAccounts";
             Btn_ToAccounts.Size = new System.Drawing.Size(210, 45);
             Btn_ToAccounts.TabIndex = 0;
@@ -145,12 +147,26 @@
             Btn_ToAccounts.UseVisualStyleBackColor = true;
             Btn_ToAccounts.Click += Btn_ToAccounts_Click;
             // 
+            // CreateResBtn
+            // 
+            CreateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CreateResBtn.Image = Properties.Resources.Add16;
+            CreateResBtn.Location = new System.Drawing.Point(150, 0);
+            CreateResBtn.Name = "CreateResBtn";
+            CreateResBtn.Size = new System.Drawing.Size(150, 40);
+            CreateResBtn.TabIndex = 6;
+            CreateResBtn.Text = "Добавить";
+            CreateResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            CreateResBtn.UseVisualStyleBackColor = true;
+            CreateResBtn.Click += CreateResBtn_Click;
+            // 
             // ResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
+            Controls.Add(CreateResBtn);
             Controls.Add(HoverPnl);
             Controls.Add(Btn_ToAccounts);
             Controls.Add(NoResourcesLbl);
@@ -177,8 +193,9 @@
         private System.Windows.Forms.Label NoResourcesLbl;
         private System.Windows.Forms.TextBox SearchTxtBx;
         private System.Windows.Forms.Panel HoverPnl;
-        private System.Windows.Forms.Button EditResourceBtn;
-        private System.Windows.Forms.Button DeleteResourceBtn;
+        private System.Windows.Forms.Button EditResBtn;
+        private System.Windows.Forms.Button DeleteResBtn;
         private System.Windows.Forms.Button Btn_ToAccounts;
+        private System.Windows.Forms.Button CreateResBtn;
     }
 }
