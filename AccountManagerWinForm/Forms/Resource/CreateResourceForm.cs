@@ -7,6 +7,7 @@ using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -37,8 +38,14 @@ namespace AccountManagerWinForm.Forms.Resource
         {
             _resourceId = resource.Id;
             nameTxtBx.Text = resource.Name;
-            imagePctrBx.Image = Image.FromFile(resource.ImagePath);
-            imagePctrBx.ImageLocation = resource.ImagePath;
+
+            string imagePath = resource.ImagePath;
+
+            using (var tempImage = Image.FromFile(resource.ImagePath))
+            {
+                imagePctrBx.Image = new Bitmap(tempImage);
+                imagePctrBx.ImageLocation = imagePath;
+            }
         }
 
         private void InitializeCreateForm()
@@ -144,12 +151,12 @@ namespace AccountManagerWinForm.Forms.Resource
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    imagePctrBx.Image?.Dispose();
-                    imagePctrBx.Image = null;
-                    imagePctrBx.ImageLocation = null;
-
-                    imagePctrBx.Image = Image.FromFile(dialog.FileName);
-                    imagePctrBx.ImageLocation = dialog.FileName;
+                    using (var tempImage = Image.FromFile(dialog.FileName))
+                    {
+                        imagePctrBx.Image?.Dispose();
+                        imagePctrBx.Image = new Bitmap(tempImage);
+                        imagePctrBx.ImageLocation = dialog.FileName;
+                    }
                 }
             }
         }
@@ -188,19 +195,13 @@ namespace AccountManagerWinForm.Forms.Resource
         {
             if (_resourceId != null)
             {
-                var imagePath = imagePctrBx.ImageLocation;
-
-                imagePctrBx.Image?.Dispose();
-                imagePctrBx.Image = null;
-                imagePctrBx.ImageLocation = null;
-
                 await _mediator.Send
                 (
                     new UpdateResourceRequest
                     (
                         (int)_resourceId, 
                         nameTxtBx.Text,
-                        imagePath
+                        imagePctrBx.ImageLocation
                     )
                 );
             }

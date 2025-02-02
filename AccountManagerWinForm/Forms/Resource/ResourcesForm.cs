@@ -48,11 +48,11 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void InitializeHoverPnlBtns()
         {
-            EditResBtn.Parent = HoverPnl;
+            UpdateResBtn.Parent = HoverPnl;
             DeleteResBtn.Parent = HoverPnl;
-            EditResBtn.BackColor = Color.Transparent;
+            UpdateResBtn.BackColor = Color.Transparent;
             DeleteResBtn.BackColor = Color.Transparent;
-            EditResBtn.FlatAppearance.MouseOverBackColor = EditResBtn.BackColor;
+            UpdateResBtn.FlatAppearance.MouseOverBackColor = UpdateResBtn.BackColor;
             DeleteResBtn.FlatAppearance.MouseOverBackColor = DeleteResBtn.BackColor;
 
             int hoverPnlWidth = HoverPnl.Width;
@@ -63,7 +63,7 @@ namespace AccountManagerWinForm.Forms.Resource
             int deleteBtnX = (hoverPnlWidth / 2) + (hoverPnlWidth / 4) - (btnWidth / 2);
             int btnY = HoverPnl.Height - btnHeight - 30;
 
-            EditResBtn.Location = new Point(editBtnX, btnY);
+            UpdateResBtn.Location = new Point(editBtnX, btnY);
             DeleteResBtn.Location = new Point(deleteBtnX, btnY);
         }
 
@@ -94,11 +94,12 @@ namespace AccountManagerWinForm.Forms.Resource
         private void UpdateUIWithCurrentResource()
         {
             var resource = _resourcesToDisplay.ElementAt(_currentResourceIndex);
-            ImagePctrBx.Image?.Dispose();
-            ImagePctrBx.Image = null;
-            ImagePctrBx.ImageLocation = null;
-
-            ImagePctrBx.Image = Image.FromFile(resource.ImagePath);
+            
+            using (var tempImage = Image.FromFile(resource.ImagePath))
+            {
+                ImagePctrBx.Image?.Dispose();
+                ImagePctrBx.Image = new Bitmap(tempImage);
+            }
         }
 
         private void PreviousBtn_Click(object sender, EventArgs e)
@@ -178,14 +179,10 @@ namespace AccountManagerWinForm.Forms.Resource
             }
         }
 
-        private void EditResBtn_Click(object sender, EventArgs e)
+        private void UpdateResBtn_Click(object sender, EventArgs e)
         {
-            ImagePctrBx.Image.Dispose();
-            ImagePctrBx.Image = null;
-            ImagePctrBx.ImageLocation = null;
-
             var currentResource = _resources.ElementAt(_currentResourceIndex);
-
+            
             var createForm = _formFactory.CreateUpdateResourceForm(currentResource);
             if (createForm != null)
             {

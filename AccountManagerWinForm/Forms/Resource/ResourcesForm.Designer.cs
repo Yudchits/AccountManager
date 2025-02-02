@@ -34,7 +34,7 @@
             NoResourcesLbl = new System.Windows.Forms.Label();
             HoverPnl = new System.Windows.Forms.Panel();
             DeleteResBtn = new System.Windows.Forms.Button();
-            EditResBtn = new System.Windows.Forms.Button();
+            UpdateResBtn = new System.Windows.Forms.Button();
             Btn_ToAccounts = new System.Windows.Forms.Button();
             CreateResBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).BeginInit();
@@ -91,7 +91,7 @@
             // 
             HoverPnl.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             HoverPnl.Controls.Add(DeleteResBtn);
-            HoverPnl.Controls.Add(EditResBtn);
+            HoverPnl.Controls.Add(UpdateResBtn);
             HoverPnl.Cursor = System.Windows.Forms.Cursors.Hand;
             HoverPnl.Location = new System.Drawing.Point(150, 252);
             HoverPnl.Name = "HoverPnl";
@@ -115,21 +115,21 @@
             DeleteResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             DeleteResBtn.UseVisualStyleBackColor = true;
             // 
-            // EditResBtn
+            // UpdateResBtn
             // 
-            EditResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            EditResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            EditResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            EditResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            EditResBtn.Image = Properties.Resources.Edit24;
-            EditResBtn.Location = new System.Drawing.Point(54, 32);
-            EditResBtn.Name = "EditResBtn";
-            EditResBtn.Size = new System.Drawing.Size(175, 45);
-            EditResBtn.TabIndex = 0;
-            EditResBtn.Text = "Редактировать";
-            EditResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            EditResBtn.UseVisualStyleBackColor = true;
-            EditResBtn.Click += EditResBtn_Click;
+            UpdateResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            UpdateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            UpdateResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            UpdateResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            UpdateResBtn.Image = Properties.Resources.Edit24;
+            UpdateResBtn.Location = new System.Drawing.Point(54, 32);
+            UpdateResBtn.Name = "UpdateResBtn";
+            UpdateResBtn.Size = new System.Drawing.Size(175, 45);
+            UpdateResBtn.TabIndex = 0;
+            UpdateResBtn.Text = "Редактировать";
+            UpdateResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            UpdateResBtn.UseVisualStyleBackColor = true;
+            UpdateResBtn.Click += UpdateResBtn_Click;
             // 
             // Btn_ToAccounts
             // 
@@ -193,7 +193,7 @@
         private System.Windows.Forms.Label NoResourcesLbl;
         private System.Windows.Forms.TextBox SearchTxtBx;
         private System.Windows.Forms.Panel HoverPnl;
-        private System.Windows.Forms.Button EditResBtn;
+        private System.Windows.Forms.Button UpdateResBtn;
         private System.Windows.Forms.Button DeleteResBtn;
         private System.Windows.Forms.Button Btn_ToAccounts;
         private System.Windows.Forms.Button CreateResBtn;
