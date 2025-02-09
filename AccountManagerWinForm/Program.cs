@@ -2,6 +2,7 @@ using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
+using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,7 @@ namespace AccountManagerWinForm
     public static class Program
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
+        public static IndexForm? IndexForm { get; private set; }
 
         [STAThread]
         static void Main()
@@ -39,8 +41,8 @@ namespace AccountManagerWinForm
             var host = builder.Build();
             ServiceProvider = host.Services;
 
-            var indexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
-            Application.Run(indexForm);
+            IndexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
+            Application.Run(IndexForm);
         }
 
         private static void HandleUnhandledExceptions(object sender, UnhandledExceptionEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
+using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
 using MediatR;
@@ -105,7 +106,7 @@ namespace AccountManagerWinForm.Forms.Account
                 };
                 accountPnl.Controls.Add(nameLbl);
 
-                var editBtn = new Button
+                var updateBtn = new Button
                 {
                     Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
@@ -114,9 +115,9 @@ namespace AccountManagerWinForm.Forms.Account
                     Size = new Size(btnWidth, nameLbl.Height),
                     Tag = account.Id
                 };
-                editBtn.FlatAppearance.BorderSize = 0;
-                editBtn.Click += EditBtn_Click;
-                accountPnl.Controls.Add(editBtn);
+                updateBtn.FlatAppearance.BorderSize = 0;
+                updateBtn.Click += UpdateBtn_Click;
+                accountPnl.Controls.Add(updateBtn);
 
                 var loginPnl = new Panel
                 {
@@ -330,15 +331,15 @@ namespace AccountManagerWinForm.Forms.Account
             OpenCurrentPage();
         }
 
-        private void EditBtn_Click(object? sender, EventArgs e)
+        private void UpdateBtn_Click(object? sender, EventArgs e)
         {
             if (sender == null)
             {
                 return;
             }
 
-            var editBtn = sender as Button;
-            var isId = int.TryParse(editBtn?.Tag.ToString(), out int id);
+            var updateBtn = sender as Button;
+            var isId = int.TryParse(updateBtn?.Tag.ToString(), out int id);
             if (!isId)
             {
                 return;
@@ -350,19 +351,8 @@ namespace AccountManagerWinForm.Forms.Account
                 return;
             }
 
-            var createForm = _formFactory.CreateUpdateAccountForm(account);
-            if (createForm == null)
-            {
-                return;
-            }
-
-            Controls.Clear();
-            createForm.TopLevel = false;
-            createForm.TopMost = true;
-            createForm.Dock = DockStyle.Fill;
-
-            Controls.Add(createForm);
-            createForm.Show();
+            var updateForm = _formFactory.CreateUpdateAccountForm(account);
+            this.ShowWithinIndex(updateForm, "Редактирование аккаунта");
         }
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
         {
@@ -436,16 +426,7 @@ namespace AccountManagerWinForm.Forms.Account
         private void CreateAccBtn_Click(object sender, EventArgs e)
         {
             var createForm = _formFactory.CreateCreateAccountForm(_resourceId);
-            if (createForm != null)
-            {
-                Controls.Clear();
-                createForm.TopLevel = false;
-                createForm.TopMost = true;
-                createForm.Dock = DockStyle.Fill;
-                
-                Controls.Add(createForm);
-                createForm.Show();
-            }
+            this.ShowWithinIndex(createForm, "Создание аккаунта");
         }
     }
 }

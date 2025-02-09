@@ -229,7 +229,7 @@
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button Btn_ToResources;
         private System.Windows.Forms.Panel HeaderPnl;
-        private System.Windows.Forms.Panel BodyPnl;
         public System.Windows.Forms.Label ActiveFormNameLbl;
+        public System.Windows.Forms.Panel BodyPnl;
     }
 }

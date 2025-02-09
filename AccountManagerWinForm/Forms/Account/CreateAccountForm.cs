@@ -2,6 +2,7 @@
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
 using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
+using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
@@ -172,14 +173,13 @@ namespace AccountManagerWinForm.Forms.Account
 
         private void BackBtn_Click(object? sender, EventArgs e)
         {
-            Controls.Clear();
+            ShowAccountsForm();
+        }
 
+        private void ShowAccountsForm()
+        {
             var accountsForm = _formFactory.CreateAccountsForm(_resourceId);
-            accountsForm.TopLevel = false;
-            accountsForm.TopMost = true;
-            accountsForm.Dock = DockStyle.Fill;
-            Controls.Add(accountsForm);
-            accountsForm.Show();
+            this.ShowWithinIndex(accountsForm, "Аккаунты");
         }
 
         private async void SaveBtn_Click(object? sender, EventArgs e)
@@ -193,13 +193,7 @@ namespace AccountManagerWinForm.Forms.Account
                 await UpdateAccount();
             }
 
-            Controls.Clear();
-            var accountsForm = _formFactory.CreateAccountsForm(_resourceId);
-            accountsForm.TopLevel = false;
-            accountsForm.TopMost = true;
-            accountsForm.Dock = DockStyle.Fill;
-            Controls.Add(accountsForm);
-            accountsForm.Show();
+            ShowAccountsForm();
         }
 
         private async Task CreateAccount()

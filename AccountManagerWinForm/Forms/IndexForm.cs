@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using AccountManagerWinForm.Factories;
+using AccountManagerWinForm.Extensions;
 
 namespace AccountManagerWinForm.Forms
 {
@@ -41,15 +42,9 @@ namespace AccountManagerWinForm.Forms
         private void Btn_ToResources_Click(object sender, EventArgs e)
         {
             ActivePnl.Location = new Point(0, Btn_ToResources.Location.Y);
-            ActiveFormNameLbl.Text = "Ресурсы";
-            BodyPnl.Controls.Clear();
 
             var resourcesForm = _formFactory.CreateResourcesForm();
-            resourcesForm.TopLevel = false;
-            resourcesForm.TopMost = true;
-            resourcesForm.Dock = DockStyle.Fill;
-            BodyPnl.Controls.Add(resourcesForm);
-            resourcesForm.Show();
+            this.ShowWithinIndex(resourcesForm, "Ресурсы");
         }
 
         private void Btn_ToSettings_Click(object sender, EventArgs e)

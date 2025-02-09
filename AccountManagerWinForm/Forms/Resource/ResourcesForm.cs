@@ -149,14 +149,8 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void UpdateUIWithAccountsForm()
         {
-            Controls.Clear();
-
             var accountsForm = _formFactory.CreateAccountsForm(_currentResourceIndex + 1);
-            accountsForm.TopLevel = false;
-            accountsForm.TopMost = true;
-            accountsForm.Dock = DockStyle.Fill;
-            Controls.Add(accountsForm);
-            accountsForm.Show();
+            this.ShowWithinIndex(accountsForm, "Аккаунты");
         }
 
         private void Btn_ToAccounts_Click(object sender, EventArgs e)
@@ -167,33 +161,14 @@ namespace AccountManagerWinForm.Forms.Resource
         private void CreateResBtn_Click(object sender, EventArgs e)
         {
             var createForm = _formFactory.CreateCreateResourceForm();
-            if (createForm != null)
-            {
-                Controls.Clear();
-                createForm.TopLevel = false;
-                createForm.TopMost = true;
-                createForm.Dock = DockStyle.Fill;
-
-                Controls.Add(createForm);
-                createForm.Show();
-            }
+            this.ShowWithinIndex(createForm, "Создание ресурса");
         }
 
         private void UpdateResBtn_Click(object sender, EventArgs e)
         {
             var currentResource = _resources.ElementAt(_currentResourceIndex);
-            
-            var createForm = _formFactory.CreateUpdateResourceForm(currentResource);
-            if (createForm != null)
-            {
-                Controls.Clear();
-                createForm.TopLevel = false;
-                createForm.TopMost = true;
-                createForm.Dock = DockStyle.Fill;
-
-                Controls.Add(createForm);
-                createForm.Show();
-            }
+            var updateForm = _formFactory.CreateUpdateResourceForm(currentResource);
+            this.ShowWithinIndex(updateForm, "Редактирование ресурса");
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using AccountManager.Application.Features.Resource.Create;
 using AccountManager.Application.Features.Resource.GetAllFull;
 using AccountManager.Application.Features.Resource.Update;
+using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -209,14 +209,8 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void OpenResourcesForm()
         {
-            Controls.Clear();
-
             var resourcesForm = _formFactory.CreateResourcesForm();
-            resourcesForm.TopLevel = false;
-            resourcesForm.TopMost = true;
-            resourcesForm.Dock = DockStyle.Fill;
-            Controls.Add(resourcesForm);
-            resourcesForm.Show();
+            this.ShowWithinIndex(resourcesForm, "Ресурсы");
         }
     }
 }
