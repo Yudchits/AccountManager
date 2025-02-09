@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Account
@@ -25,6 +26,8 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
+
+        private bool isPasswordValueLblDecrypted;
 
         private bool isDragging = false;
         private int initialMouseY;
@@ -59,14 +62,19 @@ namespace AccountManagerWinForm.Forms.Account
 
             if (_accounts.Count == 0)
             {
-                // TODO: add message
+                var noAccountsLbl = new Label
+                {
+                    AutoSize = true,
+                    Text = "Список аккаунтов пуст"
+                };
+                AccsFLPnl.Controls.Add(noAccountsLbl);
             }
             else
             {
                 UpdateUIWithAccounts();
                 UpdatePaginationPnl();
-                CheckScrollVisibility();
             }
+            CheckScrollVisibility();
         }
 
         private void UpdateUIWithAccounts()
@@ -195,6 +203,7 @@ namespace AccountManagerWinForm.Forms.Account
                     MaximumSize = new Size(passwordPnl.Width, passwordPnl.Height),
                     Tag = account.Password
                 };
+
                 passwordPnl.Height = passwordValueLbl.Height;
                 passwordPnl.Controls.Add(passwordValueLbl);
 
@@ -218,11 +227,17 @@ namespace AccountManagerWinForm.Forms.Account
                     Location = new Point(passwordCopyBtn.Right, passwordCopyBtn.Top),
                     Size = new Size(btnWidth, passwordCopyBtn.Height),
                     Image = Resources.Eye24,
-                    Tag = account.Password
+                    Tag = passwordValueLbl
                 };
                 passwordEyeBtn.FlatAppearance.BorderSize = 0;
-                passwordEyeBtn.Click += PasswordEyeBtn_Click;
+                passwordEyeBtn.Click += PasswordEyeBtn_Click; ;
                 passwordPnl.Controls.Add(passwordEyeBtn);
+
+                passwordValueLbl.Resize += (sender, e) =>
+                {
+                    passwordCopyBtn.Left = passwordValueLbl.Right;
+                    passwordEyeBtn.Left = passwordCopyBtn.Right;
+                };
 
                 accountPnl.Height = nameLbl.Height + loginPnlMarginTop + loginValueLbl.Height + passwordPnlMarginTop + passwordValueLbl.Height;
 
@@ -236,6 +251,11 @@ namespace AccountManagerWinForm.Forms.Account
         {
             double countDouble = (double)_accounts.Count / ACCOUNTS_ON_PAGE;
             maxPageCount = (int)Math.Floor(Math.Ceiling(countDouble));
+
+            if (maxPageCount <= 1)
+            {
+                return;
+            }
 
             var paginationPnl = new Panel
             {
@@ -313,7 +333,7 @@ namespace AccountManagerWinForm.Forms.Account
 
         private void CheckScrollVisibility()
         {
-            if (AccsFLPnl.Height >= Height - HEADER_HEIGHT - FOOTER_HEIGHT)
+            if (AccsFLPnl.Height > Height - HEADER_HEIGHT)
             {
                 MouseWheel += AccountsForm_MouseWheel;
                 ScrollPnl.Visible = true;
@@ -368,17 +388,53 @@ namespace AccountManagerWinForm.Forms.Account
             if (sender is not null)
             {
                 var button = sender as Button;
-                var plainText = await _mediator.Send
+
+                var plainTextResult = await _mediator.Send
                 (
                     new AesDecryptRequest(button?.Tag?.ToString())
-                ); 
-                Clipboard.SetText(plainText.PlainText);
+                );
+                string plainText = plainTextResult.PlainText;
+                Clipboard.SetText(plainText);
             }
         }
 
-        private void PasswordEyeBtn_Click(object? sender, EventArgs e)
+        private async void PasswordEyeBtn_Click(object? sender, EventArgs e)
         {
+            var button = sender as Button;
+            if (button is not null)
+            {
+                var passwordValueLbl = button.Tag as Label;
+                if (passwordValueLbl is null)
+                {
+                    throw new InvalidOperationException("Тэгом кнопки \"Просмотр пароля\" должен быть Label");
+                }
 
+                if (!isPasswordValueLblDecrypted)
+                {
+                    await SetDecryptedPasswordValueLbl(passwordValueLbl);
+                }
+                else
+                {
+                    SetEncryptedPasswordValueLbl(passwordValueLbl);
+                }
+            }
+        }
+
+        private async Task SetDecryptedPasswordValueLbl(Label passwordValueLbl)
+        {
+            var plainText = await _mediator.Send
+            (
+                new AesDecryptRequest(passwordValueLbl.Tag?.ToString())
+            );
+
+            passwordValueLbl.Text = plainText.PlainText;
+            isPasswordValueLblDecrypted = true;
+        }
+
+        private void SetEncryptedPasswordValueLbl(Label passwordValueLbl)
+        {
+            passwordValueLbl.Text = PASSWORD_CHAR;
+            isPasswordValueLblDecrypted = false;
         }
 
         private void ScrollPnl_MouseDown(object sender, MouseEventArgs e)
@@ -426,7 +482,7 @@ namespace AccountManagerWinForm.Forms.Account
         private void CreateAccBtn_Click(object sender, EventArgs e)
         {
             var createForm = _formFactory.CreateCreateAccountForm(_resourceId);
-            this.ShowWithinIndex(createForm, "Создание аккаунта");
+            this.ShowWithinIndex(createForm, "Добавление аккаунта");
         }
     }
 }

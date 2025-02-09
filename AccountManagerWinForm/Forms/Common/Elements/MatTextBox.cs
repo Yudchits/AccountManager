@@ -104,6 +104,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             CheckLabelLocation();
             textBox.ForeColor = foreColor;
             panel.BackColor = foreColor;
+            OnLostFocus(EventArgs.Empty);
         }
 
         private void CheckLabelLocation()
@@ -118,6 +119,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             CheckLabelLocation();
             textBox.ForeColor = activeColor;
             panel.BackColor = activeColor;
+            OnGotFocus(EventArgs.Empty);
         }
 
         protected override void OnResize(EventArgs e)

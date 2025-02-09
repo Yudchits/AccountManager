@@ -65,13 +65,6 @@ namespace AccountManagerWinForm.Forms.Account
             base.OnLoad(e);
             backBtn.Focus();
 
-            if (ActiveForm is IndexForm indexForm)
-            {
-                indexForm.ActiveFormNameLbl.Text = _accountId == null
-                    ? "Создание аккаунта"
-                    : "Редактирование аккаунта";
-            }
-
             if (_accountId != null)
             {
                 passwordTxtBx.Text = await DecryptText(passwordTxtBx.Text);
@@ -128,6 +121,8 @@ namespace AccountManagerWinForm.Forms.Account
                 Font = font,
                 PasswordChar = '*'
             };
+            passwordTxtBx.GotFocus += PasswordTxtBx_GotFocus;
+            passwordTxtBx.LostFocus += PasswordTxtBx_LostFocus;
             createPnl.Controls.Add(passwordTxtBx);
 
             backBtn = new Button
@@ -169,6 +164,16 @@ namespace AccountManagerWinForm.Forms.Account
                 + inputMarginBottom * 4
                 + btnMarginTop;
             createPnl.Location = new Point(x, 30);
+        }
+
+        private void PasswordTxtBx_GotFocus(object? sender, EventArgs e)
+        {
+            passwordTxtBx.PasswordChar = '\0';
+        }
+
+        private void PasswordTxtBx_LostFocus(object? sender, EventArgs e)
+        {
+            passwordTxtBx.PasswordChar = '*';
         }
 
         private void BackBtn_Click(object? sender, EventArgs e)
