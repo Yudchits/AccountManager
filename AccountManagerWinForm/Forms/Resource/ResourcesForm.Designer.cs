@@ -37,13 +37,16 @@
             UpdateResBtn = new System.Windows.Forms.Button();
             Btn_ToAccounts = new System.Windows.Forms.Button();
             CreateResBtn = new System.Windows.Forms.Button();
+            ResourcesPnl = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).BeginInit();
             HoverPnl.SuspendLayout();
+            ResourcesPnl.SuspendLayout();
             SuspendLayout();
             // 
             // ImagePctrBx
             // 
-            ImagePctrBx.Location = new System.Drawing.Point(150, 58);
+            ImagePctrBx.Location = new System.Drawing.Point(120, 0);
+            ImagePctrBx.Margin = new System.Windows.Forms.Padding(0);
             ImagePctrBx.Name = "ImagePctrBx";
             ImagePctrBx.Size = new System.Drawing.Size(500, 300);
             ImagePctrBx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -57,7 +60,7 @@
             PreviousBtn.FlatAppearance.BorderSize = 0;
             PreviousBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             PreviousBtn.Image = Properties.Resources.Previous64;
-            PreviousBtn.Location = new System.Drawing.Point(30, 178);
+            PreviousBtn.Location = new System.Drawing.Point(0, 120);
             PreviousBtn.Name = "PreviousBtn";
             PreviousBtn.Size = new System.Drawing.Size(80, 80);
             PreviousBtn.TabIndex = 3;
@@ -70,7 +73,7 @@
             NextBtn.FlatAppearance.BorderSize = 0;
             NextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             NextBtn.Image = Properties.Resources.Next64;
-            NextBtn.Location = new System.Drawing.Point(690, 178);
+            NextBtn.Location = new System.Drawing.Point(660, 120);
             NextBtn.Name = "NextBtn";
             NextBtn.Size = new System.Drawing.Size(80, 80);
             NextBtn.TabIndex = 3;
@@ -81,7 +84,7 @@
             // 
             NoResourcesLbl.AutoSize = true;
             NoResourcesLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
-            NoResourcesLbl.Location = new System.Drawing.Point(274, 205);
+            NoResourcesLbl.Location = new System.Drawing.Point(120, 18);
             NoResourcesLbl.Name = "NoResourcesLbl";
             NoResourcesLbl.Size = new System.Drawing.Size(252, 27);
             NoResourcesLbl.TabIndex = 4;
@@ -142,7 +145,7 @@
             Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             Btn_ToAccounts.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             Btn_ToAccounts.Image = Properties.Resources.Account24;
-            Btn_ToAccounts.Location = new System.Drawing.Point(305, 391);
+            Btn_ToAccounts.Location = new System.Drawing.Point(275, 333);
             Btn_ToAccounts.Name = "Btn_ToAccounts";
             Btn_ToAccounts.Size = new System.Drawing.Size(210, 45);
             Btn_ToAccounts.TabIndex = 0;
@@ -153,6 +156,7 @@
             // 
             // CreateResBtn
             // 
+            CreateResBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             CreateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CreateResBtn.Image = Properties.Resources.Add16;
             CreateResBtn.Location = new System.Drawing.Point(150, 0);
@@ -164,6 +168,18 @@
             CreateResBtn.UseVisualStyleBackColor = true;
             CreateResBtn.Click += CreateResBtn_Click;
             // 
+            // ResourcesPnl
+            // 
+            ResourcesPnl.Controls.Add(NoResourcesLbl);
+            ResourcesPnl.Controls.Add(ImagePctrBx);
+            ResourcesPnl.Controls.Add(PreviousBtn);
+            ResourcesPnl.Controls.Add(Btn_ToAccounts);
+            ResourcesPnl.Controls.Add(NextBtn);
+            ResourcesPnl.Location = new System.Drawing.Point(30, 58);
+            ResourcesPnl.Name = "ResourcesPnl";
+            ResourcesPnl.Size = new System.Drawing.Size(740, 393);
+            ResourcesPnl.TabIndex = 7;
+            // 
             // ResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
@@ -172,11 +188,7 @@
             ClientSize = new System.Drawing.Size(800, 490);
             Controls.Add(CreateResBtn);
             Controls.Add(HoverPnl);
-            Controls.Add(Btn_ToAccounts);
-            Controls.Add(NoResourcesLbl);
-            Controls.Add(NextBtn);
-            Controls.Add(PreviousBtn);
-            Controls.Add(ImagePctrBx);
+            Controls.Add(ResourcesPnl);
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -186,8 +198,9 @@
             Load += ResourcesForm_Load;
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).EndInit();
             HoverPnl.ResumeLayout(false);
+            ResourcesPnl.ResumeLayout(false);
+            ResourcesPnl.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -201,5 +214,6 @@
         private System.Windows.Forms.Button DeleteResBtn;
         private System.Windows.Forms.Button Btn_ToAccounts;
         private System.Windows.Forms.Button CreateResBtn;
+        private System.Windows.Forms.Panel ResourcesPnl;
     }
 }

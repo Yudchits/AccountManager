@@ -23,8 +23,6 @@ namespace AccountManagerWinForm.Forms.Resource
         public ResourcesForm(IMediator mediator, IFormFactory formFactory)
         {
             InitializeComponent();
-            InitializeHoverPnl();
-            InitializeHoverPnlBtns();
 
             _mediator = mediator;
             _formFactory = formFactory;
@@ -32,6 +30,26 @@ namespace AccountManagerWinForm.Forms.Resource
             _resources = new List<GetAllFullResourcesResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceIndex = 0;
+        }
+
+        private async void ResourcesForm_Load(object sender, EventArgs e)
+        {
+            SetResourcesPnlAsParent();
+            InitializeNoResourcesLbl();
+            InitializeHoverPnl();
+            InitializeHoverPnlBtns();
+            await UpdateResources();
+        }
+
+        private void SetResourcesPnlAsParent()
+        {
+            PreviousBtn.Parent = ResourcesPnl;
+            ImagePctrBx.Parent = ResourcesPnl;
+            NextBtn.Parent = ResourcesPnl;
+            HoverPnl.Parent = ResourcesPnl;
+            UpdateResBtn.Parent = ResourcesPnl;
+            DeleteResBtn.Parent = ResourcesPnl;
+            Btn_ToAccounts.Parent = ResourcesPnl;
         }
 
         private void InitializeHoverPnl()
@@ -67,9 +85,10 @@ namespace AccountManagerWinForm.Forms.Resource
             DeleteResBtn.Location = new Point(deleteBtnX, btnY);
         }
 
-        private async void ResourcesForm_Load(object sender, EventArgs e)
+        private void InitializeNoResourcesLbl()
         {
-            await UpdateResources();
+            NoResourcesLbl.Parent = this;
+            NoResourcesLbl.Location = new Point(CreateResBtn.Left, CreateResBtn.Bottom + 10);
         }
 
         private async Task UpdateResources()
@@ -79,15 +98,34 @@ namespace AccountManagerWinForm.Forms.Resource
 
             if (_resourcesToDisplay.Any())
             {
-                NoResourcesLbl.Visible = false;
-                PreviousBtn.Visible = true;
-                NextBtn.Visible = true;
+                CheckVisibleControls(noResources: false);
                 UpdateUIWithCurrentResource();
             }
             else
             {
-                PreviousBtn.Visible = false;
-                NextBtn.Visible = false;
+                CheckVisibleControls(noResources: true);
+            }
+        }
+
+        private void CheckVisibleControls(bool noResources)
+        {
+            if (noResources)
+            {
+                NoResourcesLbl.Visible = true;
+                ResourcesPnl.Visible = false;
+                int x = 25;
+                CreateResBtn.Location = new Point(x, 0);
+                NoResourcesLbl.Location = new Point(x, CreateResBtn.Bottom + 15);
+            }
+            else
+            {
+                ResourcesPnl.Visible = true;
+                NoResourcesLbl.Visible = false;
+                CreateResBtn.Location = new Point
+                (
+                    ResourcesPnl.Left + ImagePctrBx.Left, 
+                    0
+                );
             }
         }
 
