@@ -139,8 +139,14 @@
   <data name="Edit24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Edit24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Error24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Eye24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Eye24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EyeHidden24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EyeHidden24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Home24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Home24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -174,5 +180,8 @@
   </data>
   <data name="Settings24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Settings24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warn24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Warn24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

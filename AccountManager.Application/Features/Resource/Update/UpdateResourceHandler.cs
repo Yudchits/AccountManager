@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Common.Exceptions;
+﻿using AccountManager.Application.Common;
 using AccountManager.Application.Repositories;
 using AutoMapper;
 using MediatR;

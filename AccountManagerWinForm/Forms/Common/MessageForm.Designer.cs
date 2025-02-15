@@ -30,9 +30,8 @@
         {
             CloseBtn = new System.Windows.Forms.Button();
             OkBtn = new System.Windows.Forms.Button();
-            MessageTextBox = new System.Windows.Forms.TextBox();
-            MessageMainPnl = new System.Windows.Forms.Panel();
-            MessageMainPnl.SuspendLayout();
+            TypePctrBx = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)TypePctrBx).BeginInit();
             SuspendLayout();
             // 
             // CloseBtn
@@ -42,9 +41,10 @@
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             CloseBtn.ForeColor = System.Drawing.Color.White;
-            CloseBtn.Location = new System.Drawing.Point(340, 0);
+            CloseBtn.Location = new System.Drawing.Point(374, 0);
+            CloseBtn.Margin = new System.Windows.Forms.Padding(0);
             CloseBtn.Name = "CloseBtn";
-            CloseBtn.Size = new System.Drawing.Size(60, 30);
+            CloseBtn.Size = new System.Drawing.Size(66, 36);
             CloseBtn.TabIndex = 2;
             CloseBtn.Text = "X";
             CloseBtn.UseVisualStyleBackColor = true;
@@ -54,53 +54,44 @@
             // 
             OkBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             OkBtn.ForeColor = System.Drawing.Color.White;
-            OkBtn.Location = new System.Drawing.Point(322, 155);
+            OkBtn.Location = new System.Drawing.Point(365, 200);
+            OkBtn.Margin = new System.Windows.Forms.Padding(0);
             OkBtn.Name = "OkBtn";
-            OkBtn.Size = new System.Drawing.Size(66, 33);
+            OkBtn.Size = new System.Drawing.Size(70, 35);
             OkBtn.TabIndex = 7;
             OkBtn.Text = "Ок";
             OkBtn.UseVisualStyleBackColor = true;
             OkBtn.Click += OkBtn_Click;
             // 
-            // MessageTextBox
+            // TypePctrBx
             // 
-            MessageTextBox.BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
-            MessageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            MessageTextBox.ForeColor = System.Drawing.Color.White;
-            MessageTextBox.Location = new System.Drawing.Point(50, 69);
-            MessageTextBox.Multiline = true;
-            MessageTextBox.Name = "MessageTextBox";
-            MessageTextBox.ReadOnly = true;
-            MessageTextBox.Size = new System.Drawing.Size(300, 69);
-            MessageTextBox.TabIndex = 8;
-            MessageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MessageMainPnl
-            // 
-            MessageMainPnl.BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
-            MessageMainPnl.Controls.Add(MessageTextBox);
-            MessageMainPnl.Controls.Add(OkBtn);
-            MessageMainPnl.Controls.Add(CloseBtn);
-            MessageMainPnl.Location = new System.Drawing.Point(0, 0);
-            MessageMainPnl.Name = "MessageMainPnl";
-            MessageMainPnl.Size = new System.Drawing.Size(400, 200);
-            MessageMainPnl.TabIndex = 0;
+            TypePctrBx.Location = new System.Drawing.Point(10, 85);
+            TypePctrBx.Margin = new System.Windows.Forms.Padding(0);
+            TypePctrBx.Name = "TypePctrBx";
+            TypePctrBx.Size = new System.Drawing.Size(70, 70);
+            TypePctrBx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            TypePctrBx.TabIndex = 9;
+            TypePctrBx.TabStop = false;
             // 
             // MessageForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(400, 200);
-            Controls.Add(MessageMainPnl);
-            Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
+            ClientSize = new System.Drawing.Size(440, 240);
+            Controls.Add(OkBtn);
+            Controls.Add(TypePctrBx);
+            Controls.Add(CloseBtn);
+            Font = new System.Drawing.Font("Cascadia Code", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Margin = new System.Windows.Forms.Padding(4);
             Name = "MessageForm";
             ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "MessageForm";
-            MessageMainPnl.ResumeLayout(false);
-            MessageMainPnl.PerformLayout();
+            Load += MessageForm_Load;
+            ((System.ComponentModel.ISupportInitialize)TypePctrBx).EndInit();
             ResumeLayout(false);
         }
 
@@ -108,7 +99,6 @@
 
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button OkBtn;
-        private System.Windows.Forms.TextBox MessageTextBox;
-        private System.Windows.Forms.Panel MessageMainPnl;
+        private System.Windows.Forms.PictureBox TypePctrBx;
     }
 }

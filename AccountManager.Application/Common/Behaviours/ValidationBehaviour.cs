@@ -1,5 +1,4 @@
-﻿using AccountManager.Application.Common.Exceptions;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Common.Settings;
+﻿using AccountManager.Application.Common;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System;

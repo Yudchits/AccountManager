@@ -1,5 +1,5 @@
-﻿using AccountManager.Application.Common.Behaviours;
-using AccountManager.Application.Common.Settings;
+﻿using AccountManager.Application.Common;
+using AccountManager.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;

@@ -1,3 +1,4 @@
+using AccountManager.Application.Common;
 using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
@@ -58,7 +59,16 @@ namespace AccountManagerWinForm
 
         private static void HandleException(Exception exception)
         {
-            var messageForm = new MessageForm(exception.Message);
+            MessageType type = exception switch
+            {
+                BadRequestException => MessageType.WARN,
+                InternalServerException => MessageType.ERROR,
+                ConflictException => MessageType.ERROR,
+                NotFoundException => MessageType.ERROR,
+                _ => MessageType.ERROR
+            };
+
+            var messageForm = new MessageForm(exception.Message, type);
             messageForm.ShowDialog();
         }
     }

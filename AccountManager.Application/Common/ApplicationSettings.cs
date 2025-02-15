@@ -1,4 +1,4 @@
-﻿namespace AccountManager.Application.Common.Settings
+﻿namespace AccountManager.Application.Common
 {
     public class AesCryptographySettings
     {

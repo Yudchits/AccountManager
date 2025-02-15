@@ -133,9 +133,29 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Error24 {
+            get {
+                object obj = ResourceManager.GetObject("Error24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Eye24 {
             get {
                 object obj = ResourceManager.GetObject("Eye24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EyeHidden24 {
+            get {
+                object obj = ResourceManager.GetObject("EyeHidden24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -246,6 +266,16 @@ namespace AccountManagerWinForm.Properties {
         internal static System.Drawing.Bitmap Settings24 {
             get {
                 object obj = ResourceManager.GetObject("Settings24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Warn24 {
+            get {
+                object obj = ResourceManager.GetObject("Warn24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

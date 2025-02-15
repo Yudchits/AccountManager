@@ -230,7 +230,7 @@ namespace AccountManagerWinForm.Forms.Account
                     Tag = passwordValueLbl
                 };
                 passwordEyeBtn.FlatAppearance.BorderSize = 0;
-                passwordEyeBtn.Click += PasswordEyeBtn_Click; ;
+                passwordEyeBtn.Click += PasswordEyeBtn_Click;
                 passwordPnl.Controls.Add(passwordEyeBtn);
 
                 passwordValueLbl.Resize += (sender, e) =>
@@ -412,10 +412,12 @@ namespace AccountManagerWinForm.Forms.Account
                 if (!isPasswordValueLblDecrypted)
                 {
                     await SetDecryptedPasswordValueLbl(passwordValueLbl);
+                    button.Image = Resources.EyeHidden24;
                 }
                 else
                 {
                     SetEncryptedPasswordValueLbl(passwordValueLbl);
+                    button.Image = Resources.Eye24;
                 }
             }
         }

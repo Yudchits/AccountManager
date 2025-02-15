@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AccountManager.Application.Common.Exceptions
+namespace AccountManager.Application.Common
 {
     public class BadRequestException : Exception
     {
@@ -27,7 +27,6 @@ namespace AccountManager.Application.Common.Exceptions
     {
         public InternalServerException(string message) : base(message)
         {
-            
         }
     }
 }
