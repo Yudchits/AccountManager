@@ -27,8 +27,6 @@ namespace AccountManagerWinForm.Forms.Account
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
 
-        private bool isPasswordValueLblDecrypted;
-
         private bool isDragging = false;
         private int initialMouseY;
         private int maxMouseY;
@@ -404,20 +402,19 @@ namespace AccountManagerWinForm.Forms.Account
             if (button is not null)
             {
                 var passwordValueLbl = button.Tag as Label;
-                if (passwordValueLbl is null)
-                {
-                    throw new InvalidOperationException("Тэгом кнопки \"Просмотр пароля\" должен быть Label");
-                }
 
-                if (!isPasswordValueLblDecrypted)
+                if (passwordValueLbl != null)
                 {
-                    await SetDecryptedPasswordValueLbl(passwordValueLbl);
-                    button.Image = Resources.EyeHidden24;
-                }
-                else
-                {
-                    SetEncryptedPasswordValueLbl(passwordValueLbl);
-                    button.Image = Resources.Eye24;
+                    if (passwordValueLbl.Text == PASSWORD_CHAR)
+                    {
+                        await SetDecryptedPasswordValueLbl(passwordValueLbl);
+                        button.Image = Resources.EyeHidden24;
+                    }
+                    else
+                    {
+                        SetEncryptedPasswordValueLbl(passwordValueLbl);
+                        button.Image = Resources.Eye24;
+                    }
                 }
             }
         }
@@ -430,13 +427,11 @@ namespace AccountManagerWinForm.Forms.Account
             );
 
             passwordValueLbl.Text = plainText.PlainText;
-            isPasswordValueLblDecrypted = true;
         }
 
         private void SetEncryptedPasswordValueLbl(Label passwordValueLbl)
         {
             passwordValueLbl.Text = PASSWORD_CHAR;
-            isPasswordValueLblDecrypted = false;
         }
 
         private void ScrollPnl_MouseDown(object sender, MouseEventArgs e)
