@@ -1,6 +1,6 @@
-﻿namespace AccountManagerWinForm.Forms.Common
+﻿namespace AccountManagerWinForm.Forms.Resource
 {
-    partial class MessageForm
+    partial class DeleteResourceDialogForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             CloseBtn = new System.Windows.Forms.Button();
-            OkBtn = new System.Windows.Forms.Button();
-            TypePctrBx = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)TypePctrBx).BeginInit();
+            DeleteBtn = new System.Windows.Forms.Button();
+            WarningLbl = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // CloseBtn
@@ -41,64 +40,64 @@
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             CloseBtn.ForeColor = System.Drawing.Color.White;
-            CloseBtn.Location = new System.Drawing.Point(374, 0);
+            CloseBtn.Location = new System.Drawing.Point(414, 0);
             CloseBtn.Margin = new System.Windows.Forms.Padding(0);
             CloseBtn.Name = "CloseBtn";
             CloseBtn.Size = new System.Drawing.Size(66, 36);
-            CloseBtn.TabIndex = 2;
+            CloseBtn.TabIndex = 3;
             CloseBtn.Text = "X";
             CloseBtn.UseVisualStyleBackColor = true;
             CloseBtn.Click += CloseBtn_Click;
             // 
-            // OkBtn
+            // DeleteBtn
             // 
-            OkBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            OkBtn.ForeColor = System.Drawing.Color.White;
-            OkBtn.Location = new System.Drawing.Point(365, 200);
-            OkBtn.Margin = new System.Windows.Forms.Padding(0);
-            OkBtn.Name = "OkBtn";
-            OkBtn.Size = new System.Drawing.Size(70, 35);
-            OkBtn.TabIndex = 7;
-            OkBtn.Text = "Ок";
-            OkBtn.UseVisualStyleBackColor = true;
-            OkBtn.Click += OkBtn_Click;
+            DeleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            DeleteBtn.ForeColor = System.Drawing.Color.Red;
+            DeleteBtn.Image = Properties.Resources.Delete24;
+            DeleteBtn.Location = new System.Drawing.Point(333, 186);
+            DeleteBtn.Margin = new System.Windows.Forms.Padding(0);
+            DeleteBtn.Name = "DeleteBtn";
+            DeleteBtn.Size = new System.Drawing.Size(135, 42);
+            DeleteBtn.TabIndex = 8;
+            DeleteBtn.Text = "Удалить";
+            DeleteBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            DeleteBtn.UseVisualStyleBackColor = true;
+            DeleteBtn.Click += DeleteBtn_Click;
             // 
-            // TypePctrBx
+            // WarningLbl
             // 
-            TypePctrBx.Location = new System.Drawing.Point(10, 85);
-            TypePctrBx.Margin = new System.Windows.Forms.Padding(0);
-            TypePctrBx.Name = "TypePctrBx";
-            TypePctrBx.Size = new System.Drawing.Size(70, 70);
-            TypePctrBx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            TypePctrBx.TabIndex = 9;
-            TypePctrBx.TabStop = false;
+            WarningLbl.Location = new System.Drawing.Point(20, 60);
+            WarningLbl.Name = "WarningLbl";
+            WarningLbl.Size = new System.Drawing.Size(440, 120);
+            WarningLbl.TabIndex = 9;
+            WarningLbl.Text = "Вы действительно хотите удалить ресурс? Данное действие приведет к безвозвратному удаление всех данных аккаунтов, относящихся к выбранному ресурсу";
             // 
-            // MessageForm
+            // DeleteResourceDialogForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
-            ClientSize = new System.Drawing.Size(440, 240);
-            Controls.Add(OkBtn);
-            Controls.Add(TypePctrBx);
+            ClientSize = new System.Drawing.Size(480, 240);
+            Controls.Add(WarningLbl);
+            Controls.Add(DeleteBtn);
             Controls.Add(CloseBtn);
             Font = new System.Drawing.Font("Cascadia Code", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Margin = new System.Windows.Forms.Padding(4);
-            Name = "MessageForm";
+            Name = "DeleteResourceDialogForm";
             ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "MessageForm";
-            Load += MessageForm_Load;
-            ((System.ComponentModel.ISupportInitialize)TypePctrBx).EndInit();
+            Text = "DeleteResourceDialogForm";
+            TopMost = true;
+            Load += DeleteResourceDialogForm_Load;
             ResumeLayout(false);
         }
 
         #endregion
 
         private System.Windows.Forms.Button CloseBtn;
-        private System.Windows.Forms.Button OkBtn;
-        private System.Windows.Forms.PictureBox TypePctrBx;
+        private System.Windows.Forms.Button DeleteBtn;
+        private System.Windows.Forms.Label WarningLbl;
     }
 }

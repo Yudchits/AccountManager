@@ -20,16 +20,19 @@ namespace AccountManagerWinForm.Factories
         CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account);
         CreateResourceForm CreateCreateResourceForm();
         CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource);
-        MessageForm CreateMessageForm(string message, MessageType type);
+        DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId);
+        MessageDialogForm CreateMessageDialogForm(string message, MessageType type);
     }
 
     public class FormFactory : IFormFactory
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<MessageDialogForm> _mdfLogger;
 
-        public FormFactory(IMediator mediator)
+        public FormFactory(IMediator mediator, ILogger<MessageDialogForm> mdfLogger)
         {
             _mediator = mediator;
+            _mdfLogger = mdfLogger;
         }
 
         public ResourcesForm CreateResourcesForm()
@@ -67,10 +70,14 @@ namespace AccountManagerWinForm.Factories
             return new CreateResourceForm(resource, _mediator, this);
         }
 
-        public MessageForm CreateMessageForm(string message, MessageType type)
+        public DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId)
         {
-            var logger = Program.ServiceProvider?.GetRequiredService<ILogger<MessageForm>>();
-            return new MessageForm(message, type, logger);
+            return new DeleteResourceDialogForm(resourceId, _mediator);
+        }
+
+        public MessageDialogForm CreateMessageDialogForm(string message, MessageType type)
+        {
+            return new MessageDialogForm(message, type, _mdfLogger);
         }
     }
 }

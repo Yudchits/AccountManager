@@ -20,6 +20,11 @@ namespace AccountManager.Infrastructure.Repositories
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             _accountManagerPath = Path.Combine(appDataPath, "AccountManager");
 
+            if (!Directory.Exists(_accountManagerPath))
+            {
+                Directory.CreateDirectory(_accountManagerPath);
+            }
+
             _accountFilePath = Path.Combine(_accountManagerPath, "Accounts.json");
             if (!File.Exists(_accountFilePath))
             {
@@ -104,6 +109,14 @@ namespace AccountManager.Infrastructure.Repositories
             var serializedAccounts = JsonConvert.SerializeObject(accounts);
             await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
             return true;
+        }
+
+        public async Task DeleteByResourceId(int resourceId)
+        {
+            var accounts = await GetAllAsync();
+            accounts = accounts.Where(a => a.ResourceId != resourceId).ToList();
+            var serializedAccounts = JsonConvert.SerializeObject(accounts);
+            await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
         }
     }
 }

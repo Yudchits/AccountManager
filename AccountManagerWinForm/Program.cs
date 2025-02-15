@@ -4,7 +4,6 @@ using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms;
-using AccountManagerWinForm.Forms.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -77,7 +76,7 @@ namespace AccountManagerWinForm
 
             var messageForm = ServiceProvider
                 ?.GetRequiredService<IFormFactory>()
-                .CreateMessageForm(exception.Message, type);
+                .CreateMessageDialogForm(exception.Message, type);
 
             messageForm?.ShowDialog();
         }

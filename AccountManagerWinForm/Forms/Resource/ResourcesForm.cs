@@ -93,6 +93,7 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private async Task UpdateResources()
         {
+            _currentResourceIndex = 0;
             _resources = await _mediator.Send(new GetAllFullResourcesRequest());
             _resourcesToDisplay = _resources;
 
@@ -123,7 +124,7 @@ namespace AccountManagerWinForm.Forms.Resource
                 NoResourcesLbl.Visible = false;
                 CreateResBtn.Location = new Point
                 (
-                    ResourcesPnl.Left + ImagePctrBx.Left, 
+                    ResourcesPnl.Left + ImagePctrBx.Left,
                     0
                 );
             }
@@ -132,7 +133,7 @@ namespace AccountManagerWinForm.Forms.Resource
         private void UpdateUIWithCurrentResource()
         {
             var resource = _resourcesToDisplay.ElementAt(_currentResourceIndex);
-            
+
             using (var tempImage = Image.FromFile(resource.ImagePath))
             {
                 ImagePctrBx.Image?.Dispose();
@@ -207,6 +208,16 @@ namespace AccountManagerWinForm.Forms.Resource
             var currentResource = _resources.ElementAt(_currentResourceIndex);
             var updateForm = _formFactory.CreateUpdateResourceForm(currentResource);
             this.ShowWithinIndex(updateForm, "Редактирование ресурса");
+        }
+
+        private async void DeleteResBtn_Click(object sender, EventArgs e)
+        {
+            var currentResource = _resources.ElementAt(_currentResourceIndex);
+            var deleteDialogForm = _formFactory.CreateDeleteResourceDialogForm(currentResource.Id);
+            if (deleteDialogForm.ShowDialog() == DialogResult.OK)
+            {
+                await UpdateResources();
+            }
         }
     }
 }

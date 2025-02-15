@@ -119,6 +119,7 @@
             DeleteResBtn.Text = "Удалить";
             DeleteResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             DeleteResBtn.UseVisualStyleBackColor = true;
+            DeleteResBtn.Click += DeleteResBtn_Click;
             // 
             // UpdateResBtn
             // 

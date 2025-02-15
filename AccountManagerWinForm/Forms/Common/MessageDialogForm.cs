@@ -3,19 +3,30 @@ using AccountManagerWinForm.Properties;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Common
 {
-    public partial class MessageForm : Form
+    public partial class MessageDialogForm : Form
     {
         private readonly string _message;
         private readonly MessageType _type;
-        private readonly ILogger<MessageForm>? _logger;
+        private readonly ILogger<MessageDialogForm> _logger;
 
         public Label MessageLbl { get; private set; }
 
-        public MessageForm(string message, MessageType type, ILogger<MessageForm> logger)
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
+
+        public MessageDialogForm(string message, MessageType type, ILogger<MessageDialogForm> logger)
         {
             InitializeComponent();
 
@@ -44,6 +55,8 @@ namespace AccountManagerWinForm.Forms.Common
 
         private void MessageForm_Load(object sender, EventArgs e)
         {
+            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
+
             MessageLbl.Text = _message.Length > 87
                 ? string.Concat(_message.Substring(0, 87), "...")
                 : _message;
@@ -51,7 +64,7 @@ namespace AccountManagerWinForm.Forms.Common
             if (_type == MessageType.ERROR)
             {
                 TypePctrBx.Image = Resources.Error24;
-                _logger?.LogError(_message);
+                _logger.LogError(_message);
             }
             else
             {

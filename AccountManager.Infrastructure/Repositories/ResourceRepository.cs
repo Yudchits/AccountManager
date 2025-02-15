@@ -16,11 +16,19 @@ namespace AccountManager.Infrastructure.Repositories
         private readonly string _accountManagerPath;
         private readonly string _resourceFilePath;
         private readonly string _resourceImagesPath;
+        private readonly IAccountRepository _accountRepository;
 
-        public ResourceRepository()
+        public ResourceRepository(IAccountRepository accountRepository)
         {
+            _accountRepository = accountRepository;
+
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             _accountManagerPath = Path.Combine(appDataPath, "AccountManager");
+
+            if (!Directory.Exists(_accountManagerPath))
+            {
+                Directory.CreateDirectory(_accountManagerPath);
+            }
 
             _resourceFilePath = Path.Combine(_accountManagerPath, "Resources.json");
             if (!File.Exists(_resourceFilePath))
@@ -137,6 +145,8 @@ namespace AccountManager.Infrastructure.Repositories
 
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
+
+            await _accountRepository.DeleteByResourceId(entity.Id);
 
             return true;
         }
