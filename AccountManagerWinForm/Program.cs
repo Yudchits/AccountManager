@@ -7,6 +7,8 @@ using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Windows.Forms;
@@ -32,7 +34,12 @@ namespace AccountManagerWinForm
             Application.SetCompatibleTextRenderingDefault(false);
 
             var builder = Host.CreateDefaultBuilder();
-            builder.ConfigureServices(services =>
+            builder.ConfigureLogging((context, logging) =>
+            {
+                logging.ClearProviders();
+                logging.AddNLog();
+            })
+            .ConfigureServices(services =>
             {
                 services.ConfigureInfrastructure();
                 services.ConfigureApplication();
@@ -68,8 +75,11 @@ namespace AccountManagerWinForm
                 _ => MessageType.ERROR
             };
 
-            var messageForm = new MessageForm(exception.Message, type);
-            messageForm.ShowDialog();
+            var messageForm = ServiceProvider
+                ?.GetRequiredService<IFormFactory>()
+                .CreateMessageForm(exception.Message, type);
+
+            messageForm?.ShowDialog();
         }
     }
 }

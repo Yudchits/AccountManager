@@ -1,9 +1,13 @@
-﻿using AccountManager.Application.Features.Account.GetByResourceId;
+﻿using AccountManager.Application.Common;
+using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Resource.GetAllFull;
 using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
+using AccountManagerWinForm.Forms.Common;
 using AccountManagerWinForm.Forms.Resource;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AccountManagerWinForm.Factories
 {
@@ -16,6 +20,7 @@ namespace AccountManagerWinForm.Factories
         CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account);
         CreateResourceForm CreateCreateResourceForm();
         CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource);
+        MessageForm CreateMessageForm(string message, MessageType type);
     }
 
     public class FormFactory : IFormFactory
@@ -60,6 +65,12 @@ namespace AccountManagerWinForm.Factories
         public CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource)
         {
             return new CreateResourceForm(resource, _mediator, this);
+        }
+
+        public MessageForm CreateMessageForm(string message, MessageType type)
+        {
+            var logger = Program.ServiceProvider?.GetRequiredService<ILogger<MessageForm>>();
+            return new MessageForm(message, type, logger);
         }
     }
 }

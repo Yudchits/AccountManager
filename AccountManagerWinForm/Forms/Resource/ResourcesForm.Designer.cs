@@ -103,6 +103,8 @@
             // DeleteResBtn
             // 
             DeleteResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            DeleteResBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            DeleteResBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             DeleteResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             DeleteResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             DeleteResBtn.ForeColor = System.Drawing.Color.Red;
@@ -118,6 +120,7 @@
             // UpdateResBtn
             // 
             UpdateResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            UpdateResBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             UpdateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             UpdateResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             UpdateResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
@@ -134,6 +137,7 @@
             // Btn_ToAccounts
             // 
             Btn_ToAccounts.Cursor = System.Windows.Forms.Cursors.Hand;
+            Btn_ToAccounts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             Btn_ToAccounts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             Btn_ToAccounts.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);

@@ -1,5 +1,6 @@
 ﻿using AccountManager.Application.Common;
 using AccountManagerWinForm.Properties;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,10 +11,11 @@ namespace AccountManagerWinForm.Forms.Common
     {
         private readonly string _message;
         private readonly MessageType _type;
+        private readonly ILogger<MessageForm>? _logger;
 
         public Label MessageLbl { get; private set; }
 
-        public MessageForm(string message, MessageType type)
+        public MessageForm(string message, MessageType type, ILogger<MessageForm> logger)
         {
             InitializeComponent();
 
@@ -37,6 +39,7 @@ namespace AccountManagerWinForm.Forms.Common
 
             _message = message;
             _type = type;
+            _logger = logger;
         }
 
         private void MessageForm_Load(object sender, EventArgs e)
@@ -45,12 +48,15 @@ namespace AccountManagerWinForm.Forms.Common
                 ? string.Concat(_message.Substring(0, 87), "...")
                 : _message;
 
-            TypePctrBx.Image = _type switch
+            if (_type == MessageType.ERROR)
             {
-                MessageType.WARN => Resources.Warn24,
-                MessageType.ERROR => Resources.Error24,
-                _ => Resources.Error24
-            };
+                TypePctrBx.Image = Resources.Error24;
+                _logger?.LogError(_message);
+            }
+            else
+            {
+                TypePctrBx.Image = Resources.Warn24;
+            }
         }
 
         private void CloseBtn_Click(object sender, EventArgs e) => Close();
