@@ -1,4 +1,5 @@
-﻿using AccountManager.Application.Repositories;
+﻿using AccountManager.Application.Common;
+using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
 using Newtonsoft.Json;
 using System;
@@ -69,14 +70,15 @@ namespace AccountManager.Infrastructure.Repositories
             await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
         }
 
-        public async Task<bool> UpdateAsync(Account entity)
+        public async Task UpdateAsync(Account entity)
         {
             var accounts = await GetAllAsync();
 
-            var account = accounts.FirstOrDefault(a => a.Id == entity.Id);
+            int accountId = entity.Id;
+            var account = accounts.FirstOrDefault(a => a.Id == accountId);
             if (account == null)
             {
-                return false;
+                throw new NotFoundException($"Аккаунт id={accountId} не существует");
             }
 
             account.ResourceId = entity.ResourceId;
@@ -86,29 +88,27 @@ namespace AccountManager.Infrastructure.Repositories
 
             var serializedAccounts = JsonConvert.SerializeObject(accounts);
             await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
-
-            return true;
         }
 
-        public async Task<bool> DeleteAsync(Account entity)
+        public async Task DeleteAsync(Account entity)
         {
             var accounts = await GetAllAsync();
-            
-            var account = accounts.FirstOrDefault(a => a.Id == entity.Id);
+
+            int accountId = entity.Id;
+            var account = accounts.FirstOrDefault(a => a.Id == accountId);
             if (account == null)
             {
-                return false;
+                throw new NotFoundException($"Аккаунт id={accountId} не существует");
             }
 
             var isDeleted = accounts.Remove(account);
             if (!isDeleted)
             {
-                return false;
+                throw new InternalServerException($"Не удалось удалить аккаунт id={accountId}");
             }
 
             var serializedAccounts = JsonConvert.SerializeObject(accounts);
             await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
-            return true;
         }
 
         public async Task DeleteByResourceId(int resourceId)

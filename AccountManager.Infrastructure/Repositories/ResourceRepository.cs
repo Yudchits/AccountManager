@@ -55,6 +55,14 @@ namespace AccountManager.Infrastructure.Repositories
             return deserializedResources;
         }
 
+        public async Task<ICollection<Resource>> GetAllDescAsync()
+        {
+            return await GetAllAsync()
+                .ContinueWith(result => result.Result
+                                                .OrderByDescending(r => r.Id)
+                                                .ToList());
+        }
+
         public async Task<Resource> GetByIdAsync(int id)
         {
             var resources = await GetAllAsync();
@@ -94,14 +102,15 @@ namespace AccountManager.Infrastructure.Repositories
             return Path.Combine(_resourceImagesPath, fileName);
         }
 
-        public async Task<bool> UpdateAsync(Resource newResource)
+        public async Task UpdateAsync(Resource newResource)
         {
             var resources = await GetAllAsync();
-            
-            var currentResource = resources.FirstOrDefault(r => r.Id == newResource.Id);
+
+            int newResourceId = newResource.Id;
+            var currentResource = resources.FirstOrDefault(r => r.Id == newResourceId);
             if (currentResource == null)
             {
-                return false;
+                throw new NotFoundException($"Ресурс id={newResourceId} не существует");
             }
 
             currentResource.Name = currentResource.Name;
@@ -117,24 +126,23 @@ namespace AccountManager.Infrastructure.Repositories
 
             var serializedResources = JsonConvert.SerializeObject(resources);
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
-
-            return true;
         }
 
-        public async Task<bool> DeleteAsync(Resource entity)
+        public async Task DeleteAsync(Resource entity)
         {
             var resources = await GetAllAsync();
 
-            var resource = resources.FirstOrDefault(r => r.Id == entity.Id);
+            int resourceId = entity.Id;
+            var resource = resources.FirstOrDefault(r => r.Id == resourceId);
             if (resource == null)
             {
-                return false;
+                throw new NotFoundException($"Ресурс id={resourceId} не существует");
             }
 
             var isDeleted = resources.Remove(resource);
             if (!isDeleted)
             {
-                return false;
+                throw new InternalServerException($"Не удалось удалить ресурс id={resourceId}");
             }
 
             var imagePath = entity.ImagePath;
@@ -147,8 +155,6 @@ namespace AccountManager.Infrastructure.Repositories
             await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
 
             await _accountRepository.DeleteByResourceId(entity.Id);
-
-            return true;
         }
     }
 }

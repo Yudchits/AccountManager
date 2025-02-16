@@ -14,14 +14,17 @@ namespace AccountManagerWinForm.Factories
     public interface IFormFactory
     {
         IndexForm CreateIndexForm();
-        ResourcesForm CreateResourcesForm();
+        MessageDialogForm CreateMessageDialogForm(string message, MessageType type);
+
         AccountsForm CreateAccountsForm(int resourceId);
         CreateAccountForm CreateCreateAccountForm(int resourceId);
         CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account);
+        DeleteAccountDialogForm CreateDeleteAccountDialogForm(int accountId);
+
+        ResourcesForm CreateResourcesForm();
         CreateResourceForm CreateCreateResourceForm();
         CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource);
         DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId);
-        MessageDialogForm CreateMessageDialogForm(string message, MessageType type);
     }
 
     public class FormFactory : IFormFactory
@@ -58,6 +61,11 @@ namespace AccountManagerWinForm.Factories
         public CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account)
         {
             return new CreateAccountForm(account, _mediator, this);
+        }
+
+        public DeleteAccountDialogForm CreateDeleteAccountDialogForm(int accountId)
+        {
+            return new DeleteAccountDialogForm(accountId, _mediator);
         }
 
         public CreateResourceForm CreateCreateResourceForm()

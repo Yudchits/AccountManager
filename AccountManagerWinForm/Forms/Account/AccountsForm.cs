@@ -50,16 +50,16 @@ namespace AccountManagerWinForm.Forms.Account
         {
             ScrollPnl.BringToFront();
             CreateAccBtn.SendToBack();
+            await InitAccounts();
+        }
 
-            if (ActiveForm is IndexForm indexForm)
-            {
-                indexForm.ActiveFormNameLbl.Text = "Аккаунты";
-            }
-
+        private async Task InitAccounts()
+        {
             _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(_resourceId));
 
             if (_accounts.Count == 0)
             {
+                AccsFLPnl.Controls.Clear();
                 var noAccountsLbl = new Label
                 {
                     AutoSize = true,
@@ -124,6 +124,19 @@ namespace AccountManagerWinForm.Forms.Account
                 updateBtn.FlatAppearance.BorderSize = 0;
                 updateBtn.Click += UpdateBtn_Click;
                 accountPnl.Controls.Add(updateBtn);
+
+                var deleteBtn = new Button
+                {
+                    Parent = accountPnl,
+                    FlatStyle = FlatStyle.Flat,
+                    Location = new Point(updateBtn.Right, nameLbl.Top),
+                    Image = Resources.Delete16,
+                    Size = new Size(btnWidth, nameLbl.Height),
+                    Tag = account.Id
+                };
+                deleteBtn.Click += DeleteBtn_Click;
+                deleteBtn.FlatAppearance.BorderSize = 0;
+                accountPnl.Controls.Add(deleteBtn);
 
                 var loginPnl = new Panel
                 {
@@ -372,6 +385,24 @@ namespace AccountManagerWinForm.Forms.Account
             var updateForm = _formFactory.CreateUpdateAccountForm(account);
             this.ShowWithinIndex(updateForm, "Редактирование аккаунта");
         }
+
+        private async void DeleteBtn_Click(object? sender, EventArgs e)
+        {
+            if (sender == null)
+            {
+                return;
+            }
+
+            var deleteBtn = sender as Button;
+            int accountId = int.Parse(deleteBtn.Tag.ToString());
+
+            var deleteDialogForm = _formFactory.CreateDeleteAccountDialogForm(accountId);
+            if (deleteDialogForm.ShowDialog() == DialogResult.OK)
+            {
+                await InitAccounts();
+            }
+        }
+
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
         {
             if (sender is not null)

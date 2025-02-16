@@ -1,5 +1,4 @@
-﻿using AccountManager.Application.Common;
-using AccountManager.Application.Repositories;
+﻿using AccountManager.Application.Repositories;
 using AutoMapper;
 using MediatR;
 using System.Threading;
@@ -21,13 +20,7 @@ namespace AccountManager.Application.Features.Resource.Update
         public async Task<UpdateResourceResponse> Handle(UpdateResourceRequest request, CancellationToken cancellationToken)
         {
             var resourceDb = _mapper.Map<Domain.Entities.Resource>(request);
-
-            var isUpdated = await _repository.UpdateAsync(resourceDb);
-            if (!isUpdated)
-            {
-                throw new InternalServerException("Не удалось обновить данные ресурса");
-            }
-
+            await _repository.UpdateAsync(resourceDb);
             return new UpdateResourceResponse();
         }
     }
