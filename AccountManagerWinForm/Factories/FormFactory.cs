@@ -3,16 +3,17 @@ using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Resource.GetAllDesc;
 using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
+using AccountManagerWinForm.Forms.Auth;
 using AccountManagerWinForm.Forms.Common;
 using AccountManagerWinForm.Forms.Resource;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace AccountManagerWinForm.Factories
 {
     public interface IFormFactory
     {
+        AuthForm CreateAuthForm();
         IndexForm CreateIndexForm();
         MessageDialogForm CreateMessageDialogForm(string message, MessageType type);
 
@@ -38,14 +39,19 @@ namespace AccountManagerWinForm.Factories
             _mdfLogger = mdfLogger;
         }
 
-        public ResourcesForm CreateResourcesForm()
+        public AuthForm CreateAuthForm()
         {
-            return new ResourcesForm(_mediator, this);
+            return new AuthForm(_mediator);
         }
 
         public IndexForm CreateIndexForm()
         {
             return new IndexForm(this);
+        }
+
+        public MessageDialogForm CreateMessageDialogForm(string message, MessageType type)
+        {
+            return new MessageDialogForm(message, type, _mdfLogger);
         }
 
         public AccountsForm CreateAccountsForm(int resourceId)
@@ -68,6 +74,11 @@ namespace AccountManagerWinForm.Factories
             return new DeleteAccountDialogForm(accountId, _mediator);
         }
 
+        public ResourcesForm CreateResourcesForm()
+        {
+            return new ResourcesForm(_mediator, this);
+        }
+
         public CreateResourceForm CreateCreateResourceForm()
         {
             return new CreateResourceForm(_mediator, this);
@@ -81,11 +92,6 @@ namespace AccountManagerWinForm.Factories
         public DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId)
         {
             return new DeleteResourceDialogForm(resourceId, _mediator);
-        }
-
-        public MessageDialogForm CreateMessageDialogForm(string message, MessageType type)
-        {
-            return new MessageDialogForm(message, type, _mdfLogger);
         }
     }
 }

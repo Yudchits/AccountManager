@@ -12,9 +12,10 @@ namespace AccountManagerWinForm.Forms.Common.Elements
 
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
+        private Color backColor = Color.FromArgb(46, 51, 73);
         private Font font = new Font("Cascadia Code", 12f);
 
-        public event EventHandler<string> TextChanged;
+        public new event EventHandler<string> TextChanged;
 
         public string Label
         {
@@ -31,10 +32,11 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         public override Color ForeColor
         {
             get { return foreColor; }
-            set 
-            { 
-                foreColor = value; 
-                base.ForeColor = value; 
+            set
+            {
+                foreColor = value;
+                label.ForeColor = value;
+                panel.BackColor = value;
             }
         }
 
@@ -50,17 +52,30 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             set { textBox.PasswordChar = value; }
         }
 
-        public override Font Font { 
-            get 
-            { 
-                return font; 
-            } 
-            set 
+        public override Font Font {
+            get
+            {
+                return font;
+            }
+            set
             {
                 font = value;
                 label.Font = value;
                 textBox.Font = value;
-            } 
+            }
+        }
+
+        public override Color BackColor
+        {
+            get
+            {
+                return backColor;
+            }
+            set
+            {
+                backColor = value;
+                textBox.BackColor = value;
+            }
         }
 
         public MatTextBox()
@@ -93,7 +108,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             {
                 Width = Width,
                 Height = 3,
-                BackColor = Color.FromArgb(158, 161, 176),
+                BackColor = foreColor,
                 Margin = new Padding(0),
             };
             Controls.Add(panel);
@@ -147,11 +162,14 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.MinimumSize = new Size(0, label.Height);
             textBox.Multiline = false;
             textBox.Font = Font;
+            textBox.BackColor = BackColor;
             panel.Width = Width;
             
             label.Location = new Point(label.Left, label.Height);
             textBox.Location = new Point(textBox.Left, label.Height);
             panel.Location = new Point(panel.Left, textBox.Bottom);
+            label.ForeColor = foreColor;
+            panel.BackColor = foreColor;
             Height = label.Height + textBox.Height + panel.Height;
         }
     }

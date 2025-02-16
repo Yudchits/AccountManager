@@ -25,7 +25,7 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly IFormFactory _formFactory;
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
-        private ICollection<GetAccountsByResourceIdResponse> _accounts = new List<GetAccountsByResourceIdResponse>();
+        private ICollection<GetAccountsByResourceIdResponse> _accounts;
 
         private bool isDragging = false;
         private int initialMouseY;
@@ -42,7 +42,9 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
-            
+
+            _accounts = new List<GetAccountsByResourceIdResponse>();
+
             maxMouseY = Height - ScrollPnl.Height;
         }
 

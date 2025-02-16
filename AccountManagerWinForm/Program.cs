@@ -49,7 +49,9 @@ namespace AccountManagerWinForm
             ServiceProvider = host.Services;
 
             IndexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
-            Application.Run(IndexForm);
+            
+            var authForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateAuthForm();
+            Application.Run(authForm);
         }
 
         private static void HandleUnhandledExceptions(object sender, UnhandledExceptionEventArgs e)
