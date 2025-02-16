@@ -23,6 +23,7 @@ namespace AccountManagerWinForm.Extensions
                 throw new InvalidOperationException("Не удалось найти IndexForm");
             }
 
+            indexForm.SearchPnl.Controls.Clear();
             indexForm.BodyPnl.Controls.Clear();
             indexForm.ActiveFormNameLbl.Text = activeLbl;
 

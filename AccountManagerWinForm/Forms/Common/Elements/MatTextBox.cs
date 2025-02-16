@@ -9,9 +9,12 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         private readonly Label label;
         private readonly TextBox textBox;
         private readonly Panel panel;
-        
+
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
+        private Font font = new Font("Cascadia Code", 12f);
+
+        public event EventHandler<string> TextChanged;
 
         public string Label
         {
@@ -45,6 +48,19 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         {
             get { return textBox.PasswordChar; }
             set { textBox.PasswordChar = value; }
+        }
+
+        public override Font Font { 
+            get 
+            { 
+                return font; 
+            } 
+            set 
+            {
+                font = value;
+                label.Font = value;
+                textBox.Font = value;
+            } 
         }
 
         public MatTextBox()
@@ -95,6 +111,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
 
         private void TextBox_TextChanged(object? sender, EventArgs e)
         {
+            TextChanged?.Invoke(this, textBox.Text);
             CheckLabelLocation();
         }
 
@@ -129,7 +146,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.Multiline = true;
             textBox.MinimumSize = new Size(0, label.Height);
             textBox.Multiline = false;
-            textBox.Font = new Font("Cascadia Code", 12f);
+            textBox.Font = Font;
             panel.Width = Width;
             
             label.Location = new Point(label.Left, label.Height);

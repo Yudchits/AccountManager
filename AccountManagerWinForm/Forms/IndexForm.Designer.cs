@@ -40,6 +40,7 @@
             CloseBtn = new System.Windows.Forms.Button();
             HeaderPnl = new System.Windows.Forms.Panel();
             ActiveFormNameLbl = new System.Windows.Forms.Label();
+            SearchPnl = new System.Windows.Forms.Panel();
             BodyPnl = new System.Windows.Forms.Panel();
             DashboardMainPnl.SuspendLayout();
             DashboardTopPnl.SuspendLayout();
@@ -130,7 +131,6 @@
             // 
             // DashboardNameLabel
             // 
-            DashboardNameLabel.AutoSize = true;
             DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             DashboardNameLabel.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             DashboardNameLabel.Location = new System.Drawing.Point(10, 73);
@@ -166,6 +166,7 @@
             // 
             HeaderPnl.Controls.Add(ActiveFormNameLbl);
             HeaderPnl.Controls.Add(CloseBtn);
+            HeaderPnl.Controls.Add(SearchPnl);
             HeaderPnl.Dock = System.Windows.Forms.DockStyle.Top;
             HeaderPnl.Location = new System.Drawing.Point(200, 0);
             HeaderPnl.Name = "HeaderPnl";
@@ -177,11 +178,18 @@
             ActiveFormNameLbl.AutoSize = true;
             ActiveFormNameLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ActiveFormNameLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
-            ActiveFormNameLbl.Location = new System.Drawing.Point(25, 25);
+            ActiveFormNameLbl.Location = new System.Drawing.Point(30, 36);
             ActiveFormNameLbl.Name = "ActiveFormNameLbl";
             ActiveFormNameLbl.Size = new System.Drawing.Size(104, 30);
             ActiveFormNameLbl.TabIndex = 2;
             ActiveFormNameLbl.Text = "Главная";
+            // 
+            // SearchPnl
+            // 
+            SearchPnl.Location = new System.Drawing.Point(473, 10);
+            SearchPnl.Name = "SearchPnl";
+            SearchPnl.Size = new System.Drawing.Size(300, 75);
+            SearchPnl.TabIndex = 3;
             // 
             // BodyPnl
             // 
@@ -210,7 +218,6 @@
             Text = "AccountManager";
             DashboardMainPnl.ResumeLayout(false);
             DashboardTopPnl.ResumeLayout(false);
-            DashboardTopPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DashboardLogoPicture).EndInit();
             HeaderPnl.ResumeLayout(false);
             HeaderPnl.PerformLayout();
@@ -228,8 +235,9 @@
         private System.Windows.Forms.Panel ActivePnl;
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button Btn_ToResources;
-        private System.Windows.Forms.Panel HeaderPnl;
         public System.Windows.Forms.Label ActiveFormNameLbl;
         public System.Windows.Forms.Panel BodyPnl;
+        private System.Windows.Forms.Panel HeaderPnl;
+        public System.Windows.Forms.Panel SearchPnl;
     }
 }

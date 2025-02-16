@@ -1,5 +1,5 @@
 ﻿using AccountManager.Application.Features.Resource.Create;
-using AccountManager.Application.Features.Resource.GetAllFull;
+using AccountManager.Application.Features.Resource.GetAllDesc;
 using AccountManager.Application.Features.Resource.Update;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
@@ -34,7 +34,7 @@ namespace AccountManagerWinForm.Forms.Resource
             _formFactory = formFactory;
         }
 
-        public CreateResourceForm(GetAllFullResourcesResponse resource, IMediator mediator, IFormFactory formFactory) : this(mediator, formFactory)
+        public CreateResourceForm(GetAllDescResourcesResponse resource, IMediator mediator, IFormFactory formFactory) : this(mediator, formFactory)
         {
             _resourceId = resource.Id;
             nameTxtBx.Text = resource.Name;

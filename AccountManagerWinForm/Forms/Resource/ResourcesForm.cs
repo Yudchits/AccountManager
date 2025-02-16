@@ -1,6 +1,7 @@
-﻿using AccountManager.Application.Features.Resource.GetAllFull;
+﻿using AccountManager.Application.Features.Resource.GetAllDesc;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
+using AccountManagerWinForm.Forms.Common.Elements;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ namespace AccountManagerWinForm.Forms.Resource
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
 
-        private ICollection<GetAllFullResourcesResponse> _resources;
-        private ICollection<GetAllFullResourcesResponse> _resourcesToDisplay;
+        private ICollection<GetAllDescResourcesResponse> _resources;
+        private ICollection<GetAllDescResourcesResponse> _resourcesToDisplay;
         private int _currentResourceIndex;
 
         public ResourcesForm(IMediator mediator, IFormFactory formFactory)
@@ -27,7 +28,7 @@ namespace AccountManagerWinForm.Forms.Resource
             _mediator = mediator;
             _formFactory = formFactory;
 
-            _resources = new List<GetAllFullResourcesResponse>();
+            _resources = new List<GetAllDescResourcesResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceIndex = 0;
         }
@@ -38,6 +39,7 @@ namespace AccountManagerWinForm.Forms.Resource
             InitializeNoResourcesLbl();
             InitializeHoverPnl();
             InitializeHoverPnlBtns();
+            InitializeSearchMatTxtBx();
             await UpdateResources();
         }
 
@@ -91,12 +93,41 @@ namespace AccountManagerWinForm.Forms.Resource
             NoResourcesLbl.Location = new Point(CreateResBtn.Left, CreateResBtn.Bottom + 10);
         }
 
-        private async Task UpdateResources()
+        private void InitializeSearchMatTxtBx()
+        {
+            var font = new Font("Cascadia Code", 12f);
+
+            var searchPnl = Program.IndexForm?.SearchPnl;
+            
+            if (searchPnl != null)
+            {
+                var searchTxtBx = new MatTextBox
+                {
+                    Label = "Поиск",
+                    Font = font,
+                    Location = new Point(0, 0),
+                    Width = searchPnl.Width
+                };
+                searchTxtBx.TextChanged += SearchTxtBx_TextChanged;
+                searchPnl.Controls.Add(searchTxtBx);
+            }
+        }
+
+        private void SearchTxtBx_TextChanged(object? sender, string newText)
         {
             _currentResourceIndex = 0;
-            _resources = await _mediator.Send(new GetAllFullResourcesRequest());
-            _resourcesToDisplay = _resources;
 
+            newText = newText.Trim().ToLower();
+
+            _resourcesToDisplay = _resources
+                .Where(r => r.Name.ToLower().Contains(newText))
+                .ToList();
+
+            DisplayResources();
+        }
+
+        private void DisplayResources()
+        {
             if (_resourcesToDisplay.Any())
             {
                 CheckVisibleControls(noResources: false);
@@ -108,15 +139,26 @@ namespace AccountManagerWinForm.Forms.Resource
             }
         }
 
+        private async Task UpdateResources()
+        {
+            _currentResourceIndex = 0;
+            _resources = await _mediator.Send(new GetAllDescResourcesRequest());
+            _resourcesToDisplay = _resources;
+
+            DisplayResources();
+        }
+
         private void CheckVisibleControls(bool noResources)
         {
             if (noResources)
             {
-                NoResourcesLbl.Visible = true;
-                ResourcesPnl.Visible = false;
                 int x = 25;
-                CreateResBtn.Location = new Point(x, 0);
+
                 NoResourcesLbl.Location = new Point(x, CreateResBtn.Bottom + 15);
+                NoResourcesLbl.Visible = true;
+
+                ResourcesPnl.Visible = false;
+                CreateResBtn.Location = new Point(25, 0);
             }
             else
             {
@@ -188,7 +230,8 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void UpdateUIWithAccountsForm()
         {
-            var accountsForm = _formFactory.CreateAccountsForm(_currentResourceIndex + 1);
+            var resourceId = _resourcesToDisplay.ElementAt(_currentResourceIndex).Id;
+            var accountsForm = _formFactory.CreateAccountsForm(resourceId);
             this.ShowWithinIndex(accountsForm, "Аккаунты");
         }
 

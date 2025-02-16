@@ -1,6 +1,6 @@
 ﻿using AccountManager.Application.Common;
 using AccountManager.Application.Features.Account.GetByResourceId;
-using AccountManager.Application.Features.Resource.GetAllFull;
+using AccountManager.Application.Features.Resource.GetAllDesc;
 using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Common;
@@ -23,7 +23,7 @@ namespace AccountManagerWinForm.Factories
 
         ResourcesForm CreateResourcesForm();
         CreateResourceForm CreateCreateResourceForm();
-        CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource);
+        CreateResourceForm CreateUpdateResourceForm(GetAllDescResourcesResponse resource);
         DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId);
     }
 
@@ -73,7 +73,7 @@ namespace AccountManagerWinForm.Factories
             return new CreateResourceForm(_mediator, this);
         }
 
-        public CreateResourceForm CreateUpdateResourceForm(GetAllFullResourcesResponse resource)
+        public CreateResourceForm CreateUpdateResourceForm(GetAllDescResourcesResponse resource)
         {
             return new CreateResourceForm(resource, _mediator, this);
         }
