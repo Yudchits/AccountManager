@@ -10,6 +10,7 @@ namespace AccountManager.Infrastructure.Extensions
         {
             services.AddTransient<IResourceRepository, ResourceRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿using MediatR;
+﻿using AccountManager.Application.Features.Auth.Registration;
+using AccountManagerWinForm.Factories;
+using MediatR;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountManagerWinForm.Forms.Auth
@@ -9,7 +12,7 @@ namespace AccountManagerWinForm.Forms.Auth
     public partial class AuthForm : Form
     {
         private readonly IMediator _mediator;
-
+        private readonly IFormFactory _formFactory;
         private bool isLogin = true;
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -22,11 +25,12 @@ namespace AccountManagerWinForm.Forms.Auth
             int nHeightEllipse
         );
 
-        public AuthForm(IMediator mediator)
+        public AuthForm(IMediator mediator, IFormFactory formFactory)
         {
             InitializeComponent();
 
             _mediator = mediator;
+            _formFactory = formFactory;
         }
 
         private void AuthForm_Load(object sender, EventArgs e)
@@ -35,6 +39,7 @@ namespace AccountManagerWinForm.Forms.Auth
             LoginTxtBx.BackColor = Color.FromArgb(24, 30, 54);
             PasswordTxtBx.BackColor = Color.FromArgb(24, 30, 54);
             AuthHavingLinkLbl.Font = new Font(AuthHavingLbl.Font, FontStyle.Underline);
+            AuthHeaderLbl.Font = new Font(AuthHeaderLbl.Font, FontStyle.Underline);
             LocateAuthHavingLbls();
         }
 
@@ -48,14 +53,42 @@ namespace AccountManagerWinForm.Forms.Auth
             ActiveControl = null;
         }
 
-        private void AuthBtn_Click(object sender, EventArgs e)
+        private async void AuthBtn_ClickAsync(object sender, EventArgs e)
         {
+            Program.UserId = isLogin
+                ? await LoginAsync() 
+                : await RegistrationAsync();
 
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private async Task<int> LoginAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<int> RegistrationAsync()
+        {
+            var registrationResponse = await _mediator.Send
+            (
+                new AuthRegistrationRequest
+                (
+                    LoginTxtBx.Text, 
+                    PasswordTxtBx.Text
+                )
+            );
+
+            return registrationResponse.Id;
         }
 
         private void AuthHavingLinkLbl_Click(object sender, EventArgs e)
         {
             isLogin = !isLogin;
+            LoginTxtBx.Text = string.Empty;
+            PasswordTxtBx.Text = string.Empty;
+            ActiveControl = null;
+
             if (isLogin)
             {
                 DisplayLogin();

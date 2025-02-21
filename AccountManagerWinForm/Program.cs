@@ -18,6 +18,7 @@ namespace AccountManagerWinForm
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
         public static IndexForm? IndexForm { get; private set; }
+        public static int? UserId { get; set; }
 
         [STAThread]
         static void Main()
@@ -51,7 +52,14 @@ namespace AccountManagerWinForm
             IndexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
             
             var authForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateAuthForm();
-            Application.Run(authForm);
+            if (authForm.ShowDialog() == DialogResult.OK)
+            {
+                Application.Run(IndexForm);
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         private static void HandleUnhandledExceptions(object sender, UnhandledExceptionEventArgs e)

@@ -41,7 +41,7 @@ namespace AccountManagerWinForm.Factories
 
         public AuthForm CreateAuthForm()
         {
-            return new AuthForm(_mediator);
+            return new AuthForm(_mediator, this);
         }
 
         public IndexForm CreateIndexForm()

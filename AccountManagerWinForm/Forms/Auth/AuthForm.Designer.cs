@@ -115,7 +115,7 @@
             AuthBtn.TabIndex = 3;
             AuthBtn.Text = "Войти";
             AuthBtn.UseVisualStyleBackColor = true;
-            AuthBtn.Click += AuthBtn_Click;
+            AuthBtn.Click += AuthBtn_ClickAsync;
             // 
             // AuthLbl
             // 

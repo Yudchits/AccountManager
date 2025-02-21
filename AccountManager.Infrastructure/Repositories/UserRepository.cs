@@ -56,16 +56,26 @@ namespace AccountManager.Infrastructure.Repositories
             return user;
         }
 
-        public async Task CreateAsync(User entity)
+        public async Task<int> CreateAsync(User entity)
         {
             var all = await GetAllAsync();
 
+            var login = entity.Login;
+            var userByLogin = all.FirstOrDefault(u => u.Login == login);
+            if (userByLogin != null)
+            {
+                throw new ConflictException($"Пользователь login={login} уже существует");
+            }
+
             var lastUser = all.LastOrDefault();
-            entity.Id = lastUser == null ? 1 : lastUser.Id + 1;
+            int id = lastUser == null ? 1 : lastUser.Id + 1;
+            entity.Id = id;
 
             all.Add(entity);
             var deserializedAll = JsonConvert.SerializeObject(all);
             await File.WriteAllTextAsync(_userFilePath, deserializedAll, Encoding.UTF8);
+
+            return id;
         }
 
         public async Task UpdateAsync(User newUser)

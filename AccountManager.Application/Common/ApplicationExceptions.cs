@@ -29,4 +29,15 @@ namespace AccountManager.Application.Common
         {
         }
     }
+
+    public class AuthorizeException : Exception
+    {
+        public AuthorizeException() : base("Пользователь не авторизован")
+        {
+        }
+
+        public AuthorizeException(string message) : base(message)
+        {
+        }
+    }
 }

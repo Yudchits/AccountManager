@@ -1,12 +1,16 @@
-﻿using AccountManager.Application.Repositories.Common;
-using AccountManager.Domain.Entities;
+﻿using AccountManager.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AccountManager.Application.Repositories
 {
-    public interface IResourceRepository : IBaseRepository<Resource>
+    public interface IResourceRepository
     {
+        Task CreateAsync(Resource entity);
+        Task UpdateAsync(Resource entity);
+        Task DeleteAsync(Resource entity);
+        Task<Resource> GetByIdAsync(int id);
+        Task<ICollection<Resource>> GetAllAsync();
         Task<ICollection<Resource>> GetAllDescAsync();
     }
 }
