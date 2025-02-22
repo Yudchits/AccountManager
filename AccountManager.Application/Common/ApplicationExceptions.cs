@@ -48,4 +48,12 @@ namespace AccountManager.Application.Common
         {
         }
     }
+
+    public class AuthorizeException : ApplicationExceptionBase
+    {
+        public AuthorizeException(string propertyName, string message)
+            : base(propertyName, message)
+        {
+        }
+    }
 }

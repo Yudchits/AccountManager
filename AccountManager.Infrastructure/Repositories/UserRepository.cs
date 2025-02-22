@@ -1,5 +1,6 @@
 ﻿using AccountManager.Application.Common;
 using AccountManager.Application.Features.Account.Create;
+using AccountManager.Application.Features.Auth.Login;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
 using Newtonsoft.Json;
@@ -57,6 +58,18 @@ namespace AccountManager.Infrastructure.Repositories
             return user;
         }
 
+        public async Task<User> GetByLoginAsync(string login)
+        {
+            var all = await GetAllAsync();
+            var user = all.FirstOrDefault(u => u.Login == login);
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(User.Login), $"Пользователь не существует");
+            }
+
+            return user;
+        }
+
         public async Task<int> CreateAsync(User entity)
         {
             var all = await GetAllAsync();
@@ -65,7 +78,7 @@ namespace AccountManager.Infrastructure.Repositories
             var userByLogin = all.FirstOrDefault(u => u.Login == login);
             if (userByLogin != null)
             {
-                throw new ConflictException(nameof(CreateAccountRequest.Login), "Пользователь уже существует");
+                throw new ConflictException(nameof(User.Login), "Пользователь уже существует");
             }
 
             var lastUser = all.LastOrDefault();

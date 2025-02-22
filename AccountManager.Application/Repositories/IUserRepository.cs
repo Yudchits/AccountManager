@@ -10,6 +10,7 @@ namespace AccountManager.Application.Repositories
         Task UpdateAsync(User entity);
         Task DeleteAsync(User entity);
         Task<User> GetByIdAsync(int id);
+        Task<User> GetByLoginAsync(string login);
         Task<ICollection<User>> GetAllAsync();
     }
 }

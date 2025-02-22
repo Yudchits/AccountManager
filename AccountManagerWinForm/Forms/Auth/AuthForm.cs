@@ -1,5 +1,7 @@
 ﻿using AccountManager.Application.Common;
+using AccountManager.Application.Features.Auth.Login;
 using AccountManager.Application.Features.Auth.Registration;
+using AccountManager.Domain.Entities;
 using AccountManagerWinForm.Forms.Common.Elements;
 using MediatR;
 using System;
@@ -36,8 +38,8 @@ namespace AccountManagerWinForm.Forms.Auth
 
             _validationMappings = new Dictionary<string, MatTextBox>
             {
-                { nameof(AuthRegistrationRequest.Login), LoginTxtBx },
-                { nameof(AuthRegistrationRequest.Password), PasswordTxtBx }
+                { nameof(User.Login), LoginTxtBx },
+                { nameof(User.Password), PasswordTxtBx }
             };
         }
 
@@ -75,9 +77,33 @@ namespace AccountManagerWinForm.Forms.Auth
             }
         }
 
-        private async Task<int> LoginAsync()
+        private async Task<int?> LoginAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var loginResponse = await _mediator.Send
+                (
+                    new AuthLoginRequest
+                    (
+                        LoginTxtBx.Text,
+                        PasswordTxtBx.Text
+                    )
+                );
+
+                return loginResponse.Id;
+            }
+            catch (ApplicationExceptionBase ex)
+            {
+                _validationMappings.TryGetValue(ex.PropertyName, out var txtBx);
+                if (txtBx == null)
+                {
+                    throw;
+                }
+
+                txtBx.Error = ex.Message;
+            }
+
+            return null;
         }
 
         private async Task<int?> RegistrationAsync()
