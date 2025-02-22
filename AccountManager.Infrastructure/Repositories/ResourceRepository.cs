@@ -93,7 +93,7 @@ namespace AccountManager.Infrastructure.Repositories
             var fileFormatStart = filePath.LastIndexOf('.');
             if (fileFormatStart == -1)
             {
-                throw new BadRequestException($"Невозможно конвертировать путь '{filePath}'");
+                throw new InternalServerException($"Невозможно конвертировать путь '{filePath}'");
             }
 
             var fileFormat = filePath.Substring(fileFormatStart);

@@ -1,7 +1,9 @@
-﻿using AccountManager.Application.Features.Auth.Registration;
-using AccountManagerWinForm.Factories;
+﻿using AccountManager.Application.Common;
+using AccountManager.Application.Features.Auth.Registration;
+using AccountManagerWinForm.Forms.Common.Elements;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -11,8 +13,9 @@ namespace AccountManagerWinForm.Forms.Auth
 {
     public partial class AuthForm : Form
     {
+        private readonly IDictionary<string, MatTextBox> _validationMappings;
+
         private readonly IMediator _mediator;
-        private readonly IFormFactory _formFactory;
         private bool isLogin = true;
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -25,12 +28,17 @@ namespace AccountManagerWinForm.Forms.Auth
             int nHeightEllipse
         );
 
-        public AuthForm(IMediator mediator, IFormFactory formFactory)
+        public AuthForm(IMediator mediator)
         {
             InitializeComponent();
 
             _mediator = mediator;
-            _formFactory = formFactory;
+
+            _validationMappings = new Dictionary<string, MatTextBox>
+            {
+                { nameof(AuthRegistrationRequest.Login), LoginTxtBx },
+                { nameof(AuthRegistrationRequest.Password), PasswordTxtBx }
+            };
         }
 
         private void AuthForm_Load(object sender, EventArgs e)
@@ -87,9 +95,15 @@ namespace AccountManagerWinForm.Forms.Auth
 
                 return registrationResponse.Id;
             }
-            catch (Exception ex)
+            catch (ApplicationExceptionBase ex)
             {
-                LoginTxtBx.Error = ex.Message; 
+                _validationMappings.TryGetValue(ex.PropertyName, out var txtBx);
+                if (txtBx == null)
+                {
+                    throw;
+                }
+
+                txtBx.Error = ex.Message;
             }
 
             return null;

@@ -2,41 +2,49 @@
 
 namespace AccountManager.Application.Common
 {
-    public class BadRequestException : Exception
+    public abstract class ApplicationExceptionBase : Exception
     {
-        public BadRequestException(string message) : base(message)
+        public string PropertyName { get; private set; }
+
+        public ApplicationExceptionBase(string propertyName, string message) : base(message)
+        {
+            PropertyName = propertyName;
+        }
+    }
+
+    public class BadRequestException : ApplicationExceptionBase
+    {
+        public BadRequestException(string propertyName, string message) 
+            : base(propertyName, message)
         {
         }
     }
 
-    public class ConflictException : Exception
+    public class ConflictException : ApplicationExceptionBase
     {
-        public ConflictException(string message) : base(message)
+        public ConflictException(string propertyName, string message) 
+            : base(propertyName, message)
         {
         }
     }
 
-    public class NotFoundException : Exception
+    public class NotFoundException : ApplicationExceptionBase
     {
-        public NotFoundException(string message) : base(message)
+        public NotFoundException(string propertyName, string message) 
+            : base(propertyName, message)
+        {
+        }
+
+        public NotFoundException(string message)
+            : base(null, message)
         {
         }
     }
 
-    public class InternalServerException : Exception
+    public class InternalServerException : ApplicationExceptionBase
     {
-        public InternalServerException(string message) : base(message)
-        {
-        }
-    }
-
-    public class AuthorizeException : Exception
-    {
-        public AuthorizeException() : base("Пользователь не авторизован")
-        {
-        }
-
-        public AuthorizeException(string message) : base(message)
+        public InternalServerException(string message)
+            : base(null, message)
         {
         }
     }

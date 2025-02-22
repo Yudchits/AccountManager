@@ -30,12 +30,11 @@ namespace AccountManager.Application.Common.Behaviours
                 .Select(x => x.Validate(context))
                 .SelectMany(x => x.Errors)       
                 .Where(x => x != null)           
-                .Select(x => x.ErrorMessage)     
                 .FirstOrDefault();
 
             if (firstError != null)
             {
-                throw new BadRequestException(firstError);
+                throw new BadRequestException(firstError.PropertyName, firstError.ErrorMessage);
             }
 
             return await next();

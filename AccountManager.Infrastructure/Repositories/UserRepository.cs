@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Common;
+using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
 using Newtonsoft.Json;
@@ -64,7 +65,7 @@ namespace AccountManager.Infrastructure.Repositories
             var userByLogin = all.FirstOrDefault(u => u.Login == login);
             if (userByLogin != null)
             {
-                throw new ConflictException($"Пользователь login={login} уже существует");
+                throw new ConflictException(nameof(CreateAccountRequest.Login), "Пользователь уже существует");
             }
 
             var lastUser = all.LastOrDefault();

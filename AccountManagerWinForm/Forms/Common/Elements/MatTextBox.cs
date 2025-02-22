@@ -14,6 +14,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
         private Color backColor = Color.FromArgb(46, 51, 73);
+        private Color errorColor = Color.FromArgb(255, 7, 7);
         private Font font = new Font("Cascadia Code", 12f);
 
         public new event EventHandler<string> TextChanged;
@@ -88,7 +89,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             {
                 var color = string.IsNullOrEmpty(value)
                     ? foreColor
-                    : Color.Red;
+                    : errorColor;
 
                 label.ForeColor = color;
                 textBox.ForeColor = color;
@@ -131,12 +132,12 @@ namespace AccountManagerWinForm.Forms.Common.Elements
                 Margin = new Padding(0),
             };
             Controls.Add(panel);
-
+            
             error = new Label
             {
                 AutoSize = true,
                 Font = new Font(Font.Name, (float)(font.Size * 0.9)),
-                ForeColor = Color.Red
+                ForeColor = errorColor
             };
             Controls.Add(error);
 
