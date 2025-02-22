@@ -1,6 +1,8 @@
 ﻿using AccountManager.Application.Common;
+using AccountManager.Application.Context;
 using AccountManager.Application.Features.Auth.Login;
 using AccountManager.Application.Features.Auth.Registration;
+using AccountManager.Application.Features.Common.Cryptography.Hash.Generate;
 using AccountManager.Domain.Entities;
 using AccountManagerWinForm.Forms.Common.Elements;
 using MediatR;
@@ -16,8 +18,8 @@ namespace AccountManagerWinForm.Forms.Auth
     public partial class AuthForm : Form
     {
         private readonly IDictionary<string, MatTextBox> _validationMappings;
-
         private readonly IMediator _mediator;
+        private readonly UserContext _userContext;
         private bool isLogin = true;
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -30,12 +32,13 @@ namespace AccountManagerWinForm.Forms.Auth
             int nHeightEllipse
         );
 
-        public AuthForm(IMediator mediator)
+        public AuthForm(IMediator mediator, UserContext userContext)
         {
             InitializeComponent();
 
             _mediator = mediator;
-
+            _userContext = userContext;
+            
             _validationMappings = new Dictionary<string, MatTextBox>
             {
                 { nameof(User.Login), LoginTxtBx },
@@ -72,7 +75,14 @@ namespace AccountManagerWinForm.Forms.Auth
 
             if (userId != null)
             {
-                Program.UserId = (int)userId;
+                var generateCryptoKeyResponse = await _mediator.Send
+                (
+                    new GenerateHashRequest(PasswordTxtBx.Text)
+                );
+
+                _userContext.UserId = (int)userId;
+                _userContext.CryptoKey = generateCryptoKeyResponse.Hash;
+
                 DialogResult = DialogResult.OK;
                 Close();
             }

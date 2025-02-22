@@ -1,4 +1,5 @@
 ﻿using AccountManager.Application.Common;
+using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Resource.GetAllDescByUserId;
 using AccountManagerWinForm.Forms;
@@ -7,6 +8,7 @@ using AccountManagerWinForm.Forms.Auth;
 using AccountManagerWinForm.Forms.Common;
 using AccountManagerWinForm.Forms.Resource;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace AccountManagerWinForm.Factories
@@ -32,16 +34,18 @@ namespace AccountManagerWinForm.Factories
     {
         private readonly IMediator _mediator;
         private readonly ILogger<MessageDialogForm> _mdfLogger;
+        private readonly UserContext _userContext;
 
-        public FormFactory(IMediator mediator, ILogger<MessageDialogForm> mdfLogger)
+        public FormFactory(IMediator mediator, ILogger<MessageDialogForm> mdfLogger, UserContext userContext)
         {
             _mediator = mediator;
             _mdfLogger = mdfLogger;
+            _userContext = userContext;
         }
 
         public AuthForm CreateAuthForm()
         {
-            return new AuthForm(_mediator);
+            return new AuthForm(_mediator, _userContext);
         }
 
         public IndexForm CreateIndexForm()
@@ -56,17 +60,17 @@ namespace AccountManagerWinForm.Factories
 
         public AccountsForm CreateAccountsForm(int resourceId)
         {
-            return new AccountsForm(resourceId, _mediator, this);
+            return new AccountsForm(resourceId, _mediator, this, _userContext);
         }
 
         public CreateAccountForm CreateCreateAccountForm(int resourceId)
         {
-            return new CreateAccountForm(resourceId, _mediator, this);
+            return new CreateAccountForm(resourceId, _mediator, this, _userContext);
         }
 
         public CreateAccountForm CreateUpdateAccountForm(GetAccountsByResourceIdResponse account)
         {
-            return new CreateAccountForm(account, _mediator, this);
+            return new CreateAccountForm(account, _mediator, this, _userContext);
         }
 
         public DeleteAccountDialogForm CreateDeleteAccountDialogForm(int accountId)
@@ -76,17 +80,17 @@ namespace AccountManagerWinForm.Factories
 
         public ResourcesForm CreateResourcesForm()
         {
-            return new ResourcesForm(_mediator, this);
+            return new ResourcesForm(_mediator, this, _userContext);
         }
 
         public CreateResourceForm CreateCreateResourceForm()
         {
-            return new CreateResourceForm(_mediator, this);
+            return new CreateResourceForm(_mediator, this, _userContext);
         }
 
         public CreateResourceForm CreateUpdateResourceForm(GetAllDescResourcesByUserIdResponse resource)
         {
-            return new CreateResourceForm(resource, _mediator, this);
+            return new CreateResourceForm(resource, _mediator, this, _userContext);
         }
 
         public DeleteResourceDialogForm CreateDeleteResourceDialogForm(int resourceId)

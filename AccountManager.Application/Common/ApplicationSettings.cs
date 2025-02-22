@@ -1,7 +1,9 @@
 ﻿namespace AccountManager.Application.Common
 {
-    public class AesCryptographySettings
+    public class UserContextSettings
     {
-        public string Key { get; set; }
+        public string Salt { get; set; }
+        public int HashSize { get; set; }
+        public int Iterations { get; set; }
     }
 }

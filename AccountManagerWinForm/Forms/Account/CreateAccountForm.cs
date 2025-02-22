@@ -1,7 +1,8 @@
-﻿using AccountManager.Application.Features.Account.Create;
+﻿using AccountManager.Application.Context;
+using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
-using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
+using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
@@ -21,13 +22,21 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
+        private readonly UserContext _userContext;
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
         private Button backBtn;
         private Button saveBtn;
 
-        private CreateAccountForm(int? accountId, int resourceId, IMediator mediator, IFormFactory formFactory)
+        private CreateAccountForm
+        (
+            int? accountId, 
+            int resourceId,
+            IMediator mediator, 
+            IFormFactory formFactory,
+            UserContext userContext
+        )
         {
             _accountId = accountId;
 
@@ -37,14 +46,16 @@ namespace AccountManagerWinForm.Forms.Account
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
+            _userContext = userContext;
         }
 
         public CreateAccountForm
         (
             int resourceId, 
             IMediator mediator, 
-            IFormFactory formFactory
-        ) : this(null, resourceId, mediator, formFactory)
+            IFormFactory formFactory,
+            UserContext userContext
+        ) : this(null, resourceId, mediator, formFactory, userContext)
         {
         }
 
@@ -52,8 +63,9 @@ namespace AccountManagerWinForm.Forms.Account
         (
             GetAccountsByResourceIdResponse account, 
             IMediator mediator, 
-            IFormFactory formFactory
-        ) : this(account.Id, account.ResourceId, mediator, formFactory)
+            IFormFactory formFactory,
+            UserContext userContext
+        ) : this(account.Id, account.ResourceId, mediator, formFactory, userContext)
         {
             nameTxtBx.Text = account.Name;
             loginTxtBx.Text = account.Login;
@@ -209,7 +221,7 @@ namespace AccountManagerWinForm.Forms.Account
                 nameTxtBx.Text,
                 loginTxtBx.Text,
                 passwordTxtBx.Text,
-                Program.UserId
+                _userContext.UserId
             ));
         }
 

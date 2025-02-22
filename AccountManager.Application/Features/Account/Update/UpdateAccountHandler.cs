@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt;
+﻿using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Encrypt;
 using AccountManager.Application.Repositories;
 using AutoMapper;
 using MediatR;

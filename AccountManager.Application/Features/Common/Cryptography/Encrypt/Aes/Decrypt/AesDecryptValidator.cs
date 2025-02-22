@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
+namespace AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt
 {
     public class AesDecryptValidator : AbstractValidator<AesDecryptRequest>
     {

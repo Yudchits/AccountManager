@@ -1,6 +1,5 @@
-﻿using AccountManager.Application.Common;
+﻿using AccountManager.Application.Context;
 using MediatR;
-using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -8,15 +7,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
+namespace AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt
 {
     public class AesDecryptHandler : IRequestHandler<AesDecryptRequest, AesDecryptResponse>
     {
-        private readonly AesCryptographySettings _cryptoSettings;
+        private readonly UserContext _userContext;
 
-        public AesDecryptHandler(IOptions<AesCryptographySettings> cryptoOptions)
+        public AesDecryptHandler(UserContext userContext)
         {
-            _cryptoSettings = cryptoOptions.Value;
+            _userContext = userContext;
         }
 
         public Task<AesDecryptResponse> Handle(AesDecryptRequest request, CancellationToken cancellationToken)
@@ -24,7 +23,7 @@ namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
             byte[] key;
             using (var sha256 = SHA256.Create())
             {
-                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(_cryptoSettings.Key));
+                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(_userContext.CryptoKey));
             }
 
             byte[] encryptedTextBytes = Convert.FromBase64String(request.EncryptedText);
@@ -39,8 +38,8 @@ namespace AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt
                     aesLg.IV = iv;
 
                     using (var csDecrypt = new CryptoStream(
-                        msEncrypt, 
-                        aesLg.CreateDecryptor(), 
+                        msEncrypt,
+                        aesLg.CreateDecryptor(),
                         CryptoStreamMode.Read
                     ))
                     {

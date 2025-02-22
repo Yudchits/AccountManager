@@ -1,4 +1,5 @@
-﻿using AccountManager.Application.Features.Resource.Create;
+﻿using AccountManager.Application.Context;
+using AccountManager.Application.Features.Resource.Create;
 using AccountManager.Application.Features.Resource.GetAllDescByUserId;
 using AccountManager.Application.Features.Resource.Update;
 using AccountManagerWinForm.Extensions;
@@ -18,6 +19,7 @@ namespace AccountManagerWinForm.Forms.Resource
         private readonly int? _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
+        private readonly UserContext _userContext;
 
         private Panel createPnl;
         private MatTextBox nameTxtBx;
@@ -25,16 +27,23 @@ namespace AccountManagerWinForm.Forms.Resource
         private Button saveBtn;
         private Button backBtn;
 
-        public CreateResourceForm(IMediator mediator, IFormFactory formFactory)
+        public CreateResourceForm(IMediator mediator, IFormFactory formFactory, UserContext userContext)
         {
             InitializeComponent();
             InitializeCreateForm();
 
             _mediator = mediator;
             _formFactory = formFactory;
+            _userContext = userContext;
         }
 
-        public CreateResourceForm(GetAllDescResourcesByUserIdResponse resource, IMediator mediator, IFormFactory formFactory) : this(mediator, formFactory)
+        public CreateResourceForm
+        (
+            GetAllDescResourcesByUserIdResponse resource, 
+            IMediator mediator, 
+            IFormFactory formFactory,
+            UserContext userContext
+        ) : this(mediator, formFactory, userContext)
         {
             _resourceId = resource.Id;
             nameTxtBx.Text = resource.Name;
@@ -187,7 +196,7 @@ namespace AccountManagerWinForm.Forms.Resource
                 (
                     nameTxtBx.Text, 
                     imagePctrBx.ImageLocation,
-                    Program.UserId
+                    _userContext.UserId
                 )
             );
         }

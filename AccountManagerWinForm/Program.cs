@@ -4,11 +4,14 @@ using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -18,7 +21,6 @@ namespace AccountManagerWinForm
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
         public static IndexForm? IndexForm { get; private set; }
-        public static int UserId { get; set; }
 
         [STAThread]
         static void Main()
@@ -33,6 +35,11 @@ namespace AccountManagerWinForm
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                .AddJsonFile("appsettings.json")
+                .Build();
+
             var builder = Host.CreateDefaultBuilder();
             builder.ConfigureLogging((context, logging) =>
             {
@@ -43,7 +50,7 @@ namespace AccountManagerWinForm
             {
                 services.ConfigureInfrastructure();
                 services.ConfigureApplication();
-                services.ConfigureWinForm();
+                services.ConfigureWinForm(configuration);
             });
 
             var host = builder.Build();

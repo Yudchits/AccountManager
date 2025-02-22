@@ -1,5 +1,6 @@
-﻿using AccountManager.Application.Features.Account.GetByResourceId;
-using AccountManager.Application.Features.Common.Cryptography.Aes.Decrypt;
+﻿using AccountManager.Application.Context;
+using AccountManager.Application.Features.Account.GetByResourceId;
+using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Properties;
@@ -23,6 +24,7 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly int _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
+        private readonly UserContext _userContext;
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts;
@@ -35,14 +37,15 @@ namespace AccountManagerWinForm.Forms.Account
         private int currentPage = 1;
         private int maxPageCount;
 
-        public AccountsForm(int resourceId, IMediator mediator, IFormFactory formFactory)
+        public AccountsForm(int resourceId, IMediator mediator, IFormFactory formFactory, UserContext userContext)
         {
             InitializeComponent();
 
             _resourceId = resourceId;
             _mediator = mediator;
             _formFactory = formFactory;
-
+            _userContext = userContext;
+            
             _accounts = new List<GetAccountsByResourceIdResponse>();
 
             maxMouseY = Height - ScrollPnl.Height;
@@ -59,7 +62,7 @@ namespace AccountManagerWinForm.Forms.Account
         {
             _accounts = await _mediator.Send
             (
-                new GetAccountsByResourceIdRequest(_resourceId, Program.UserId)
+                new GetAccountsByResourceIdRequest(_resourceId, _userContext.UserId)
             );
 
             if (_accounts.Count == 0)

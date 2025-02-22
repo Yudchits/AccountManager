@@ -1,6 +1,5 @@
-﻿using AccountManager.Application.Common;
+﻿using AccountManager.Application.Context;
 using MediatR;
-using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -8,15 +7,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt
+namespace AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Encrypt
 {
     public class AesEncryptHandler : IRequestHandler<AesEncryptRequest, AesEncryptResponse>
     {
-        private readonly AesCryptographySettings _cryptoSettings;
+        private readonly UserContext _userContext;
 
-        public AesEncryptHandler(IOptions<AesCryptographySettings> cryptoOptions)
+        public AesEncryptHandler(UserContext userContext)
         {
-            _cryptoSettings = cryptoOptions.Value;
+            _userContext = userContext;
         }
 
         public Task<AesEncryptResponse> Handle(AesEncryptRequest request, CancellationToken cancellationToken)
@@ -24,7 +23,7 @@ namespace AccountManager.Application.Features.Common.Cryptography.Aes.Encrypt
             byte[] key;
             using (var sha256 = SHA256.Create())
             {
-                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(_cryptoSettings.Key));
+                key = sha256.ComputeHash(Encoding.UTF8.GetBytes(_userContext.CryptoKey));
             }
 
             using (var aesLg = System.Security.Cryptography.Aes.Create())
