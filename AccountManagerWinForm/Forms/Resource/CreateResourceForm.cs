@@ -1,4 +1,5 @@
-﻿using AccountManager.Application.Context;
+﻿using AccountManager.Application.Common.Exceptions;
+using AccountManager.Application.Context;
 using AccountManager.Application.Features.Resource.Create;
 using AccountManager.Application.Features.Resource.GetAllDescByUserId;
 using AccountManager.Application.Features.Resource.Update;
@@ -8,6 +9,7 @@ using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +22,7 @@ namespace AccountManagerWinForm.Forms.Resource
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
         private readonly UserContext _userContext;
+        private readonly IDictionary<string, MatTextBox> _validationMappings;
 
         private Panel createPnl;
         private MatTextBox nameTxtBx;
@@ -35,6 +38,10 @@ namespace AccountManagerWinForm.Forms.Resource
             _mediator = mediator;
             _formFactory = formFactory;
             _userContext = userContext;
+            _validationMappings = new Dictionary<string, MatTextBox>
+            {
+                { nameof(AccountManager.Domain.Entities.Resource.Name), nameTxtBx }
+            };
         }
 
         public CreateResourceForm
@@ -69,14 +76,14 @@ namespace AccountManagerWinForm.Forms.Resource
             var pnlX = (Width - createPnl.Width) / 2;
             createPnl.Location = new Point(pnlX, 0);
 
-            int marginTop = 15;
             nameTxtBx = new MatTextBox
             {
                 Parent = createPnl,
                 Width = createPnl.Width,
                 Label = "Название",
                 Font = font,
-                Location = new Point(0, 0)
+                Location = new Point(0, 0),
+                Padding = new Padding(0, 0, 0, 10)
             };
             createPnl.Controls.Add(nameTxtBx);
 
@@ -87,12 +94,13 @@ namespace AccountManagerWinForm.Forms.Resource
                 Height = 300,
                 BorderStyle = BorderStyle.FixedSingle,
                 BorderColor = Color.FromArgb(158, 161, 176),
-                Location = new Point(0, nameTxtBx.Bottom + marginTop),
+                Location = new Point(0, nameTxtBx.Bottom),
                 SizeMode = PictureBoxSizeMode.StretchImage
             };
             imagePctrBx.Click += ImagePctrBx_Click;
             createPnl.Controls.Add(imagePctrBx);
 
+            int buttonsMarginTop = 17;
             saveBtn = new Button
             {
                 Parent = createPnl,
@@ -105,7 +113,7 @@ namespace AccountManagerWinForm.Forms.Resource
                 Padding = new Padding(3),
                 Cursor = Cursors.Hand
             };
-            saveBtn.Location = new Point(createPnl.Width - saveBtn.Width, imagePctrBx.Bottom + marginTop);
+            saveBtn.Location = new Point(createPnl.Width - saveBtn.Width, imagePctrBx.Bottom + buttonsMarginTop);
             saveBtn.Click += SaveBtn_Click;
             createPnl.Controls.Add(saveBtn);
 
@@ -127,22 +135,14 @@ namespace AccountManagerWinForm.Forms.Resource
             backBtn.Click += BackBtn_Click;
             createPnl.Controls.Add(backBtn);
 
-            createPnl.Height = nameTxtBx.Height 
+            createPnl.Height = nameTxtBx.Height
                 + imagePctrBx.Height
-                + saveBtn.Height
-                + marginTop * 3;
+                + saveBtn.Height + buttonsMarginTop;
         }
 
         private void CreateResourceForm_Load(object sender, EventArgs e)
         {
             backBtn.Focus();
-
-            if (ActiveForm is IndexForm indexForm)
-            {
-                indexForm.ActiveFormNameLbl.Text = _resourceId == null
-                    ? "Создание ресурса"
-                    : "Редактирование ресурса";
-            }
         }
 
         private void CreateResourceForm_Click(object sender, EventArgs e)
@@ -172,16 +172,29 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private async void SaveBtn_Click(object? sender, EventArgs e)
         {
-            if (_resourceId == null)
+            try
             {
-                await CreateResource();
-            }
-            else
-            {
-                await UpdateResource();
-            }
+                if (_resourceId == null)
+                {
+                    await CreateResource();
+                }
+                else
+                {
+                    await UpdateResource();
+                }
 
-            OpenResourcesForm();
+                OpenResourcesForm();
+            }
+            catch (UserExceptionBase ex)
+            {
+                _validationMappings.TryGetValue(ex.PropertyName, out var matElement);
+                if (matElement == null)
+                {
+                    throw;
+                }
+
+                matElement.Error = ex.Message;
+            }
         }
         private void BackBtn_Click(object? sender, EventArgs e)
         {

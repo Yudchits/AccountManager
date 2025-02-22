@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Common;
+﻿using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Context;
 using AccountManager.Application.Features.Auth.Login;
 using AccountManager.Application.Features.Auth.Registration;
@@ -80,8 +80,7 @@ namespace AccountManagerWinForm.Forms.Auth
                     new GenerateHashRequest(PasswordTxtBx.Text)
                 );
 
-                _userContext.UserId = (int)userId;
-                _userContext.CryptoKey = generateCryptoKeyResponse.Hash;
+                _userContext.Configure((int)userId, generateCryptoKeyResponse.Hash);
 
                 DialogResult = DialogResult.OK;
                 Close();
@@ -103,7 +102,7 @@ namespace AccountManagerWinForm.Forms.Auth
 
                 return loginResponse.Id;
             }
-            catch (ApplicationExceptionBase ex)
+            catch (UserExceptionBase ex)
             {
                 _validationMappings.TryGetValue(ex.PropertyName, out var txtBx);
                 if (txtBx == null)
@@ -132,7 +131,7 @@ namespace AccountManagerWinForm.Forms.Auth
 
                 return registrationResponse.Id;
             }
-            catch (ApplicationExceptionBase ex)
+            catch (UserExceptionBase ex)
             {
                 _validationMappings.TryGetValue(ex.PropertyName, out var txtBx);
                 if (txtBx == null)

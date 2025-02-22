@@ -1,4 +1,5 @@
-﻿using AccountManager.Application.Context;
+﻿using AccountManager.Application.Common.Exceptions;
+using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.Create;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Account.Update;
@@ -9,6 +10,7 @@ using AccountManagerWinForm.Forms.Common.Elements;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +25,8 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
         private readonly UserContext _userContext;
+        private readonly IDictionary<string, MatTextBox> _validationMappings;
+
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
@@ -47,6 +51,12 @@ namespace AccountManagerWinForm.Forms.Account
             _mediator = mediator;
             _formFactory = formFactory;
             _userContext = userContext;
+            _validationMappings = new Dictionary<string, MatTextBox>
+            {
+                { nameof(AccountManager.Domain.Entities.Account.Name), nameTxtBx },
+                { nameof(AccountManager.Domain.Entities.Account.Login), loginTxtBx },
+                { nameof(AccountManager.Domain.Entities.Account.Password), passwordTxtBx }
+            };
         }
 
         public CreateAccountForm
@@ -201,16 +211,29 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async void SaveBtn_Click(object? sender, EventArgs e)
         {
-            if (_accountId == null)
+            try
             {
-                await CreateAccount();
-            }
-            else
-            {
-                await UpdateAccount();
-            }
+                if (_accountId == null)
+                {
+                    await CreateAccount();
+                }
+                else
+                {
+                    await UpdateAccount();
+                }
 
-            ShowAccountsForm();
+                ShowAccountsForm();
+            }
+            catch (UserExceptionBase ex)
+            {
+                _validationMappings.TryGetValue(ex.PropertyName, out var matElement);
+                if (matElement == null)
+                {
+                    throw;
+                }
+
+                matElement.Error = ex.Message;
+            }
         }
 
         private async Task CreateAccount()

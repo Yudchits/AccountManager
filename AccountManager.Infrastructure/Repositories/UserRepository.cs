@@ -1,6 +1,4 @@
-﻿using AccountManager.Application.Common;
-using AccountManager.Application.Features.Account.Create;
-using AccountManager.Application.Features.Auth.Login;
+﻿using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
 using Newtonsoft.Json;
@@ -52,7 +50,7 @@ namespace AccountManager.Infrastructure.Repositories
             var user = all.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
-                throw new NotFoundException($"Пользователь id={id} не существует");
+                throw new NotFoundException(nameof(User.Id), $"Пользователь id={id} не существует");
             }
 
             return user;
@@ -99,7 +97,7 @@ namespace AccountManager.Infrastructure.Repositories
             var user = all.FirstOrDefault(u => u.Id == newUser.Id);
             if (user == null)
             {
-                throw new NotFoundException($"Пользователь id={newUser.Id} не существует");
+                throw new NotFoundException(nameof(User.Id), $"Пользователь id={newUser.Id} не существует");
             }
 
             user.Login = newUser.Login;
@@ -116,7 +114,7 @@ namespace AccountManager.Infrastructure.Repositories
             var user = all.FirstOrDefault(u => u.Id == entity.Id);
             if (user == null)
             {
-                throw new NotFoundException($"Пользователь id={entity.Id} не существует");
+                throw new NotFoundException(nameof(User.Id), $"Пользователь id={entity.Id} не существует");
             }
 
             all.Remove(user);

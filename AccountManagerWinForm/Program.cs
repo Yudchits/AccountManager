@@ -1,4 +1,5 @@
 using AccountManager.Application.Common;
+using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
@@ -85,9 +86,8 @@ namespace AccountManagerWinForm
             MessageType type = exception switch
             {
                 BadRequestException => MessageType.WARN,
-                InternalServerException => MessageType.ERROR,
-                ConflictException => MessageType.ERROR,
-                NotFoundException => MessageType.ERROR,
+                ConflictException => MessageType.WARN,
+                NotFoundException => MessageType.WARN,
                 _ => MessageType.ERROR
             };
 

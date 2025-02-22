@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Common;
+﻿using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
 using Newtonsoft.Json;
@@ -111,7 +111,7 @@ namespace AccountManager.Infrastructure.Repositories
             var currentResource = resources.FirstOrDefault(r => r.Id == newResourceId);
             if (currentResource == null)
             {
-                throw new NotFoundException($"Ресурс id={newResourceId} не существует");
+                throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={newResourceId} не существует");
             }
 
             currentResource.Name = currentResource.Name;
@@ -137,7 +137,7 @@ namespace AccountManager.Infrastructure.Repositories
             var resource = resources.FirstOrDefault(r => r.Id == resourceId);
             if (resource == null)
             {
-                throw new NotFoundException($"Ресурс id={resourceId} не существует");
+                throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={resourceId} не существует");
             }
 
             var isDeleted = resources.Remove(resource);

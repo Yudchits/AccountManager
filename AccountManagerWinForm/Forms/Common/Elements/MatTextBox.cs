@@ -14,7 +14,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
         private Color backColor = Color.FromArgb(46, 51, 73);
-        private Color errorColor = Color.FromArgb(255, 7, 7);
+        private Color errorColor = Color.FromArgb(255, 0, 0);
         private Font font = new Font("Cascadia Code", 12f);
 
         public new event EventHandler<string> TextChanged;
