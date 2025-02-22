@@ -18,7 +18,7 @@ namespace AccountManagerWinForm
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
         public static IndexForm? IndexForm { get; private set; }
-        public static int? UserId { get; set; }
+        public static int UserId { get; set; }
 
         [STAThread]
         static void Main()

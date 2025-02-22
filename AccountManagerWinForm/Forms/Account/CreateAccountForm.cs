@@ -208,7 +208,8 @@ namespace AccountManagerWinForm.Forms.Account
                 _resourceId,
                 nameTxtBx.Text,
                 loginTxtBx.Text,
-                passwordTxtBx.Text
+                passwordTxtBx.Text,
+                Program.UserId
             ));
         }
 

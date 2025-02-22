@@ -1,4 +1,4 @@
-﻿using AccountManager.Application.Features.Resource.GetAllDesc;
+﻿using AccountManager.Application.Features.Resource.GetAllDescByUserId;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements;
@@ -17,8 +17,8 @@ namespace AccountManagerWinForm.Forms.Resource
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
 
-        private ICollection<GetAllDescResourcesResponse> _resources;
-        private ICollection<GetAllDescResourcesResponse> _resourcesToDisplay;
+        private ICollection<GetAllDescResourcesByUserIdResponse> _resources;
+        private ICollection<GetAllDescResourcesByUserIdResponse> _resourcesToDisplay;
         private int _currentResourceIndex;
 
         public ResourcesForm(IMediator mediator, IFormFactory formFactory)
@@ -28,7 +28,7 @@ namespace AccountManagerWinForm.Forms.Resource
             _mediator = mediator;
             _formFactory = formFactory;
 
-            _resources = new List<GetAllDescResourcesResponse>();
+            _resources = new List<GetAllDescResourcesByUserIdResponse>();
             _resourcesToDisplay = _resources;
             _currentResourceIndex = 0;
         }
@@ -142,7 +142,7 @@ namespace AccountManagerWinForm.Forms.Resource
         private async Task UpdateResources()
         {
             _currentResourceIndex = 0;
-            _resources = await _mediator.Send(new GetAllDescResourcesRequest());
+            _resources = await _mediator.Send(new GetAllDescResourcesByUserIdRequest(Program.UserId));
             _resourcesToDisplay = _resources;
 
             DisplayResources();

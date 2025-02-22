@@ -21,7 +21,7 @@ namespace AccountManager.Application.Features.Account.GetByResourceId
 
         public async Task<ICollection<GetAccountsByResourceIdResponse>> Handle(GetAccountsByResourceIdRequest request, CancellationToken cancellationToken)
         {
-            var accounts = await _repository.GetByResourceIdAsync(request.ResourceId);
+            var accounts = await _repository.GetByResourceIdAsync(request.ResourceId, request.UserId);
             var accountsDescById = accounts.OrderByDescending(a => a.Id);
             return _mapper.Map<ICollection<GetAccountsByResourceIdResponse>>(accountsDescById);
         }

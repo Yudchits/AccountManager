@@ -72,6 +72,7 @@ namespace AccountManagerWinForm.Forms.Auth
 
             if (userId != null)
             {
+                Program.UserId = (int)userId;
                 DialogResult = DialogResult.OK;
                 Close();
             }

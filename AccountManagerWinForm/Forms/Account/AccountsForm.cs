@@ -57,7 +57,10 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async Task InitAccounts()
         {
-            _accounts = await _mediator.Send(new GetAccountsByResourceIdRequest(_resourceId));
+            _accounts = await _mediator.Send
+            (
+                new GetAccountsByResourceIdRequest(_resourceId, Program.UserId)
+            );
 
             if (_accounts.Count == 0)
             {

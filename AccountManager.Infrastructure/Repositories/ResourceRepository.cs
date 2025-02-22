@@ -55,12 +55,13 @@ namespace AccountManager.Infrastructure.Repositories
             return deserializedResources;
         }
 
-        public async Task<ICollection<Resource>> GetAllDescAsync()
+        public async Task<ICollection<Resource>> GetAllDescByUserIdAsync(int userId)
         {
             return await GetAllAsync()
                 .ContinueWith(result => result.Result
-                                                .OrderByDescending(r => r.Id)
-                                                .ToList());
+                                        .Where(r => r.UserId == userId)
+                                        .OrderByDescending(r => r.Id)
+                                        .ToList());
         }
 
         public async Task<Resource> GetByIdAsync(int id)

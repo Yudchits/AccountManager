@@ -11,7 +11,7 @@ namespace AccountManager.Application.Repositories
         Task DeleteAsync(Account entity);
         Task<Account> GetByIdAsync(int id);
         Task<ICollection<Account>> GetAllAsync();
-        Task<ICollection<Account>> GetByResourceIdAsync(int resourceId);
+        Task<ICollection<Account>> GetByResourceIdAsync(int resourceId, int userId);
         Task DeleteByResourceId(int resourceId);
     }
 }
