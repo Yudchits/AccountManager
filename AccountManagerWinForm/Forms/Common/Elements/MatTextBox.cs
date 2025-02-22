@@ -9,6 +9,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
         private readonly Label label;
         private readonly TextBox textBox;
         private readonly Panel panel;
+        private readonly Label error;
 
         private Color activeColor = Color.FromArgb(0, 180, 249);
         private Color foreColor = Color.FromArgb(158, 161, 176);
@@ -78,6 +79,24 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             }
         }
 
+        public string Error { 
+            get 
+            {
+                return error.Text;
+            } 
+            set
+            {
+                var color = string.IsNullOrEmpty(value)
+                    ? foreColor
+                    : Color.Red;
+
+                label.ForeColor = color;
+                textBox.ForeColor = color;
+                panel.BackColor = color;
+                error.Text = value;
+            }
+        }
+
         public MatTextBox()
         {
             label = new Label
@@ -113,10 +132,23 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             };
             Controls.Add(panel);
 
-            Height = label.Height + textBox.Height + panel.Height;
+            error = new Label
+            {
+                AutoSize = true,
+                Font = new Font(Font.Name, (float)(font.Size * 0.9)),
+                ForeColor = Color.Red
+            };
+            Controls.Add(error);
+
+            Height = label.Height 
+                + textBox.Height 
+                + panel.Height
+                + error.Height;
+
             label.Location = new Point(-5, label.Height);
             textBox.Location = new Point(0, label.Height);
             panel.Location = new Point(0, textBox.Bottom);
+            error.Location = new Point(-5, panel.Bottom);
         }
 
         private void Label_Click(object? sender, EventArgs e)
@@ -147,6 +179,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
 
         private void TextBox_GotFocus(object? sender, EventArgs e)
         {
+            error.Text = string.Empty;
             label.ForeColor = activeColor;
             CheckLabelLocation();
             textBox.ForeColor = activeColor;
@@ -164,13 +197,19 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.Font = Font;
             textBox.BackColor = BackColor;
             panel.Width = Width;
+            error.Font = new Font(Font.Name, (float)(font.Size * 0.85));
             
             label.Location = new Point(label.Left, label.Height);
             textBox.Location = new Point(textBox.Left, label.Height);
             panel.Location = new Point(panel.Left, textBox.Bottom);
+            error.Location = new Point(error.Left, panel.Bottom);
+
             label.ForeColor = foreColor;
             panel.BackColor = foreColor;
-            Height = label.Height + textBox.Height + panel.Height;
+            Height = label.Height
+                + textBox.Height
+                + panel.Height
+                + error.Height;
         }
     }
 }

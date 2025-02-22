@@ -9,10 +9,10 @@ namespace AccountManager.Application.Features.Auth.Registration
             ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(r => r.Login)
-                .NotEmpty().WithMessage("Поле 'Логин' не может быть пустым");
+                .MinimumLength(4).WithMessage("Минимальная длина 4 символа");
 
             RuleFor(r => r.Password)
-                .MinimumLength(8).WithMessage("Длина поля 'Пароль' не может быть меньше 8");
+                .MinimumLength(8).WithMessage("Минимальная длина 8 символов");
         }
     }
 }

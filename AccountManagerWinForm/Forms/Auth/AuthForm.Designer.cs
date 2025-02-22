@@ -49,7 +49,7 @@
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             CloseBtn.ForeColor = System.Drawing.Color.White;
-            CloseBtn.Location = new System.Drawing.Point(314, 0);
+            CloseBtn.Location = new System.Drawing.Point(354, 0);
             CloseBtn.Margin = new System.Windows.Forms.Padding(0);
             CloseBtn.Name = "CloseBtn";
             CloseBtn.Size = new System.Drawing.Size(66, 36);
@@ -60,6 +60,7 @@
             // 
             // AuthPnl
             // 
+            AuthPnl.Controls.Add(CloseBtn);
             AuthPnl.Controls.Add(AuthHavingPnl);
             AuthPnl.Controls.Add(AuthBtn);
             AuthPnl.Controls.Add(AuthHeaderLbl);
@@ -68,7 +69,7 @@
             AuthPnl.Dock = System.Windows.Forms.DockStyle.Fill;
             AuthPnl.Location = new System.Drawing.Point(0, 0);
             AuthPnl.Name = "AuthPnl";
-            AuthPnl.Size = new System.Drawing.Size(380, 450);
+            AuthPnl.Size = new System.Drawing.Size(420, 510);
             AuthPnl.TabIndex = 4;
             AuthPnl.Click += LoginPnl_Click;
             // 
@@ -77,7 +78,7 @@
             AuthHavingPnl.Controls.Add(AuthHavingLinkLbl);
             AuthHavingPnl.Controls.Add(AuthHavingLbl);
             AuthHavingPnl.Font = new System.Drawing.Font("Cascadia Code", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            AuthHavingPnl.Location = new System.Drawing.Point(65, 340);
+            AuthHavingPnl.Location = new System.Drawing.Point(85, 377);
             AuthHavingPnl.Name = "AuthHavingPnl";
             AuthHavingPnl.Size = new System.Drawing.Size(250, 37);
             AuthHavingPnl.TabIndex = 4;
@@ -109,7 +110,7 @@
             AuthBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             AuthBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             AuthBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            AuthBtn.Location = new System.Drawing.Point(125, 295);
+            AuthBtn.Location = new System.Drawing.Point(145, 332);
             AuthBtn.Name = "AuthBtn";
             AuthBtn.Size = new System.Drawing.Size(130, 42);
             AuthBtn.TabIndex = 3;
@@ -117,35 +118,37 @@
             AuthBtn.UseVisualStyleBackColor = true;
             AuthBtn.Click += AuthBtn_ClickAsync;
             // 
-            // AuthLbl
+            // AuthHeaderLbl
             // 
             AuthHeaderLbl.AutoSize = true;
-            AuthHeaderLbl.Font = new System.Drawing.Font("Cascadia Code SemiBold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            AuthHeaderLbl.Font = new System.Drawing.Font("Cascadia Code SemiBold", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             AuthHeaderLbl.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            AuthHeaderLbl.Location = new System.Drawing.Point(157, 55);
-            AuthHeaderLbl.Name = "AuthLbl";
-            AuthHeaderLbl.Size = new System.Drawing.Size(65, 30);
+            AuthHeaderLbl.Location = new System.Drawing.Point(177, 79);
+            AuthHeaderLbl.Name = "AuthHeaderLbl";
+            AuthHeaderLbl.Size = new System.Drawing.Size(75, 33);
             AuthHeaderLbl.TabIndex = 2;
             AuthHeaderLbl.Text = "Вход";
             // 
             // PasswordTxtBx
             // 
             PasswordTxtBx.ActiveColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            PasswordTxtBx.Error = "";
             PasswordTxtBx.Label = "Пароль";
-            PasswordTxtBx.Location = new System.Drawing.Point(65, 190);
+            PasswordTxtBx.Location = new System.Drawing.Point(60, 222);
             PasswordTxtBx.Name = "PasswordTxtBx";
             PasswordTxtBx.PasswordChar = '\0';
-            PasswordTxtBx.Size = new System.Drawing.Size(250, 57);
+            PasswordTxtBx.Size = new System.Drawing.Size(300, 79);
             PasswordTxtBx.TabIndex = 1;
             // 
             // LoginTxtBx
             // 
             LoginTxtBx.ActiveColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            LoginTxtBx.Error = "";
             LoginTxtBx.Label = "Логин";
-            LoginTxtBx.Location = new System.Drawing.Point(65, 110);
+            LoginTxtBx.Location = new System.Drawing.Point(60, 134);
             LoginTxtBx.Name = "LoginTxtBx";
             LoginTxtBx.PasswordChar = '\0';
-            LoginTxtBx.Size = new System.Drawing.Size(250, 57);
+            LoginTxtBx.Size = new System.Drawing.Size(300, 79);
             LoginTxtBx.TabIndex = 0;
             // 
             // AuthForm
@@ -153,8 +156,7 @@
             AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
-            ClientSize = new System.Drawing.Size(380, 450);
-            Controls.Add(CloseBtn);
+            ClientSize = new System.Drawing.Size(420, 510);
             Controls.Add(AuthPnl);
             Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);

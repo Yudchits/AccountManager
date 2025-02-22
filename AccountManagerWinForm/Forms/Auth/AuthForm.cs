@@ -35,6 +35,7 @@ namespace AccountManagerWinForm.Forms.Auth
 
         private void AuthForm_Load(object sender, EventArgs e)
         {
+            AuthHeaderLbl.Focus();
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
             LoginTxtBx.BackColor = Color.FromArgb(24, 30, 54);
             PasswordTxtBx.BackColor = Color.FromArgb(24, 30, 54);
@@ -55,12 +56,15 @@ namespace AccountManagerWinForm.Forms.Auth
 
         private async void AuthBtn_ClickAsync(object sender, EventArgs e)
         {
-            Program.UserId = isLogin
+            int? userId = isLogin
                 ? await LoginAsync() 
                 : await RegistrationAsync();
 
-            DialogResult = DialogResult.OK;
-            Close();
+            if (userId != null)
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
         }
 
         private async Task<int> LoginAsync()
@@ -68,25 +72,36 @@ namespace AccountManagerWinForm.Forms.Auth
             throw new NotImplementedException();
         }
 
-        private async Task<int> RegistrationAsync()
+        private async Task<int?> RegistrationAsync()
         {
-            var registrationResponse = await _mediator.Send
-            (
-                new AuthRegistrationRequest
+            try
+            {
+                var registrationResponse = await _mediator.Send
                 (
-                    LoginTxtBx.Text, 
-                    PasswordTxtBx.Text
-                )
-            );
+                    new AuthRegistrationRequest
+                    (
+                        LoginTxtBx.Text,
+                        PasswordTxtBx.Text
+                    )
+                );
 
-            return registrationResponse.Id;
+                return registrationResponse.Id;
+            }
+            catch (Exception ex)
+            {
+                LoginTxtBx.Error = ex.Message; 
+            }
+
+            return null;
         }
 
         private void AuthHavingLinkLbl_Click(object sender, EventArgs e)
         {
             isLogin = !isLogin;
             LoginTxtBx.Text = string.Empty;
+            LoginTxtBx.Error = string.Empty;
             PasswordTxtBx.Text = string.Empty;
+            PasswordTxtBx.Error = string.Empty;
             ActiveControl = null;
 
             if (isLogin)
