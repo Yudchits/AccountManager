@@ -13,7 +13,7 @@ namespace AccountManager.Application.Features.Resource.Create
                 .MaximumLength(64).WithMessage("Максимальная длина 64 символа");
 
             RuleFor(r => r.ImagePath)
-                .NotEmpty().WithMessage("Поле 'Картинка' не может быть пустым");
+                .NotEmpty().WithMessage("Поле не может быть пустым");
         }
     }
 }

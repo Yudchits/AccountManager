@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AccountManagerWinForm.Forms.Common.Elements.Mat.Common;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AccountManagerWinForm.Forms.Common.Elements
+namespace AccountManagerWinForm.Forms.Common.Elements.Mat
 {
-    public class MatTextBox : Panel
+    public class MatTextBox : Panel, IMatControl
     {
         private readonly Label label;
         private readonly TextBox textBox;
@@ -54,7 +55,8 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             set { textBox.PasswordChar = value; }
         }
 
-        public override Font Font {
+        public override Font Font
+        {
             get
             {
                 return font;
@@ -80,11 +82,12 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             }
         }
 
-        public string Error { 
-            get 
+        public string Error
+        {
+            get
             {
                 return error.Text;
-            } 
+            }
             set
             {
                 var color = string.IsNullOrEmpty(value)
@@ -132,7 +135,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
                 Margin = new Padding(0),
             };
             Controls.Add(panel);
-            
+
             error = new Label
             {
                 AutoSize = true,
@@ -141,8 +144,8 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             };
             Controls.Add(error);
 
-            Height = label.Height 
-                + textBox.Height 
+            Height = label.Height
+                + textBox.Height
                 + panel.Height
                 + error.Height;
 
@@ -199,7 +202,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements
             textBox.BackColor = BackColor;
             panel.Width = Width;
             error.Font = new Font(Font.Name, (float)(font.Size * 0.85));
-            
+
             label.Location = new Point(label.Left, label.Height);
             textBox.Location = new Point(textBox.Left, label.Height);
             panel.Location = new Point(panel.Left, textBox.Bottom);

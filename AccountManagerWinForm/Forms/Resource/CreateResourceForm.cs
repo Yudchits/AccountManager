@@ -5,7 +5,8 @@ using AccountManager.Application.Features.Resource.GetAllDescByUserId;
 using AccountManager.Application.Features.Resource.Update;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
-using AccountManagerWinForm.Forms.Common.Elements;
+using AccountManagerWinForm.Forms.Common.Elements.Mat;
+using AccountManagerWinForm.Forms.Common.Elements.Mat.Common;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
@@ -22,11 +23,11 @@ namespace AccountManagerWinForm.Forms.Resource
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
         private readonly UserContext _userContext;
-        private readonly IDictionary<string, MatTextBox> _validationMappings;
+        private readonly IDictionary<string, IMatControl> _validationMappings;
 
         private Panel createPnl;
         private MatTextBox nameTxtBx;
-        private PictureBox imagePctrBx;
+        private MatPictureBox imagePctrBx;
         private Button saveBtn;
         private Button backBtn;
 
@@ -38,9 +39,10 @@ namespace AccountManagerWinForm.Forms.Resource
             _mediator = mediator;
             _formFactory = formFactory;
             _userContext = userContext;
-            _validationMappings = new Dictionary<string, MatTextBox>
+            _validationMappings = new Dictionary<string, IMatControl>
             {
-                { nameof(AccountManager.Domain.Entities.Resource.Name), nameTxtBx }
+                { nameof(AccountManager.Domain.Entities.Resource.Name), nameTxtBx },
+                { nameof(AccountManager.Domain.Entities.Resource.ImagePath), imagePctrBx }
             };
         }
 
@@ -83,7 +85,7 @@ namespace AccountManagerWinForm.Forms.Resource
                 Label = "Название",
                 Font = font,
                 Location = new Point(0, 0),
-                Padding = new Padding(0, 0, 0, 10)
+                Padding = new Padding(0, 0, 0, 14)
             };
             createPnl.Controls.Add(nameTxtBx);
 
@@ -91,16 +93,14 @@ namespace AccountManagerWinForm.Forms.Resource
             {
                 Parent = createPnl,
                 Width = createPnl.Width,
-                Height = 300,
-                BorderStyle = BorderStyle.FixedSingle,
-                BorderColor = Color.FromArgb(158, 161, 176),
+                Height = 320,
                 Location = new Point(0, nameTxtBx.Bottom),
-                SizeMode = PictureBoxSizeMode.StretchImage
+                Font = font
             };
             imagePctrBx.Click += ImagePctrBx_Click;
             createPnl.Controls.Add(imagePctrBx);
 
-            int buttonsMarginTop = 17;
+            int buttonsMarginTop = 5;
             saveBtn = new Button
             {
                 Parent = createPnl,

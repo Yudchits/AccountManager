@@ -1,4 +1,6 @@
-﻿namespace AccountManagerWinForm.Forms.Auth
+﻿using AccountManagerWinForm.Forms.Common.Elements.Mat;
+
+namespace AccountManagerWinForm.Forms.Auth
 {
     partial class AuthForm
     {
@@ -36,8 +38,8 @@
             AuthHavingLbl = new System.Windows.Forms.Label();
             AuthBtn = new System.Windows.Forms.Button();
             AuthHeaderLbl = new System.Windows.Forms.Label();
-            PasswordTxtBx = new Common.Elements.MatTextBox();
-            LoginTxtBx = new Common.Elements.MatTextBox();
+            PasswordTxtBx = new MatTextBox();
+            LoginTxtBx = new MatTextBox();
             AuthPnl.SuspendLayout();
             AuthHavingPnl.SuspendLayout();
             SuspendLayout();
@@ -136,7 +138,7 @@
             PasswordTxtBx.Label = "Пароль";
             PasswordTxtBx.Location = new System.Drawing.Point(60, 222);
             PasswordTxtBx.Name = "PasswordTxtBx";
-            PasswordTxtBx.PasswordChar = '\0';
+            PasswordTxtBx.PasswordChar = '*';
             PasswordTxtBx.Size = new System.Drawing.Size(300, 79);
             PasswordTxtBx.TabIndex = 1;
             // 
@@ -180,8 +182,8 @@
         private System.Windows.Forms.Panel AuthPnl;
         private System.Windows.Forms.Button AuthBtn;
         private System.Windows.Forms.Label AuthHeaderLbl;
-        private Common.Elements.MatTextBox PasswordTxtBx;
-        private Common.Elements.MatTextBox LoginTxtBx;
+        private MatTextBox PasswordTxtBx;
+        private MatTextBox LoginTxtBx;
         private System.Windows.Forms.Panel AuthHavingPnl;
         private System.Windows.Forms.Label AuthHavingLinkLbl;
         private System.Windows.Forms.Label AuthHavingLbl;

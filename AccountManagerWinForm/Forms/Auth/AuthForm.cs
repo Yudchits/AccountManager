@@ -4,7 +4,7 @@ using AccountManager.Application.Features.Auth.Login;
 using AccountManager.Application.Features.Auth.Registration;
 using AccountManager.Application.Features.Common.Cryptography.Hash.Generate;
 using AccountManager.Domain.Entities;
-using AccountManagerWinForm.Forms.Common.Elements;
+using AccountManagerWinForm.Forms.Common.Elements.Mat;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace AccountManagerWinForm.Forms.Auth
 
             _mediator = mediator;
             _userContext = userContext;
-            
+
             _validationMappings = new Dictionary<string, MatTextBox>
             {
                 { nameof(User.Login), LoginTxtBx },
@@ -69,8 +69,13 @@ namespace AccountManagerWinForm.Forms.Auth
 
         private async void AuthBtn_ClickAsync(object sender, EventArgs e)
         {
+            await SendAuthRequest();
+        }
+
+        private async Task SendAuthRequest()
+        {
             int? userId = isLogin
-                ? await LoginAsync() 
+                ? await LoginAsync()
                 : await RegistrationAsync();
 
             if (userId != null)
