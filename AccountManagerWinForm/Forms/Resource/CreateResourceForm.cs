@@ -85,7 +85,7 @@ namespace AccountManagerWinForm.Forms.Resource
                 Label = "Название",
                 Font = font,
                 Location = new Point(0, 0),
-                Padding = new Padding(0, 0, 0, 14)
+                Padding = new Padding(0, 0, 0, 18)
             };
             createPnl.Controls.Add(nameTxtBx);
 
@@ -100,7 +100,7 @@ namespace AccountManagerWinForm.Forms.Resource
             imagePctrBx.Click += ImagePctrBx_Click;
             createPnl.Controls.Add(imagePctrBx);
 
-            int buttonsMarginTop = 5;
+            int buttonsMarginTop = 3;
             saveBtn = new Button
             {
                 Parent = createPnl,
