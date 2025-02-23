@@ -11,7 +11,7 @@ namespace AccountManager.Infrastructure.Factories
         public AccountManagerContext CreateDbContext(string[] args)
         {
             string specialFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string dbPath = Path.Combine(specialFolder, "AccountManager");
+            string dbPath = Path.Combine(specialFolder, "AccountManager", "accountmanager.db");
 
             var optionsBuilder = new DbContextOptionsBuilder<AccountManagerContext>();
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
