@@ -1,106 +1,51 @@
 ﻿using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
-using Newtonsoft.Json;
-using System;
+using AccountManager.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AccountManager.Infrastructure.Repositories
 {
     public class ResourceRepository : IResourceRepository
     {
-        private readonly string _accountManagerPath;
-        private readonly string _resourceFilePath;
-        private readonly string _resourceImagesPath;
-        private readonly IAccountRepository _accountRepository;
+        private readonly AccountManagerDbContext _context;
 
-        public ResourceRepository(IAccountRepository accountRepository)
+        public ResourceRepository(AccountManagerDbContext context)
         {
-            _accountRepository = accountRepository;
-
-            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            _accountManagerPath = Path.Combine(appDataPath, "AccountManager");
-
-            if (!Directory.Exists(_accountManagerPath))
-            {
-                Directory.CreateDirectory(_accountManagerPath);
-            }
-
-            _resourceFilePath = Path.Combine(_accountManagerPath, "Resources.json");
-            if (!File.Exists(_resourceFilePath))
-            {
-                File.Create(_resourceFilePath);
-            }
-
-            _resourceImagesPath = Path.Combine(_accountManagerPath, "Images", "Resources");
-            if (!Directory.Exists(_resourceImagesPath))
-            {
-                Directory.CreateDirectory(_resourceImagesPath);
-            }
+            _context = context;
         }
 
         public async Task<ICollection<Resource>> GetAllAsync()
         {
-            var resources = await File.ReadAllTextAsync(_resourceFilePath, Encoding.UTF8);
-            if (string.IsNullOrEmpty(resources))
-            {
-                resources = "[]";
-            }
-
-            var deserializedResources = JsonConvert.DeserializeObject<ICollection<Resource>>(resources);
-            return deserializedResources;
+            return await _context.Resources.ToListAsync();
         }
 
         public async Task<ICollection<Resource>> GetAllDescByUserIdAsync(int userId)
         {
-            return await GetAllAsync()
-                .ContinueWith(result => result.Result
-                                        .Where(r => r.UserId == userId)
-                                        .OrderByDescending(r => r.Id)
-                                        .ToList());
+            return await _context.Resources
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.Id)
+                .ToListAsync();
         }
 
         public async Task<Resource> GetByIdAsync(int id)
         {
-            var resources = await GetAllAsync();
-            return resources.FirstOrDefault(r => r.Id == id);
+            var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == id);
+            if (resource == null)
+            {
+                throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={id} не существует");
+            }
+
+            return resource;
         }
 
         public async Task CreateAsync(Resource entity)
         {
-            var resources = await GetAllAsync();
-            
-            var lastResource = resources.LastOrDefault();
-            int id = lastResource != null ? lastResource.Id + 1 : 1;
-            entity.Id = id;
-
-            var imagePath = ConvertToDbImagePath(id, entity.ImagePath);
-            File.Copy(entity.ImagePath, imagePath, true);
-
-            entity.ImagePath = imagePath;
-
-            resources.Add(entity);
-            var serializedResources = JsonConvert.SerializeObject(resources);
-            
-            await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
-        }
-
-        private string ConvertToDbImagePath(int id, string filePath)
-        {
-            var fileFormatStart = filePath.LastIndexOf('.');
-            if (fileFormatStart == -1)
-            {
-                throw new InternalServerException($"Невозможно конвертировать путь '{filePath}'");
-            }
-
-            var fileFormat = filePath.Substring(fileFormatStart);
-            var fileName = $"{id}{fileFormat}";
-
-            return Path.Combine(_resourceImagesPath, fileName);
+            _context.Resources.Add(entity);
+            await SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Resource newResource)
@@ -114,48 +59,28 @@ namespace AccountManager.Infrastructure.Repositories
                 throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={newResourceId} не существует");
             }
 
-            currentResource.Name = currentResource.Name;
+            currentResource.Name = newResource.Name;
+            currentResource.ImagePath = newResource.ImagePath;
 
-            var newImagePath = newResource.ImagePath;
-            if (currentResource.ImagePath != newImagePath)
-            {
-                newImagePath = ConvertToDbImagePath(newResource.Id, newImagePath);
-                File.Copy(newResource.ImagePath, newImagePath, true);
-
-                currentResource.ImagePath = newImagePath;
-            }
-
-            var serializedResources = JsonConvert.SerializeObject(resources);
-            await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
+            await SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Resource entity)
         {
-            var resources = await GetAllAsync();
-
-            int resourceId = entity.Id;
-            var resource = resources.FirstOrDefault(r => r.Id == resourceId);
+            var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == entity.Id);
             if (resource == null)
             {
-                throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={resourceId} не существует");
+                throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={entity.Id} не существует");
             }
 
-            var isDeleted = resources.Remove(resource);
-            if (!isDeleted)
-            {
-                throw new InternalServerException($"Не удалось удалить ресурс id={resourceId}");
-            }
+            _context.Resources.Remove(resource);
+            await SaveChangesAsync();
+        }
 
-            var imagePath = entity.ImagePath;
-            if (File.Exists(imagePath))
-            {
-                File.Delete(imagePath);
-            }
-
-            var serializedResources = JsonConvert.SerializeObject(resources);
-            await File.WriteAllTextAsync(_resourceFilePath, serializedResources, Encoding.UTF8);
-
-            await _accountRepository.DeleteByResourceId(entity.Id);
+        private async Task<bool> SaveChangesAsync()
+        {
+            int affectedRows = await _context.SaveChangesAsync();
+            return affectedRows > 0;
         }
     }
 }

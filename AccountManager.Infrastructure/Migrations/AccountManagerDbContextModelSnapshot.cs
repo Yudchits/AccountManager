@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AccountManager.Infrastructure.Migrations
 {
-    [DbContext(typeof(AccountManagerContext))]
-    partial class AccountManagerContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AccountManagerDbContext))]
+    partial class AccountManagerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

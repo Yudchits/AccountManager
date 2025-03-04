@@ -1,12 +1,10 @@
 using AccountManager.Application.Common;
 using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Extensions;
-using AccountManager.Infrastructure.Context;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

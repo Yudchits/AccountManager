@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AccountManager.Infrastructure.Context
 {
-    public class AccountManagerContext : DbContext
+    public class AccountManagerDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Account> Accounts { get; set; }
 
-        public AccountManagerContext(DbContextOptions<AccountManagerContext> options): base(options)
+        public AccountManagerDbContext(DbContextOptions<AccountManagerDbContext> options): base(options)
         {
         }
 
