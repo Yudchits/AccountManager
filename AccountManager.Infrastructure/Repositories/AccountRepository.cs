@@ -1,81 +1,56 @@
 ﻿using AccountManager.Application.Common.Exceptions;
 using AccountManager.Application.Repositories;
 using AccountManager.Domain.Entities;
-using Newtonsoft.Json;
-using System;
+using AccountManager.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AccountManager.Infrastructure.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly string _accountManagerPath;
-        private readonly string _accountFilePath;
+        private readonly AccountManagerDbContext _context;
 
-        public AccountRepository()
+        public AccountRepository(AccountManagerDbContext context)
         {
-            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            _accountManagerPath = Path.Combine(appDataPath, "AccountManager");
-
-            if (!Directory.Exists(_accountManagerPath))
-            {
-                Directory.CreateDirectory(_accountManagerPath);
-            }
-
-            _accountFilePath = Path.Combine(_accountManagerPath, "Accounts.json");
-            if (!File.Exists(_accountFilePath))
-            {
-                File.Create(_accountFilePath);
-            }
+            _context = context;
         }
 
         public async Task<ICollection<Account>> GetAllAsync()
         {
-            var accounts = await File.ReadAllTextAsync(_accountFilePath);
-
-            if (string.IsNullOrEmpty(accounts))
-            {
-                accounts = "[]";
-            }
-
-            var deserializedAccounts = JsonConvert.DeserializeObject<ICollection<Account>>(accounts);
-            return deserializedAccounts;
+            return await _context.Accounts.ToListAsync();
         }
 
         public async Task<Account> GetByIdAsync(int id)
         {
-            var accounts = await GetAllAsync();
-            return accounts.FirstOrDefault(a => a.Id == id);
+            var acc = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+            if (acc == null)
+            {
+                throw new NotFoundException(nameof(Account.Id), $"Аккаунт id={id} не существует");
+            }
+
+            return acc;
         }
 
         public async Task<ICollection<Account>> GetByResourceIdAsync(int resourceId, int userId)
         {
-            var accounts = await GetAllAsync();
-            return accounts.Where(a => a.ResourceId == resourceId && a.UserId == userId).ToList();
+            return await _context.Accounts
+                .Where(a => a.ResourceId == resourceId && a.UserId == userId)
+                .ToListAsync();
         }
 
         public async Task CreateAsync(Account entity)
         {
-            var accounts = await GetAllAsync();
-            
-            var last = accounts.LastOrDefault();
-            entity.Id = last != null ? last.Id + 1 : 1;
-            
-            accounts.Add(entity);
-            var serializedAccounts = JsonConvert.SerializeObject(accounts);
-            await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
+            _context.Accounts.Add(entity);
+            await SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Account entity)
         {
-            var accounts = await GetAllAsync();
-
             int accountId = entity.Id;
-            var account = accounts.FirstOrDefault(a => a.Id == accountId);
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
             if (account == null)
             {
                 throw new NotFoundException(nameof(Account.Id), $"Аккаунт id={accountId} не существует");
@@ -86,37 +61,26 @@ namespace AccountManager.Infrastructure.Repositories
             account.Login = entity.Login;
             account.Password = entity.Password;
 
-            var serializedAccounts = JsonConvert.SerializeObject(accounts);
-            await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
+            await SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Account entity)
         {
-            var accounts = await GetAllAsync();
-
             int accountId = entity.Id;
-            var account = accounts.FirstOrDefault(a => a.Id == accountId);
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
             if (account == null)
             {
                 throw new NotFoundException(nameof(Resource.Id), $"Аккаунт id={accountId} не существует");
             }
 
-            var isDeleted = accounts.Remove(account);
-            if (!isDeleted)
-            {
-                throw new InternalServerException($"Не удалось удалить аккаунт id={accountId}");
-            }
-
-            var serializedAccounts = JsonConvert.SerializeObject(accounts);
-            await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
+            _context.Accounts.Remove(account);
+            await SaveChangesAsync();
         }
 
-        public async Task DeleteByResourceId(int resourceId)
+        private async Task<bool> SaveChangesAsync()
         {
-            var accounts = await GetAllAsync();
-            accounts = accounts.Where(a => a.ResourceId != resourceId).ToList();
-            var serializedAccounts = JsonConvert.SerializeObject(accounts);
-            await File.WriteAllTextAsync(_accountFilePath, serializedAccounts, Encoding.UTF8);
+            int affectedRows = await _context.SaveChangesAsync();
+            return affectedRows > 0;
         }
     }
 }

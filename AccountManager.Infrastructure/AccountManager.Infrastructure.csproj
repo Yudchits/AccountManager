@@ -18,4 +18,8 @@
     <ProjectReference Include="..\AccountManager.Domain\AccountManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
+
 </Project>

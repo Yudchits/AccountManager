@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AccountManager.Infrastructure.Migrations
 {
-    [DbContext(typeof(AccountManagerContext))]
+    [DbContext(typeof(AccountManagerDbContext))]
     [Migration("20250223185834_InitialCreate")]
     partial class InitialCreate
     {
