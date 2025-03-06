@@ -109,6 +109,8 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
                 Cursor = Cursors.IBeam,
                 Padding = new Padding(0),
                 Margin = new Padding(0),
+                Font = font,
+                BorderStyle = BorderStyle.None
             };
             label.Click += Label_Click;
             Controls.Add(label);
@@ -120,7 +122,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
                 BackColor = Color.FromArgb(46, 51, 73),
                 Margin = new Padding(0),
                 ForeColor = foreColor,
-                Font = new Font("Cascadia Code", 12f)
+                Font = font
             };
             textBox.TextChanged += TextBox_TextChanged;
             textBox.GotFocus += TextBox_GotFocus;
@@ -139,7 +141,9 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             error = new Label
             {
                 AutoSize = true,
-                Font = new Font(Font.Name, (float)(font.Size * 0.9)),
+                Font = new Font(font.Name, (float)(font.Size * 0.85)),
+                Margin = new Padding(0),
+                Padding = new Padding(0),
                 ForeColor = errorColor
             };
             Controls.Add(error);
@@ -195,12 +199,16 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
         {
             base.OnResize(e);
             textBox.Width = Width;
+            panel.Width = Width;
+
             textBox.Multiline = true;
             textBox.MinimumSize = new Size(0, label.Height);
             textBox.Multiline = false;
-            textBox.Font = Font;
             textBox.BackColor = BackColor;
-            panel.Width = Width;
+
+            label.Font = font;
+            textBox.Font = Font;
+            textBox.Font = font;
             error.Font = new Font(Font.Name, (float)(font.Size * 0.85));
 
             label.Location = new Point(label.Left, label.Height);
