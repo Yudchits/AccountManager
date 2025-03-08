@@ -12,8 +12,8 @@ namespace AccountManagerWinForm.Extensions
         {
             services.AddSingleton(configuration);
             services.Configure<UserContextSettings>(configuration.GetSection("Cryptography:Hash:UserContext"));
-            
-            services.AddSingleton<UserContext>();
+
+            services.AddSingleton(UserContext.Instance);
 
             services.AddTransient<IFormFactory, FormFactory>();
         }
