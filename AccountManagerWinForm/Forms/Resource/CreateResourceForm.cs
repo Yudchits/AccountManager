@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -97,7 +98,6 @@ namespace AccountManagerWinForm.Forms.Resource
                 Location = new Point(0, nameTxtBx.Bottom),
                 Font = font
             };
-            imagePctrBx.Click += ImagePctrBx_Click;
             createPnl.Controls.Add(imagePctrBx);
 
             int buttonsMarginTop = 3;
@@ -148,26 +148,6 @@ namespace AccountManagerWinForm.Forms.Resource
         private void CreateResourceForm_Click(object sender, EventArgs e)
         {
             ActiveControl = null;
-        }
-
-        private void ImagePctrBx_Click(object? sender, EventArgs e)
-        {
-            using (var dialog = new OpenFileDialog())
-            {
-                dialog.InitialDirectory = "C:\\";
-                dialog.Filter = "Изображения (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
-                dialog.Title = "Выберите изображение";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (var tempImage = Image.FromFile(dialog.FileName))
-                    {
-                        imagePctrBx.Image?.Dispose();
-                        imagePctrBx.Image = new Bitmap(tempImage);
-                        imagePctrBx.ImageLocation = dialog.FileName;
-                    }
-                }
-            }
         }
 
         private async void SaveBtn_Click(object? sender, EventArgs e)

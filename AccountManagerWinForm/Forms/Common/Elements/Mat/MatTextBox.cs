@@ -119,7 +119,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             {
                 Width = Width,
                 BorderStyle = BorderStyle.None,
-                BackColor = Color.FromArgb(46, 51, 73),
+                BackColor = backColor,
                 Margin = new Padding(0),
                 ForeColor = foreColor,
                 Font = font
