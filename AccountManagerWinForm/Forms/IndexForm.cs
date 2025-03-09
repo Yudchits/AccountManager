@@ -30,21 +30,36 @@ namespace AccountManagerWinForm.Forms
             _formFactory = formFactory;
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            OpenWelcomeForm();
+        }
+
+        private void OpenWelcomeForm()
+        {
+            var welcomeForn = _formFactory.CreateWelcomeForm();
+            this.ShowWithinIndex(welcomeForn, "Главная");
+        }
+
         private void CloseBtn_Click(object sender, EventArgs e) => Application.Exit();
 
-        private void Btn_ToMain_Click(object sender, EventArgs e)
+        private void Btn_ToWelcome_Click(object sender, EventArgs e)
         {
-            ActivePnl.Location = new Point(0, Btn_ToMain.Location.Y);
-            ActiveFormNameLbl.Text = "Главная";
-            BodyPnl.Controls.Clear();
+            ActivePnl.Location = new Point(0, Btn_ToWelcome.Location.Y);
+            OpenWelcomeForm();
         }
 
         private void Btn_ToResources_Click(object sender, EventArgs e)
         {
-            ActivePnl.Location = new Point(0, Btn_ToResources.Location.Y);
-
+            LocateActivePnlToResources();
             var resourcesForm = _formFactory.CreateResourcesForm();
             this.ShowWithinIndex(resourcesForm, "Ресурсы");
+        }
+
+        public void LocateActivePnlToResources()
+        {
+            ActivePnl.Location = new Point(0, Btn_ToResources.Location.Y);
         }
 
         private void Btn_ToSettings_Click(object sender, EventArgs e)

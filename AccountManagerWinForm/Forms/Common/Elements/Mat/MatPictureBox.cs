@@ -61,6 +61,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             set
             {
                 imagePctrBx.Image = value;
+                noImgLbl.Visible = false;
             }
         }
 
@@ -126,6 +127,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     noImgLbl.Visible = false;
+                    Error = string.Empty;
 
                     using (var tempImage = Image.FromFile(dialog.FileName))
                     {

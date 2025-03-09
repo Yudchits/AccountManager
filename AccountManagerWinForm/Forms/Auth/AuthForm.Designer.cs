@@ -49,7 +49,7 @@ namespace AccountManagerWinForm.Forms.Auth
             CloseBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(28, 29, 35);
             CloseBtn.FlatAppearance.BorderSize = 0;
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             CloseBtn.ForeColor = System.Drawing.Color.White;
             CloseBtn.Location = new System.Drawing.Point(354, 0);
             CloseBtn.Margin = new System.Windows.Forms.Padding(0);
@@ -62,6 +62,7 @@ namespace AccountManagerWinForm.Forms.Auth
             // 
             // AuthPnl
             // 
+            AuthPnl.BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             AuthPnl.Controls.Add(CloseBtn);
             AuthPnl.Controls.Add(AuthHavingPnl);
             AuthPnl.Controls.Add(AuthBtn);
@@ -79,7 +80,7 @@ namespace AccountManagerWinForm.Forms.Auth
             // 
             AuthHavingPnl.Controls.Add(AuthHavingLinkLbl);
             AuthHavingPnl.Controls.Add(AuthHavingLbl);
-            AuthHavingPnl.Font = new System.Drawing.Font("Cascadia Code", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            AuthHavingPnl.Font = new System.Drawing.Font("Cascadia Code", 7.8F);
             AuthHavingPnl.Location = new System.Drawing.Point(85, 377);
             AuthHavingPnl.Name = "AuthHavingPnl";
             AuthHavingPnl.Size = new System.Drawing.Size(250, 37);
@@ -89,7 +90,7 @@ namespace AccountManagerWinForm.Forms.Auth
             // 
             AuthHavingLinkLbl.AutoSize = true;
             AuthHavingLinkLbl.Cursor = System.Windows.Forms.Cursors.Hand;
-            AuthHavingLinkLbl.Font = new System.Drawing.Font("Cascadia Code", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            AuthHavingLinkLbl.Font = new System.Drawing.Font("Cascadia Code", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, 204);
             AuthHavingLinkLbl.Location = new System.Drawing.Point(132, 8);
             AuthHavingLinkLbl.Name = "AuthHavingLinkLbl";
             AuthHavingLinkLbl.Size = new System.Drawing.Size(108, 20);
@@ -100,7 +101,7 @@ namespace AccountManagerWinForm.Forms.Auth
             // AuthHavingLbl
             // 
             AuthHavingLbl.AutoSize = true;
-            AuthHavingLbl.Font = new System.Drawing.Font("Cascadia Code", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            AuthHavingLbl.Font = new System.Drawing.Font("Cascadia Code", 9F);
             AuthHavingLbl.Location = new System.Drawing.Point(12, 8);
             AuthHavingLbl.Name = "AuthHavingLbl";
             AuthHavingLbl.Size = new System.Drawing.Size(126, 20);
@@ -123,11 +124,11 @@ namespace AccountManagerWinForm.Forms.Auth
             // AuthHeaderLbl
             // 
             AuthHeaderLbl.AutoSize = true;
-            AuthHeaderLbl.Font = new System.Drawing.Font("Cascadia Code SemiBold", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            AuthHeaderLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
             AuthHeaderLbl.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             AuthHeaderLbl.Location = new System.Drawing.Point(177, 79);
             AuthHeaderLbl.Name = "AuthHeaderLbl";
-            AuthHeaderLbl.Size = new System.Drawing.Size(75, 33);
+            AuthHeaderLbl.Size = new System.Drawing.Size(65, 30);
             AuthHeaderLbl.TabIndex = 2;
             AuthHeaderLbl.Text = "Вход";
             // 
@@ -160,7 +161,7 @@ namespace AccountManagerWinForm.Forms.Auth
             BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
             ClientSize = new System.Drawing.Size(420, 510);
             Controls.Add(AuthPnl);
-            Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Font = new System.Drawing.Font("Cascadia Code", 12F);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");

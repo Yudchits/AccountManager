@@ -33,7 +33,7 @@
             ActivePnl = new System.Windows.Forms.Panel();
             Btn_ToSettings = new System.Windows.Forms.Button();
             Btn_ToResources = new System.Windows.Forms.Button();
-            Btn_ToMain = new System.Windows.Forms.Button();
+            Btn_ToWelcome = new System.Windows.Forms.Button();
             DashboardTopPnl = new System.Windows.Forms.Panel();
             DashboardNameLabel = new System.Windows.Forms.Label();
             DashboardLogoPicture = new System.Windows.Forms.PictureBox();
@@ -54,7 +54,7 @@
             DashboardMainPnl.Controls.Add(ActivePnl);
             DashboardMainPnl.Controls.Add(Btn_ToSettings);
             DashboardMainPnl.Controls.Add(Btn_ToResources);
-            DashboardMainPnl.Controls.Add(Btn_ToMain);
+            DashboardMainPnl.Controls.Add(Btn_ToWelcome);
             DashboardMainPnl.Controls.Add(DashboardTopPnl);
             DashboardMainPnl.Dock = System.Windows.Forms.DockStyle.Left;
             DashboardMainPnl.Location = new System.Drawing.Point(0, 0);
@@ -103,21 +103,21 @@
             Btn_ToResources.UseVisualStyleBackColor = true;
             Btn_ToResources.Click += Btn_ToResources_Click;
             // 
-            // Btn_ToMain
+            // Btn_ToWelcome
             // 
-            Btn_ToMain.Dock = System.Windows.Forms.DockStyle.Top;
-            Btn_ToMain.FlatAppearance.BorderSize = 0;
-            Btn_ToMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Btn_ToMain.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            Btn_ToMain.Image = Properties.Resources.Home24;
-            Btn_ToMain.Location = new System.Drawing.Point(0, 110);
-            Btn_ToMain.Name = "Btn_ToMain";
-            Btn_ToMain.Size = new System.Drawing.Size(200, 60);
-            Btn_ToMain.TabIndex = 1;
-            Btn_ToMain.Text = "Главная";
-            Btn_ToMain.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            Btn_ToMain.UseVisualStyleBackColor = true;
-            Btn_ToMain.Click += Btn_ToMain_Click;
+            Btn_ToWelcome.Dock = System.Windows.Forms.DockStyle.Top;
+            Btn_ToWelcome.FlatAppearance.BorderSize = 0;
+            Btn_ToWelcome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Btn_ToWelcome.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
+            Btn_ToWelcome.Image = Properties.Resources.Home24;
+            Btn_ToWelcome.Location = new System.Drawing.Point(0, 110);
+            Btn_ToWelcome.Name = "Btn_ToWelcome";
+            Btn_ToWelcome.Size = new System.Drawing.Size(200, 60);
+            Btn_ToWelcome.TabIndex = 1;
+            Btn_ToWelcome.Text = "Главная";
+            Btn_ToWelcome.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            Btn_ToWelcome.UseVisualStyleBackColor = true;
+            Btn_ToWelcome.Click += Btn_ToWelcome_Click;
             // 
             // DashboardTopPnl
             // 
@@ -131,7 +131,7 @@
             // 
             // DashboardNameLabel
             // 
-            DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Bold);
             DashboardNameLabel.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             DashboardNameLabel.Location = new System.Drawing.Point(10, 73);
             DashboardNameLabel.Name = "DashboardNameLabel";
@@ -153,7 +153,7 @@
             // 
             CloseBtn.FlatAppearance.BorderSize = 0;
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             CloseBtn.Location = new System.Drawing.Point(740, 0);
             CloseBtn.Name = "CloseBtn";
             CloseBtn.Size = new System.Drawing.Size(60, 30);
@@ -176,7 +176,7 @@
             // ActiveFormNameLbl
             // 
             ActiveFormNameLbl.AutoSize = true;
-            ActiveFormNameLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ActiveFormNameLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F);
             ActiveFormNameLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             ActiveFormNameLbl.Location = new System.Drawing.Point(30, 36);
             ActiveFormNameLbl.Name = "ActiveFormNameLbl";
@@ -208,7 +208,7 @@
             Controls.Add(BodyPnl);
             Controls.Add(HeaderPnl);
             Controls.Add(DashboardMainPnl);
-            Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Font = new System.Drawing.Font("Cascadia Code", 12F);
             ForeColor = System.Drawing.Color.White;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
@@ -230,7 +230,7 @@
         private System.Windows.Forms.Panel DashboardTopPnl;
         private System.Windows.Forms.PictureBox DashboardLogoPicture;
         private System.Windows.Forms.Label DashboardNameLabel;
-        private System.Windows.Forms.Button Btn_ToMain;
+        private System.Windows.Forms.Button Btn_ToWelcome;
         private System.Windows.Forms.Button Btn_ToSettings;
         private System.Windows.Forms.Panel ActivePnl;
         private System.Windows.Forms.Button CloseBtn;

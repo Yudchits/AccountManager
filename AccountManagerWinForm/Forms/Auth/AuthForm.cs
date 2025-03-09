@@ -49,10 +49,6 @@ namespace AccountManagerWinForm.Forms.Auth
         private void AuthForm_Load(object sender, EventArgs e)
         {
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
-            LoginTxtBx.BackColor = Color.FromArgb(24, 30, 54);
-            PasswordTxtBx.BackColor = Color.FromArgb(24, 30, 54);
-            AuthHavingLinkLbl.Font = new Font(AuthHavingLbl.Font, FontStyle.Underline);
-            AuthHeaderLbl.Font = new Font(AuthHeaderLbl.Font, FontStyle.Underline);
             LocateAuthHavingLbls();
         }
 

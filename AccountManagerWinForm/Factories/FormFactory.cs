@@ -6,9 +6,9 @@ using AccountManagerWinForm.Forms;
 using AccountManagerWinForm.Forms.Account;
 using AccountManagerWinForm.Forms.Auth;
 using AccountManagerWinForm.Forms.Common;
+using AccountManagerWinForm.Forms.Welcome;
 using AccountManagerWinForm.Forms.Resource;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace AccountManagerWinForm.Factories
@@ -17,6 +17,7 @@ namespace AccountManagerWinForm.Factories
     {
         AuthForm CreateAuthForm();
         IndexForm CreateIndexForm();
+        WelcomeForm CreateWelcomeForm();
         MessageDialogForm CreateMessageDialogForm(string message, MessageType type);
 
         AccountsForm CreateAccountsForm(int resourceId);
@@ -51,6 +52,11 @@ namespace AccountManagerWinForm.Factories
         public IndexForm CreateIndexForm()
         {
             return new IndexForm(this);
+        }
+
+        public WelcomeForm CreateWelcomeForm()
+        {
+            return new WelcomeForm(_mediator, this, _userContext);
         }
 
         public MessageDialogForm CreateMessageDialogForm(string message, MessageType type)
