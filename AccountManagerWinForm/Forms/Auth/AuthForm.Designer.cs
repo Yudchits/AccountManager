@@ -168,7 +168,7 @@ namespace AccountManagerWinForm.Forms.Auth
             Margin = new System.Windows.Forms.Padding(4);
             Name = "AuthForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "AuthForm";
+            Text = "AccountManager";
             Load += AuthForm_Load;
             AuthPnl.ResumeLayout(false);
             AuthPnl.PerformLayout();

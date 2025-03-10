@@ -3,6 +3,7 @@ using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
+using AccountManagerWinForm.Forms.Common.Elements.Mat;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
@@ -28,6 +29,7 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly Color lightBlue = Color.FromArgb(0, 180, 249);
 
         private ICollection<GetAccountsByResourceIdResponse> _accounts;
+        private ICollection<GetAccountsByResourceIdResponse> _accountsToDisplay;
 
         private bool isDragging = false;
         private int initialMouseY;
@@ -47,6 +49,7 @@ namespace AccountManagerWinForm.Forms.Account
             _userContext = userContext;
             
             _accounts = new List<GetAccountsByResourceIdResponse>();
+            _accountsToDisplay = _accounts;
 
             maxMouseY = Height - ScrollPnl.Height;
         }
@@ -55,7 +58,41 @@ namespace AccountManagerWinForm.Forms.Account
         {
             ScrollPnl.BringToFront();
             CreateAccBtn.SendToBack();
+            InitializeSearchMatTxtBx();
             await InitAccounts();
+        }
+
+        private void InitializeSearchMatTxtBx()
+        {
+            var font = new Font("Cascadia Code", 12f);
+
+            var searchPnl = Program.IndexForm?.SearchPnl;
+
+            if (searchPnl != null)
+            {
+                var searchTxtBx = new MatTextBox
+                {
+                    Label = "Поиск",
+                    Font = font,
+                    Location = new Point(0, 0),
+                    Width = searchPnl.Width
+                };
+                searchTxtBx.TextChanged += SearchTxtBx_TextChanged;
+                searchPnl.Controls.Add(searchTxtBx);
+            }
+        }
+
+        private void SearchTxtBx_TextChanged(object? sender, string text)
+        {
+            currentPage = 1;
+            _accountsToDisplay = _accounts
+                .Where(a => a.Name.Contains
+                (
+                    text, StringComparison.CurrentCultureIgnoreCase)
+                    || a.Login.Contains(text, StringComparison.CurrentCultureIgnoreCase)
+                ).ToList();
+
+            OpenCurrentPage();
         }
 
         private async Task InitAccounts()
@@ -64,6 +101,7 @@ namespace AccountManagerWinForm.Forms.Account
             (
                 new GetAccountsByResourceIdRequest(_resourceId, _userContext.UserId)
             );
+            _accountsToDisplay = _accounts;
 
             if (_accounts.Count == 0)
             {
@@ -97,9 +135,9 @@ namespace AccountManagerWinForm.Forms.Account
 
             int lastAccountIdOnPage = currentPage * ACCOUNTS_ON_PAGE - 1;
             int accountStartId = lastAccountIdOnPage - ACCOUNTS_ON_PAGE + 1;
-            for (int i = accountStartId; i <= lastAccountIdOnPage && i < _accounts.Count; i++)
+            for (int i = accountStartId; i <= lastAccountIdOnPage && i < _accountsToDisplay.Count; i++)
             {
-                var account = _accounts.ElementAt(i);
+                var account = _accountsToDisplay.ElementAt(i);
 
                 var accountPnl = new Panel
                 {
