@@ -38,6 +38,7 @@ namespace AccountManager.Infrastructure.Repositories
         {
             return await _context.Accounts
                 .Where(a => a.ResourceId == resourceId && a.UserId == userId)
+                .Include(a => a.Bookmarks)
                 .ToListAsync();
         }
 

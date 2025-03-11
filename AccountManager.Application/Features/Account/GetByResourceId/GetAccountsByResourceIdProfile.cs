@@ -12,7 +12,7 @@ namespace AccountManager.Application.Features.Account.GetByResourceId
                 .ForMember
                 (
                     dest => dest.IsBookmarked,
-                    opt => opt.MapFrom(src => !src.Bookmarks.Any())
+                    opt => opt.MapFrom(src => src.Bookmarks.Any())
                 );
             CreateMap<GetAccountsByResourceIdResponse, CreateAccountRequest>();
         }

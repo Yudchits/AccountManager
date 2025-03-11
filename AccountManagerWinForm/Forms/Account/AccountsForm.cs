@@ -2,7 +2,7 @@
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
 using AccountManager.Application.Features.UserAccountBookmark.Create;
-using AccountManager.Domain.Entities;
+using AccountManager.Application.Features.UserAccountBookmark.Delete;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements.Mat;
@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -169,7 +168,10 @@ namespace AccountManagerWinForm.Forms.Account
                     Location = new Point(nameLbl.Right, nameLbl.Top),
                     Size = new Size(btnWidth, nameLbl.Height)
                 };
-                using (var stream = new MemoryStream(Resources.AddBookmark16))
+                var bookmarkBtnImage = account.IsBookmarked
+                    ? Resources.DeleteBookmark16
+                    : Resources.AddBookmark16;
+                using (var stream = new MemoryStream(bookmarkBtnImage))
                 {
                     bookmarkBtn.Image = Image.FromStream(stream);
                 }
@@ -466,6 +468,11 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async Task<byte[]> DeleteUserAccountBookmark(int accountId)
         {
+            await _mediator.Send
+            (
+                new DeleteUserAccountBookmarkRequest(_userContext.UserId, accountId)
+            );
+
             return Resources.AddBookmark16;
         }
 
