@@ -1,4 +1,6 @@
-﻿namespace AccountManager.Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace AccountManager.Domain.Entities
 {
     public class Account
     {
@@ -11,5 +13,6 @@
 
         public virtual Resource Resource { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<UserAccountBookmark> Bookmarks { get; set; }
     }
 }

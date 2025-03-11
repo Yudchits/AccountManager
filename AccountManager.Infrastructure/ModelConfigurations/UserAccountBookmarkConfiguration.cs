@@ -18,7 +18,7 @@ namespace AccountManager.Infrastructure.ModelConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(b => b.Account)
-                .WithMany()
+                .WithMany(a => a.Bookmarks)
                 .HasForeignKey(b => b.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
