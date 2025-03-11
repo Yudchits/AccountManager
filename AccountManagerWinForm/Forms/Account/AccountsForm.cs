@@ -1,6 +1,8 @@
 ﻿using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
+using AccountManager.Application.Features.UserAccountBookmark.Create;
+using AccountManager.Domain.Entities;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements.Mat;
@@ -9,7 +11,9 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -158,11 +162,27 @@ namespace AccountManagerWinForm.Forms.Account
                 };
                 accountPnl.Controls.Add(nameLbl);
 
-                var updateBtn = new Button
+                var bookmarkBtn = new Button
                 {
                     Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
                     Location = new Point(nameLbl.Right, nameLbl.Top),
+                    Size = new Size(btnWidth, nameLbl.Height)
+                };
+                using (var stream = new MemoryStream(Resources.AddBookmark16))
+                {
+                    bookmarkBtn.Image = Image.FromStream(stream);
+                }
+                bookmarkBtn.FlatAppearance.BorderSize = 0;
+                bookmarkBtn.Tag = account;
+                bookmarkBtn.Click += BookmarkBtn_Click;
+                accountPnl.Controls.Add(bookmarkBtn);
+
+                var updateBtn = new Button
+                {
+                    Parent = accountPnl,
+                    FlatStyle = FlatStyle.Flat,
+                    Location = new Point(bookmarkBtn.Right, nameLbl.Top),
                     Image = Resources.Edit16,
                     Size = new Size(btnWidth, nameLbl.Height),
                     Tag = account.Id
@@ -406,6 +426,47 @@ namespace AccountManagerWinForm.Forms.Account
         {
             currentPage = currentPage > 1 ? currentPage - 1 : maxPageCount;
             OpenCurrentPage();
+        }
+
+        private async void BookmarkBtn_Click(object? sender, EventArgs e)
+        {
+            if (sender is Button bookmarkBtn)
+            {
+                if (bookmarkBtn.Tag is GetAccountsByResourceIdResponse account)
+                {
+                    byte[] bookmarkImage;
+
+                    if (account.IsBookmarked)
+                    {
+                        bookmarkImage = await DeleteUserAccountBookmark(account.Id);
+                    }
+                    else
+                    {
+                        bookmarkImage = await CreateUserAccountBookmark(account.Id);
+                    }
+                    account.IsBookmarked = !account.IsBookmarked;
+
+                    using (var imageStream = new MemoryStream(bookmarkImage))
+                    {
+                        bookmarkBtn.Image = Image.FromStream(imageStream);
+                    }
+                }
+            }
+        }
+
+        private async Task<byte[]> CreateUserAccountBookmark(int accountId)
+        {
+            await _mediator.Send
+            (
+                new CreateUserAccountBookmarkRequest(_userContext.UserId, accountId)
+            );
+
+            return Resources.DeleteBookmark16;
+        }
+
+        private async Task<byte[]> DeleteUserAccountBookmark(int accountId)
+        {
+            return Resources.AddBookmark16;
         }
 
         private void UpdateBtn_Click(object? sender, EventArgs e)

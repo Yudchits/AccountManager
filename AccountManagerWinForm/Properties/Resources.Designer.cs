@@ -83,6 +83,16 @@ namespace AccountManagerWinForm.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] AddBookmark16 {
+            get {
+                object obj = ResourceManager.GetObject("AddBookmark16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AddImg24 {
             get {
                 object obj = ResourceManager.GetObject("AddImg24", resourceCulture);
@@ -127,6 +137,16 @@ namespace AccountManagerWinForm.Properties {
             get {
                 object obj = ResourceManager.GetObject("Delete24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] DeleteBookmark16 {
+            get {
+                object obj = ResourceManager.GetObject("DeleteBookmark16", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

@@ -35,7 +35,9 @@ namespace AccountManager.Infrastructure.Repositories
         {
             int bookmarkAccountId = bookmark.AccountId;
             
-            var bookmarkDb = _context.UserAccountBookmarks.Where(b => b.AccountId == bookmarkAccountId);
+            var bookmarkDb = await _context.UserAccountBookmarks
+                .FirstOrDefaultAsync(b => b.AccountId == bookmarkAccountId);
+            
             if (bookmarkDb == null)
             {
                 throw new NotFoundException(nameof(UserAccountBookmark.AccountId), $"Не удалось найти закладку accountId={bookmarkAccountId}");
