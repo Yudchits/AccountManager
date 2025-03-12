@@ -33,6 +33,7 @@
             HeaderUserLoginLbl = new System.Windows.Forms.Label();
             CreateResBtn = new System.Windows.Forms.Button();
             NoResPnl = new System.Windows.Forms.Panel();
+            UserAccountBookmarksPnl = new System.Windows.Forms.Panel();
             AppDescLbl3 = new System.Windows.Forms.Label();
             AppDescLbl2 = new System.Windows.Forms.Label();
             AppDescLbl1 = new System.Windows.Forms.Label();
@@ -88,6 +89,7 @@
             // 
             // NoResPnl
             // 
+            NoResPnl.Controls.Add(UserAccountBookmarksPnl);
             NoResPnl.Controls.Add(AppDescLbl3);
             NoResPnl.Controls.Add(AppDescLbl2);
             NoResPnl.Controls.Add(AppDescLbl1);
@@ -97,6 +99,15 @@
             NoResPnl.Name = "NoResPnl";
             NoResPnl.Size = new System.Drawing.Size(800, 429);
             NoResPnl.TabIndex = 5;
+            // 
+            // UserAccountBookmarksPnl
+            // 
+            UserAccountBookmarksPnl.Dock = System.Windows.Forms.DockStyle.Fill;
+            UserAccountBookmarksPnl.Location = new System.Drawing.Point(0, 0);
+            UserAccountBookmarksPnl.Name = "UserAccountBookmarksPnl";
+            UserAccountBookmarksPnl.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            UserAccountBookmarksPnl.Size = new System.Drawing.Size(800, 429);
+            UserAccountBookmarksPnl.TabIndex = 8;
             // 
             // AppDescLbl3
             // 
@@ -152,5 +163,6 @@
         private System.Windows.Forms.Label AppDescLbl2;
         private System.Windows.Forms.Label AppDescLbl1;
         private System.Windows.Forms.Label AppDescLbl3;
+        private System.Windows.Forms.Panel UserAccountBookmarksPnl;
     }
 }

@@ -9,6 +9,7 @@ namespace AccountManager.Infrastructure.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<UserAccountBookmark> UserAccountBookmarks { get; set; }
 
         public AccountManagerDbContext(DbContextOptions<AccountManagerDbContext> options): base(options)
         {
@@ -21,6 +22,7 @@ namespace AccountManager.Infrastructure.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ResourceConfiguration());
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
+            modelBuilder.ApplyConfiguration(new UserAccountBookmarkConfiguration());
         }
     }
 }

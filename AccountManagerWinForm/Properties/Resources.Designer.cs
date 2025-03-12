@@ -81,6 +81,16 @@ namespace AccountManagerWinForm.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AddBookmark16 {
+            get {
+                object obj = ResourceManager.GetObject("AddBookmark16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] AddImg24 {
@@ -126,6 +136,26 @@ namespace AccountManagerWinForm.Properties {
         internal static System.Drawing.Bitmap Delete24 {
             get {
                 object obj = ResourceManager.GetObject("Delete24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DeleteBookmark16 {
+            get {
+                object obj = ResourceManager.GetObject("DeleteBookmark16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DeleteBookmark24 {
+            get {
+                object obj = ResourceManager.GetObject("DeleteBookmark24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

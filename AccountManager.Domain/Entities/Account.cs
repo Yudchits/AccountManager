@@ -1,9 +1,10 @@
-﻿using AccountManager.Domain.Entities.Common;
+﻿using System.Collections.Generic;
 
 namespace AccountManager.Domain.Entities
 {
-    public class Account : BaseEntity
+    public class Account
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
@@ -12,5 +13,6 @@ namespace AccountManager.Domain.Entities
 
         public virtual Resource Resource { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<UserAccountBookmark> Bookmarks { get; set; }
     }
 }

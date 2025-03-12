@@ -1,6 +1,9 @@
 ﻿using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
+using AccountManager.Application.Features.UserAccountBookmark.CheckCount;
+using AccountManager.Application.Features.UserAccountBookmark.Create;
+using AccountManager.Application.Features.UserAccountBookmark.Delete;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
 using AccountManagerWinForm.Forms.Common.Elements.Mat;
@@ -9,6 +12,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -158,11 +162,26 @@ namespace AccountManagerWinForm.Forms.Account
                 };
                 accountPnl.Controls.Add(nameLbl);
 
-                var updateBtn = new Button
+                var bookmarkBtn = new Button
                 {
                     Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
                     Location = new Point(nameLbl.Right, nameLbl.Top),
+                    Size = new Size(btnWidth, nameLbl.Height),
+                    Image = account.IsBookmarked
+                        ? Resources.DeleteBookmark16
+                        : Resources.AddBookmark16
+                };
+                bookmarkBtn.FlatAppearance.BorderSize = 0;
+                bookmarkBtn.Tag = account;
+                bookmarkBtn.Click += BookmarkBtn_Click;
+                accountPnl.Controls.Add(bookmarkBtn);
+
+                var updateBtn = new Button
+                {
+                    Parent = accountPnl,
+                    FlatStyle = FlatStyle.Flat,
+                    Location = new Point(bookmarkBtn.Right, nameLbl.Top),
                     Image = Resources.Edit16,
                     Size = new Size(btnWidth, nameLbl.Height),
                     Tag = account.Id
@@ -408,6 +427,55 @@ namespace AccountManagerWinForm.Forms.Account
             OpenCurrentPage();
         }
 
+        private async void BookmarkBtn_Click(object? sender, EventArgs e)
+        {
+            if (sender is Button bookmarkBtn)
+            {
+                if (bookmarkBtn.Tag is GetAccountsByResourceIdResponse account)
+                {
+                    Bitmap bookmarkImage;
+
+                    if (account.IsBookmarked)
+                    {
+                        bookmarkImage = await DeleteUserAccountBookmark(account.Id);
+                    }
+                    else
+                    {
+                        await CheckUserAccountBookmarkCount();
+                        bookmarkImage = await CreateUserAccountBookmark(account.Id);
+                    }
+                    account.IsBookmarked = !account.IsBookmarked;
+
+                    bookmarkBtn.Image = bookmarkImage;
+                }
+            }
+        }
+
+        private async Task CheckUserAccountBookmarkCount()
+        {
+            await _mediator.Send(new CheckUserAccountBookmarkCountRequest());
+        }
+
+        private async Task<Bitmap> CreateUserAccountBookmark(int accountId)
+        {
+            await _mediator.Send
+            (
+                new CreateUserAccountBookmarkRequest(_userContext.UserId, accountId)
+            );
+
+            return Resources.DeleteBookmark16;
+        }
+
+        private async Task<Bitmap> DeleteUserAccountBookmark(int accountId)
+        {
+            await _mediator.Send
+            (
+                new DeleteUserAccountBookmarkRequest(_userContext.UserId, accountId)
+            );
+
+            return Resources.AddBookmark16;
+        }
+
         private void UpdateBtn_Click(object? sender, EventArgs e)
         {
             if (sender == null)
@@ -451,23 +519,21 @@ namespace AccountManagerWinForm.Forms.Account
 
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
         {
-            if (sender is not null)
+            if (sender is Button button && button.Tag != null)
             {
-                var button = sender as Button;
-                Clipboard.SetText(button?.Tag?.ToString());
+                Clipboard.SetText(button.Tag.ToString());
             }
         }
 
         private async void PasswordCopyBtn_ClickAsync(object? sender, EventArgs e)
         {
-            if (sender is not null)
+            if (sender is Button button && button.Tag != null)
             {
-                var button = sender as Button;
-
                 var plainTextResult = await _mediator.Send
                 (
-                    new AesDecryptRequest(button?.Tag?.ToString())
+                    new AesDecryptRequest(button.Tag.ToString())
                 );
+
                 string plainText = plainTextResult.PlainText;
                 Clipboard.SetText(plainText);
             }

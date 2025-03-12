@@ -1,10 +1,10 @@
-﻿using AccountManager.Domain.Entities.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AccountManager.Domain.Entities
 {
-    public class Resource : BaseEntity
+    public class Resource
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ImagePath { get; set; }
         public int UserId { get; set; }
