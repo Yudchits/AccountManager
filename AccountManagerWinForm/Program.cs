@@ -88,6 +88,7 @@ namespace AccountManagerWinForm
                 BadRequestException => MessageType.WARN,
                 ConflictException => MessageType.WARN,
                 NotFoundException => MessageType.WARN,
+                UserAccountBookmarkException => MessageType.WARN,
                 _ => MessageType.ERROR
             };
 

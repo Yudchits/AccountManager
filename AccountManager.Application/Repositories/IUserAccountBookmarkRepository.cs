@@ -6,8 +6,9 @@ namespace AccountManager.Application.Repositories
 {
     public interface IUserAccountBookmarkRepository
     {
-        Task<ICollection<UserAccountBookmark>> GetByUserId(int userId);
-        Task Create(UserAccountBookmark bookmark);
-        Task Delete(UserAccountBookmark bookmark);
+        Task<ICollection<UserAccountBookmark>> GetByUserIdAsync(int userId);
+        Task<int> GetCountByUserIdAsync(int userId);
+        Task CreateAsync(UserAccountBookmark bookmark);
+        Task DeleteAsync(UserAccountBookmark bookmark);
     }
 }

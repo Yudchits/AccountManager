@@ -1,6 +1,7 @@
 ﻿using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.GetByResourceId;
 using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
+using AccountManager.Application.Features.UserAccountBookmark.CheckCount;
 using AccountManager.Application.Features.UserAccountBookmark.Create;
 using AccountManager.Application.Features.UserAccountBookmark.Delete;
 using AccountManagerWinForm.Extensions;
@@ -166,15 +167,11 @@ namespace AccountManagerWinForm.Forms.Account
                     Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
                     Location = new Point(nameLbl.Right, nameLbl.Top),
-                    Size = new Size(btnWidth, nameLbl.Height)
+                    Size = new Size(btnWidth, nameLbl.Height),
+                    Image = account.IsBookmarked
+                        ? Resources.DeleteBookmark16
+                        : Resources.AddBookmark16
                 };
-                var bookmarkBtnImage = account.IsBookmarked
-                    ? Resources.DeleteBookmark16
-                    : Resources.AddBookmark16;
-                using (var stream = new MemoryStream(bookmarkBtnImage))
-                {
-                    bookmarkBtn.Image = Image.FromStream(stream);
-                }
                 bookmarkBtn.FlatAppearance.BorderSize = 0;
                 bookmarkBtn.Tag = account;
                 bookmarkBtn.Click += BookmarkBtn_Click;
@@ -436,7 +433,7 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 if (bookmarkBtn.Tag is GetAccountsByResourceIdResponse account)
                 {
-                    byte[] bookmarkImage;
+                    Bitmap bookmarkImage;
 
                     if (account.IsBookmarked)
                     {
@@ -444,19 +441,22 @@ namespace AccountManagerWinForm.Forms.Account
                     }
                     else
                     {
+                        await CheckUserAccountBookmarkCount();
                         bookmarkImage = await CreateUserAccountBookmark(account.Id);
                     }
                     account.IsBookmarked = !account.IsBookmarked;
 
-                    using (var imageStream = new MemoryStream(bookmarkImage))
-                    {
-                        bookmarkBtn.Image = Image.FromStream(imageStream);
-                    }
+                    bookmarkBtn.Image = bookmarkImage;
                 }
             }
         }
 
-        private async Task<byte[]> CreateUserAccountBookmark(int accountId)
+        private async Task CheckUserAccountBookmarkCount()
+        {
+            await _mediator.Send(new CheckUserAccountBookmarkCountRequest());
+        }
+
+        private async Task<Bitmap> CreateUserAccountBookmark(int accountId)
         {
             await _mediator.Send
             (
@@ -466,7 +466,7 @@ namespace AccountManagerWinForm.Forms.Account
             return Resources.DeleteBookmark16;
         }
 
-        private async Task<byte[]> DeleteUserAccountBookmark(int accountId)
+        private async Task<Bitmap> DeleteUserAccountBookmark(int accountId)
         {
             await _mediator.Send
             (
@@ -519,23 +519,21 @@ namespace AccountManagerWinForm.Forms.Account
 
         private void LoginCopyBtn_Click(object? sender, EventArgs e)
         {
-            if (sender is not null)
+            if (sender is Button button && button.Tag != null)
             {
-                var button = sender as Button;
-                Clipboard.SetText(button?.Tag?.ToString());
+                Clipboard.SetText(button.Tag.ToString());
             }
         }
 
         private async void PasswordCopyBtn_ClickAsync(object? sender, EventArgs e)
         {
-            if (sender is not null)
+            if (sender is Button button && button.Tag != null)
             {
-                var button = sender as Button;
-
                 var plainTextResult = await _mediator.Send
                 (
-                    new AesDecryptRequest(button?.Tag?.ToString())
+                    new AesDecryptRequest(button.Tag.ToString())
                 );
+
                 string plainText = plainTextResult.PlainText;
                 Clipboard.SetText(plainText);
             }

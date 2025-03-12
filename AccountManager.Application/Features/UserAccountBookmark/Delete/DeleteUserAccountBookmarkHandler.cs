@@ -20,7 +20,7 @@ namespace AccountManager.Application.Features.UserAccountBookmark.Delete
         public async Task<DeleteUserAccountBookmarkResponse> Handle(DeleteUserAccountBookmarkRequest request, CancellationToken cancellationToken)
         {
             var bookmarkDb = _mapper.Map<Domain.Entities.UserAccountBookmark>(request);
-            await _repository.Delete(bookmarkDb);
+            await _repository.DeleteAsync(bookmarkDb);
             return new DeleteUserAccountBookmarkResponse();
         }
     }

@@ -20,7 +20,7 @@ namespace AccountManager.Application.Features.UserAccountBookmark.Create
         public async Task<CreateUserAccountBookmarkResponse> Handle(CreateUserAccountBookmarkRequest request, CancellationToken cancellationToken)
         {
             var bookmarkDb = _mapper.Map<Domain.Entities.UserAccountBookmark>(request);
-            await _repository.Create(bookmarkDb);
+            await _repository.CreateAsync(bookmarkDb);
             return new CreateUserAccountBookmarkResponse();
         }
     }
