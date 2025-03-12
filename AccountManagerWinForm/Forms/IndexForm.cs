@@ -68,5 +68,10 @@ namespace AccountManagerWinForm.Forms
             ActiveFormNameLbl.Text = "Настройки";
             BodyPnl.Controls.Clear();
         }
+
+        private void MinimizeBtn_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
     }
 }

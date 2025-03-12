@@ -39,6 +39,7 @@
             DashboardLogoPicture = new System.Windows.Forms.PictureBox();
             CloseBtn = new System.Windows.Forms.Button();
             HeaderPnl = new System.Windows.Forms.Panel();
+            MinimizeBtn = new System.Windows.Forms.Button();
             ActiveFormNameLbl = new System.Windows.Forms.Label();
             SearchPnl = new System.Windows.Forms.Panel();
             BodyPnl = new System.Windows.Forms.Panel();
@@ -154,9 +155,9 @@
             CloseBtn.FlatAppearance.BorderSize = 0;
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            CloseBtn.Location = new System.Drawing.Point(740, 0);
+            CloseBtn.Location = new System.Drawing.Point(750, 0);
             CloseBtn.Name = "CloseBtn";
-            CloseBtn.Size = new System.Drawing.Size(60, 30);
+            CloseBtn.Size = new System.Drawing.Size(50, 30);
             CloseBtn.TabIndex = 1;
             CloseBtn.Text = "X";
             CloseBtn.UseVisualStyleBackColor = true;
@@ -164,6 +165,7 @@
             // 
             // HeaderPnl
             // 
+            HeaderPnl.Controls.Add(MinimizeBtn);
             HeaderPnl.Controls.Add(ActiveFormNameLbl);
             HeaderPnl.Controls.Add(CloseBtn);
             HeaderPnl.Controls.Add(SearchPnl);
@@ -172,6 +174,19 @@
             HeaderPnl.Name = "HeaderPnl";
             HeaderPnl.Size = new System.Drawing.Size(800, 110);
             HeaderPnl.TabIndex = 2;
+            // 
+            // MinimizeBtn
+            // 
+            MinimizeBtn.FlatAppearance.BorderSize = 0;
+            MinimizeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            MinimizeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            MinimizeBtn.Image = Properties.Resources.Minimize16;
+            MinimizeBtn.Location = new System.Drawing.Point(700, 0);
+            MinimizeBtn.Name = "MinimizeBtn";
+            MinimizeBtn.Size = new System.Drawing.Size(50, 30);
+            MinimizeBtn.TabIndex = 4;
+            MinimizeBtn.UseVisualStyleBackColor = true;
+            MinimizeBtn.Click += MinimizeBtn_Click;
             // 
             // ActiveFormNameLbl
             // 
@@ -239,5 +254,6 @@
         public System.Windows.Forms.Panel BodyPnl;
         private System.Windows.Forms.Panel HeaderPnl;
         public System.Windows.Forms.Panel SearchPnl;
+        private System.Windows.Forms.Button MinimizeBtn;
     }
 }
