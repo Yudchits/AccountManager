@@ -12,5 +12,6 @@ namespace AccountManager.Application.Repositories
         Task<Resource> GetByIdAsync(int id);
         Task<ICollection<Resource>> GetAllAsync();
         Task<ICollection<Resource>> GetAllDescByUserIdAsync(int userId);
+        Task<bool> CheckCountAsync(int userId);
     }
 }

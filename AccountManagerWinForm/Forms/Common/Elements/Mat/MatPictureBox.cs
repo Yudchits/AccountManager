@@ -13,7 +13,9 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
         private readonly Label noImgLbl;
         private readonly Label errorLbl;
 
-        private Color errorColor = Color.FromArgb(255, 0, 0);
+        private readonly Color errorColor = Color.FromArgb(255, 0, 0);
+        private readonly Color validColor = Color.FromArgb(158, 161, 176);
+       
         private Color borderColor = Color.FromArgb(158, 161, 176);
         private Font font = new Font("Cascadia Code", 12f);
 
@@ -41,7 +43,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
                 if (string.IsNullOrEmpty(value))
                 {
                     errorLbl.Text = string.Empty;
-                    BorderColor = borderColor;
+                    BorderColor = validColor;
                 }
                 else
                 {

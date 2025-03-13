@@ -42,6 +42,13 @@ namespace AccountManager.Infrastructure.Repositories
             return resource;
         }
 
+        public async Task<bool> CheckCountAsync(int userId)
+        {
+            return await _context.Resources
+                .Where(r => r.UserId == userId)
+                .AnyAsync();
+        }
+
         public async Task CreateAsync(Resource entity)
         {
             _context.Resources.Add(entity);

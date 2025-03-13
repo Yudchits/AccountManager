@@ -1,5 +1,6 @@
 ﻿using AccountManager.Application.Context;
 using AccountManager.Application.Features.Auth.GetById;
+using AccountManager.Application.Features.Resource.CheckCount;
 using AccountManager.Application.Features.UserAccountBookmark.GetByUserId;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
@@ -37,7 +38,17 @@ namespace AccountManagerWinForm.Forms.Welcome
             base.OnLoad(e);
 
             await InitializeHeaderUserLoginLblAsync();
-            await InitializeUserAccountBookmarksAsync();
+
+            var checkResourceCountResponse = await _mediator.Send(new CheckResourcesCountRequest());
+
+            if (checkResourceCountResponse.Any)
+            {
+                await InitializeUserAccountBookmarksAsync();
+            }
+            else
+            {
+                UserAccountBookmarksPnl.Visible = false;
+            }
         }
 
         private async Task InitializeHeaderUserLoginLblAsync()
