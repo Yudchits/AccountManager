@@ -35,9 +35,9 @@
             // 
             // AccsFLPnl
             // 
-            AccsFLPnl.Location = new System.Drawing.Point(35, 60);
+            AccsFLPnl.Location = new System.Drawing.Point(15, 60);
             AccsFLPnl.Name = "AccsFLPnl";
-            AccsFLPnl.Size = new System.Drawing.Size(730, 430);
+            AccsFLPnl.Size = new System.Drawing.Size(760, 430);
             AccsFLPnl.TabIndex = 1;
             // 
             // ScrollPnl
@@ -56,7 +56,7 @@
             // 
             CreateAccBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CreateAccBtn.Image = Properties.Resources.Add16;
-            CreateAccBtn.Location = new System.Drawing.Point(35, 0);
+            CreateAccBtn.Location = new System.Drawing.Point(15, 0);
             CreateAccBtn.Name = "CreateAccBtn";
             CreateAccBtn.Size = new System.Drawing.Size(150, 40);
             CreateAccBtn.TabIndex = 3;
@@ -74,7 +74,7 @@
             Controls.Add(CreateAccBtn);
             Controls.Add(ScrollPnl);
             Controls.Add(AccsFLPnl);
-            Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Font = new System.Drawing.Font("Cascadia Code", 12F);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Margin = new System.Windows.Forms.Padding(4);

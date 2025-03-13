@@ -1,18 +1,17 @@
 ﻿using AccountManager.Application.Context;
 using AccountManager.Application.Features.Account.GetByResourceId;
-using AccountManager.Application.Features.Common.Cryptography.Encrypt.Aes.Decrypt;
 using AccountManager.Application.Features.UserAccountBookmark.CheckCount;
 using AccountManager.Application.Features.UserAccountBookmark.Create;
 using AccountManager.Application.Features.UserAccountBookmark.Delete;
 using AccountManagerWinForm.Extensions;
 using AccountManagerWinForm.Factories;
+using AccountManagerWinForm.Forms.Common.Elements.List;
 using AccountManagerWinForm.Forms.Common.Elements.Mat;
 using AccountManagerWinForm.Properties;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,7 +20,6 @@ namespace AccountManagerWinForm.Forms.Account
 {
     public partial class AccountsForm : Form
     {
-        private const string PASSWORD_CHAR = "********";
         private const int ACCOUNTS_ON_PAGE = 6;
         private const int HEADER_HEIGHT = 60;
         private const int FOOTER_HEIGHT = 60;
@@ -37,7 +35,7 @@ namespace AccountManagerWinForm.Forms.Account
 
         private bool isDragging = false;
         private int initialMouseY;
-        private int maxMouseY;
+        private readonly int maxMouseY;
 
         private Label? pageLbl;
         private int currentPage = 1;
@@ -131,11 +129,6 @@ namespace AccountManagerWinForm.Forms.Account
             AccsFLPnl.Height = 0;
 
             int accountMarginBottom = 30;
-            int descLblWidth = 100;
-            int lblHeight = 27;
-            int loginPnlMarginTop = 7;
-            int btnWidth = 24;
-            int passwordPnlMarginTop = 5;
 
             int lastAccountIdOnPage = currentPage * ACCOUNTS_ON_PAGE - 1;
             int accountStartId = lastAccountIdOnPage - ACCOUNTS_ON_PAGE + 1;
@@ -143,31 +136,23 @@ namespace AccountManagerWinForm.Forms.Account
             {
                 var account = _accountsToDisplay.ElementAt(i);
 
-                var accountPnl = new Panel
+                var accountPnl = new AccountItemPanel
+                (
+                    account.Id, 
+                    account.Name, 
+                    account.Login, 
+                    account.Password, 
+                    account.IsBookmarked
+                )
                 {
-                    Parent = AccsFLPnl,
-                    Dock = DockStyle.Top,
                     Width = AccsFLPnl.Width,
-                    Margin = new Padding(0, 0, 0, accountMarginBottom)
-                };
-
-                var nameLbl = new Label
-                {
-                    Parent = accountPnl,
-                    Text = account.Name,
                     Dock = DockStyle.Top,
-                    AutoSize = true,
-                    Width = accountPnl.Width,
-                    Font = new Font(Font, FontStyle.Underline)
+                    Padding = new Padding(0)
                 };
-                accountPnl.Controls.Add(nameLbl);
-
+                
                 var bookmarkBtn = new Button
                 {
-                    Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(nameLbl.Right, nameLbl.Top),
-                    Size = new Size(btnWidth, nameLbl.Height),
                     Image = account.IsBookmarked
                         ? Resources.DeleteBookmark16
                         : Resources.AddBookmark16
@@ -175,152 +160,32 @@ namespace AccountManagerWinForm.Forms.Account
                 bookmarkBtn.FlatAppearance.BorderSize = 0;
                 bookmarkBtn.Tag = account;
                 bookmarkBtn.Click += BookmarkBtn_Click;
-                accountPnl.Controls.Add(bookmarkBtn);
 
                 var updateBtn = new Button
                 {
-                    Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(bookmarkBtn.Right, nameLbl.Top),
                     Image = Resources.Edit16,
-                    Size = new Size(btnWidth, nameLbl.Height),
                     Tag = account.Id
                 };
                 updateBtn.FlatAppearance.BorderSize = 0;
                 updateBtn.Click += UpdateBtn_Click;
-                accountPnl.Controls.Add(updateBtn);
 
                 var deleteBtn = new Button
                 {
-                    Parent = accountPnl,
                     FlatStyle = FlatStyle.Flat,
-                    Location = new Point(updateBtn.Right, nameLbl.Top),
                     Image = Resources.Delete16,
-                    Size = new Size(btnWidth, nameLbl.Height),
                     Tag = account.Id
                 };
                 deleteBtn.Click += DeleteBtn_Click;
                 deleteBtn.FlatAppearance.BorderSize = 0;
-                accountPnl.Controls.Add(deleteBtn);
+                
+                accountPnl.AddButton(deleteBtn);
+                accountPnl.AddButton(updateBtn);
+                accountPnl.AddButton(bookmarkBtn);
 
-                var loginPnl = new Panel
-                {
-                    Parent = accountPnl,
-                    Width = accountPnl.Width,
-                    BorderStyle = BorderStyle.None,
-                    Location = new Point(0, nameLbl.Height + loginPnlMarginTop),
-                };
-
-                var loginDescLbl = new Label
-                {
-                    Parent = loginPnl,
-                    Text = "Логин:",
-                    Width = descLblWidth,
-                    Height = lblHeight,
-                    TextAlign = ContentAlignment.MiddleRight,
-                };
-
-                loginPnl.Controls.Add(loginDescLbl);
-
-                var loginValueLbl = new Label
-                {
-                    Parent = loginPnl,
-                    Text = account.Login,
-                    Location = new Point(loginDescLbl.Right, loginDescLbl.Top),
-                    ForeColor = lightBlue,
-                    AutoSize = true,
-                    MaximumSize = new Size(loginPnl.Width, loginDescLbl.Height)
-                };
-
-                loginPnl.Height = loginValueLbl.Height;
-                loginPnl.Controls.Add(loginValueLbl);
-
-                accountPnl.Controls.Add(loginPnl);
-
-                var loginCopyBtn = new Button
-                {
-                    FlatStyle = FlatStyle.Flat,
-                    Location = new Point(loginValueLbl.Right, loginValueLbl.Top),
-                    Size = new Size(btnWidth, loginValueLbl.Height),
-                    Image = Resources.Copy24,
-                    Tag = account.Login
-                };
-                loginCopyBtn.Click += LoginCopyBtn_Click;
-
-                loginCopyBtn.FlatAppearance.BorderSize = 0;
-                loginPnl.Controls.Add(loginCopyBtn);
-
-                var passwordPnl = new Panel
-                {
-                    Parent = accountPnl,
-                    Width = accountPnl.Width,
-                    BorderStyle = BorderStyle.None,
-                    Location = new Point(0, loginPnl.Bottom + passwordPnlMarginTop),
-                };
-                accountPnl.Controls.Add(passwordPnl);
-
-                var passwordLbl = new Label
-                {
-                    Parent = passwordPnl,
-                    Text = "Пароль:",
-                    Width = descLblWidth,
-                    Height = lblHeight,
-                    TextAlign = ContentAlignment.MiddleRight
-                };
-                passwordPnl.Controls.Add(passwordLbl);
-
-                var passwordValueLbl = new Label
-                {
-                    Parent = passwordPnl,
-                    Text = PASSWORD_CHAR,
-                    Location = new Point(passwordLbl.Right, passwordLbl.Top),
-                    ForeColor = lightBlue,
-                    AutoSize = true,
-                    MaximumSize = new Size(passwordPnl.Width, passwordPnl.Height),
-                    Tag = account.Password
-                };
-
-                passwordPnl.Height = passwordValueLbl.Height;
-                passwordPnl.Controls.Add(passwordValueLbl);
-
-                var passwordCopyBtn = new Button
-                {
-                    Parent = passwordPnl,
-                    FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordValueLbl.Right, passwordValueLbl.Top),
-                    Size = new Size(btnWidth, passwordValueLbl.Height),
-                    Image = Resources.Copy24,
-                    Tag = passwordValueLbl.Tag
-                };
-                passwordCopyBtn.FlatAppearance.BorderSize = 0;
-                passwordCopyBtn.Click += PasswordCopyBtn_ClickAsync;
-                passwordPnl.Controls.Add(passwordCopyBtn);
-
-                var passwordEyeBtn = new Button
-                {
-                    Parent = passwordPnl,
-                    FlatStyle = FlatStyle.Flat,
-                    Location = new Point(passwordCopyBtn.Right, passwordCopyBtn.Top),
-                    Size = new Size(btnWidth, passwordCopyBtn.Height),
-                    Image = Resources.Eye24,
-                    Tag = passwordValueLbl
-                };
-                passwordEyeBtn.FlatAppearance.BorderSize = 0;
-                passwordEyeBtn.Click += PasswordEyeBtn_Click;
-                passwordPnl.Controls.Add(passwordEyeBtn);
-
-                passwordValueLbl.Resize += (sender, e) =>
-                {
-                    passwordCopyBtn.Left = passwordValueLbl.Right;
-                    passwordEyeBtn.Left = passwordCopyBtn.Right;
-                };
-
-                accountPnl.Height = nameLbl.Height + loginPnlMarginTop + loginValueLbl.Height + passwordPnlMarginTop + passwordValueLbl.Height;
-
-                AccsFLPnl.Height += accountPnl.Height + accountMarginBottom;
+                AccsFLPnl.Height += accountPnl.Height;
                 AccsFLPnl.Controls.Add(accountPnl);
             }
-            AccsFLPnl.Height -= accountMarginBottom;
         }
 
         private void UpdatePaginationPnl()
@@ -502,79 +367,16 @@ namespace AccountManagerWinForm.Forms.Account
 
         private async void DeleteBtn_Click(object? sender, EventArgs e)
         {
-            if (sender == null)
+            if (sender is Button deleteBtn && deleteBtn.Tag != null)
             {
-                return;
-            }
+                int accountId = int.Parse(deleteBtn.Tag.ToString());
 
-            var deleteBtn = sender as Button;
-            int accountId = int.Parse(deleteBtn.Tag.ToString());
-
-            var deleteDialogForm = _formFactory.CreateDeleteAccountDialogForm(accountId);
-            if (deleteDialogForm.ShowDialog() == DialogResult.OK)
-            {
-                await InitAccounts();
-            }
-        }
-
-        private void LoginCopyBtn_Click(object? sender, EventArgs e)
-        {
-            if (sender is Button button && button.Tag != null)
-            {
-                Clipboard.SetText(button.Tag.ToString());
-            }
-        }
-
-        private async void PasswordCopyBtn_ClickAsync(object? sender, EventArgs e)
-        {
-            if (sender is Button button && button.Tag != null)
-            {
-                var plainTextResult = await _mediator.Send
-                (
-                    new AesDecryptRequest(button.Tag.ToString())
-                );
-
-                string plainText = plainTextResult.PlainText;
-                Clipboard.SetText(plainText);
-            }
-        }
-
-        private async void PasswordEyeBtn_Click(object? sender, EventArgs e)
-        {
-            var button = sender as Button;
-            if (button is not null)
-            {
-                var passwordValueLbl = button.Tag as Label;
-
-                if (passwordValueLbl != null)
+                var deleteDialogForm = _formFactory.CreateDeleteAccountDialogForm(accountId);
+                if (deleteDialogForm.ShowDialog() == DialogResult.OK)
                 {
-                    if (passwordValueLbl.Text == PASSWORD_CHAR)
-                    {
-                        await SetDecryptedPasswordValueLbl(passwordValueLbl);
-                        button.Image = Resources.EyeHidden24;
-                    }
-                    else
-                    {
-                        SetEncryptedPasswordValueLbl(passwordValueLbl);
-                        button.Image = Resources.Eye24;
-                    }
+                    await InitAccounts();
                 }
             }
-        }
-
-        private async Task SetDecryptedPasswordValueLbl(Label passwordValueLbl)
-        {
-            var plainText = await _mediator.Send
-            (
-                new AesDecryptRequest(passwordValueLbl.Tag?.ToString())
-            );
-
-            passwordValueLbl.Text = plainText.PlainText;
-        }
-
-        private void SetEncryptedPasswordValueLbl(Label passwordValueLbl)
-        {
-            passwordValueLbl.Text = PASSWORD_CHAR;
         }
 
         private void ScrollPnl_MouseDown(object sender, MouseEventArgs e)

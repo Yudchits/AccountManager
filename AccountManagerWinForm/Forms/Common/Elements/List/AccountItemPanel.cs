@@ -3,7 +3,9 @@ using AccountManagerWinForm.Properties;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,14 +23,19 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
         private readonly string _password;
         private readonly bool _isBookmarked;
 
+        private readonly ICollection<Button> buttons;
+
         private bool _isPasswordDecrypted;
 
         private Color valueColor = Color.FromArgb(0, 180, 249);
 
         private Label nameLbl;
+        private Panel accountButtonsPnl;
+        
         private Label loginKeyLbl;
         private Label loginValueLbl;
         private Button loginCopyBtn;
+
         private Label passwordKeyLbl;
         private Label passwordValueLbl;
         private Button passwordCopyBtn;
@@ -50,7 +57,9 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
 
         private AccountItemPanel()
         {
-            InitializeLabels();
+            buttons = new List<Button>();
+
+            InitializeControls();
         }
 
         public AccountItemPanel
@@ -73,7 +82,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
             _isBookmarked = isBookmarked;
         }
 
-        private void InitializeLabels()
+        private void InitializeControls()
         {
             Font = new Font("Cascadia Code", 12f);
             Padding = new Padding(0, 0, 0, 16);
@@ -86,6 +95,12 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
                 Font = new Font(Font.Name, Font.Size, FontStyle.Underline)
             };
             Controls.Add(nameLbl);
+
+            accountButtonsPnl = new Panel
+            {
+                AutoSize = true
+            };
+            Controls.Add(accountButtonsPnl);
 
             loginKeyLbl = new Label
             {
@@ -204,6 +219,13 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
             _isPasswordDecrypted = !_isPasswordDecrypted;
         }
 
+        public void AddButton(Button button)
+        {
+            button.Dock = DockStyle.Left;
+            button.Size = new Size(VALUE_BTN_WIDTH, nameLbl.Height);
+            accountButtonsPnl.Controls.Add(button);
+        }
+
         protected override void OnResize(EventArgs eventargs)
         {
             base.OnResize(eventargs);
@@ -212,15 +234,41 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
             passwordKeyLbl.Size = new Size(KEY_LBL_WIDTH, LBL_HEIGHT);
 
             loginKeyLbl.Location = new Point(0, nameLbl.Bottom);
-            loginValueLbl.Location = new Point(loginKeyLbl.Right, loginKeyLbl.Top + (loginKeyLbl.Height - loginValueLbl.Height));
-            loginCopyBtn.Location = new Point(loginValueLbl.Right, loginKeyLbl.Top + (loginKeyLbl.Height - loginCopyBtn.Height));
+            loginValueLbl.Location = new Point
+            (
+                loginKeyLbl.Right, 
+                loginKeyLbl.Top + (loginKeyLbl.Height - loginValueLbl.Height)
+            );
+            loginCopyBtn.Location = new Point
+            (
+                loginValueLbl.Right, 
+                loginKeyLbl.Top + (loginKeyLbl.Height - loginCopyBtn.Height)
+            );
             
             passwordKeyLbl.Location = new Point(0, loginValueLbl.Bottom);
-            passwordValueLbl.Location = new Point(passwordKeyLbl.Right, passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordValueLbl.Height));
-            passwordCopyBtn.Location = new Point(passwordValueLbl.Right, passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordCopyBtn.Height));
-            passwordEyeBtn.Location = new Point(passwordCopyBtn.Right, passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordEyeBtn.Height));
+            passwordValueLbl.Location = new Point
+            (
+                passwordKeyLbl.Right, 
+                passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordValueLbl.Height)
+            );
+            passwordCopyBtn.Location = new Point
+            (
+                passwordValueLbl.Right, 
+                passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordCopyBtn.Height)
+            );
+            passwordEyeBtn.Location = new Point
+            (
+                passwordCopyBtn.Right, 
+                passwordKeyLbl.Top + (passwordKeyLbl.Height - passwordEyeBtn.Height)
+            );
 
             nameLbl.Location = new Point(loginKeyLbl.Left, 0);
+            accountButtonsPnl.Height = nameLbl.Height;
+            accountButtonsPnl.Location = new Point
+            (
+                nameLbl.Right, 
+                nameLbl.Top + (nameLbl.Height - accountButtonsPnl.Height)
+            );
         }
     }
 }
