@@ -2,7 +2,7 @@
 
 namespace AccountManager.Application.Context
 {
-    public class UserContext
+    public sealed class UserContext
     {
         private static readonly UserContext _instance = new UserContext();
 

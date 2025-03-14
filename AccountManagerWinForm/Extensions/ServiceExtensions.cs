@@ -1,5 +1,4 @@
 ﻿using AccountManager.Application.Common;
-using AccountManager.Application.Context;
 using AccountManagerWinForm.Factories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +11,6 @@ namespace AccountManagerWinForm.Extensions
         {
             services.AddSingleton(configuration);
             services.Configure<UserContextSettings>(configuration.GetSection("Cryptography:Hash:UserContext"));
-
-            services.AddSingleton(UserContext.Instance);
-
             services.AddTransient<IFormFactory, FormFactory>();
         }
     }

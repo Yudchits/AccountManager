@@ -1,5 +1,6 @@
 using AccountManager.Application.Common;
 using AccountManager.Application.Common.Exceptions;
+using AccountManager.Application.Context;
 using AccountManager.Application.Extensions;
 using AccountManager.Infrastructure.Extensions;
 using AccountManagerWinForm.Extensions;
@@ -11,8 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
-using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -36,8 +35,10 @@ namespace AccountManagerWinForm
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            string rootPath = DirectoryContext.Instance.RootPath;
+
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                .SetBasePath(rootPath)
                 .AddJsonFile("appsettings.json")
                 .Build();
 

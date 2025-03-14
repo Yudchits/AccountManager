@@ -49,12 +49,12 @@ namespace AccountManagerWinForm.Forms.Auth
             CloseBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(28, 29, 35);
             CloseBtn.FlatAppearance.BorderSize = 0;
             CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            CloseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
             CloseBtn.ForeColor = System.Drawing.Color.White;
-            CloseBtn.Location = new System.Drawing.Point(370, 0);
+            CloseBtn.Location = new System.Drawing.Point(365, 0);
             CloseBtn.Margin = new System.Windows.Forms.Padding(0);
             CloseBtn.Name = "CloseBtn";
-            CloseBtn.Size = new System.Drawing.Size(50, 30);
+            CloseBtn.Size = new System.Drawing.Size(55, 28);
             CloseBtn.TabIndex = 3;
             CloseBtn.Text = "X";
             CloseBtn.UseVisualStyleBackColor = true;

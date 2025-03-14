@@ -50,6 +50,15 @@ namespace AccountManagerWinForm.Forms.Auth
         {
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
             LocateAuthHavingLbls();
+            PasswordTxtBx.KeyDown += PasswordTxtBx_KeyPressAsync;
+        }
+
+        private async void PasswordTxtBx_KeyPressAsync(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                await SendAuthRequest();
+            }
         }
 
         private void CloseBtn_Click(object sender, EventArgs e)

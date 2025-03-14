@@ -4,6 +4,7 @@ using AccountManager.Domain.Entities;
 using AccountManager.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -81,6 +82,7 @@ namespace AccountManager.Infrastructure.Repositories
             }
 
             _context.Resources.Remove(resource);
+            File.Delete(resource.ImagePath);
             await SaveChangesAsync();
         }
 

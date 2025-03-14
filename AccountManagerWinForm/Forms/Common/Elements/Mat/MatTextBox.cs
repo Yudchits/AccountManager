@@ -19,6 +19,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
         private Font font = new Font("Cascadia Code", 12f);
 
         public new event EventHandler<string> TextChanged;
+        public new event EventHandler<KeyEventArgs> KeyDown;
 
         public string Label
         {
@@ -127,6 +128,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             textBox.TextChanged += TextBox_TextChanged;
             textBox.GotFocus += TextBox_GotFocus;
             textBox.LostFocus += TextBox_LostFocus;
+            textBox.KeyDown += TextBox_KeyPress;
             Controls.Add(textBox);
 
             panel = new Panel
@@ -177,6 +179,11 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             textBox.ForeColor = foreColor;
             panel.BackColor = foreColor;
             OnLostFocus(EventArgs.Empty);
+        }
+
+        private void TextBox_KeyPress(object? sender, KeyEventArgs e)
+        {
+            KeyDown?.Invoke(this, e);
         }
 
         private void CheckLabelLocation()
