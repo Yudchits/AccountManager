@@ -1,5 +1,6 @@
 ﻿using AccountManager.Application.Common.Behaviours;
 using AccountManager.Application.Context;
+using AccountManager.Application.Utilities.Resource.Image;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,8 @@ namespace AccountManager.Application.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly));
             services.AddValidatorsFromAssembly(executingAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
+            services.AddSingleton<IResourceImageUtility, ResourceImageUtility>();
         }
     }
 }

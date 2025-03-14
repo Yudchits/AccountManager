@@ -24,7 +24,13 @@ namespace AccountManager.Application.Context
             RootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             string specialFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            AppDataPath = Path.Combine(specialFolder, "AccountManager");
+            string appDataPath = Path.Combine(specialFolder, "AccountManager");
+            if (!Directory.Exists(appDataPath))
+            {
+                Directory.CreateDirectory(appDataPath);
+            }
+
+            AppDataPath = appDataPath;
         }
     }
 }

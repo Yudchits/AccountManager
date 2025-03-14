@@ -58,17 +58,16 @@ namespace AccountManager.Infrastructure.Repositories
 
         public async Task UpdateAsync(Resource newResource)
         {
-            var resources = await GetAllAsync();
-
             int newResourceId = newResource.Id;
-            var currentResource = resources.FirstOrDefault(r => r.Id == newResourceId);
-            if (currentResource == null)
+            var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == newResourceId);
+            if (resource == null)
             {
                 throw new NotFoundException(nameof(Resource.Id), $"Ресурс id={newResourceId} не существует");
             }
 
-            currentResource.Name = newResource.Name;
-            currentResource.ImagePath = newResource.ImagePath;
+            resource.Name = newResource.Name;
+            File.Delete(resource.ImagePath);
+            resource.ImagePath = newResource.ImagePath;
 
             await SaveChangesAsync();
         }

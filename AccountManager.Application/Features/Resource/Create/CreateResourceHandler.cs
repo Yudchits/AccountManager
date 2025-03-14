@@ -1,10 +1,9 @@
 ﻿using AccountManager.Application.Repositories;
 using AutoMapper;
 using MediatR;
-using System.IO;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AccountManager.Application.Utilities.Resource.Image;
 
 namespace AccountManager.Application.Features.Resource.Create
 {
@@ -12,46 +11,27 @@ namespace AccountManager.Application.Features.Resource.Create
     {
         private readonly IResourceRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IResourceImageUtility _imagePathUtility;
 
-        public CreateResourceHandler(IResourceRepository repository, IMapper mapper)
+        public CreateResourceHandler
+        (
+            IResourceRepository repository, 
+            IMapper mapper,
+            IResourceImageUtility imagePathUtility
+        )
         {
             _repository = repository;
             _mapper = mapper;
+            _imagePathUtility = imagePathUtility;
         }
 
         public async Task<CreateResourceResponse> Handle(CreateResourceRequest request, CancellationToken cancellationToken)
         {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string resourceImagesPath = Path.Combine(appDataPath, "AccountManager", "Images", "Resources");
-            
-            if (!Directory.Exists(resourceImagesPath))
-            {
-                Directory.CreateDirectory(resourceImagesPath);
-            }
-
-            string requestImagePath = request.ImagePath;
-            string dbImagePath = ConvertImagePathToDbImagePath(resourceImagesPath, request.ImagePath); 
-            File.Copy(requestImagePath, dbImagePath, true);
-
             var resourceDb = _mapper.Map<Domain.Entities.Resource>(request);
-            resourceDb.ImagePath = dbImagePath;
+            resourceDb.ImagePath = _imagePathUtility.MoveToDbPath(request.ImagePath);
             
             await _repository.CreateAsync(resourceDb);
             return _mapper.Map<CreateResourceResponse>(resourceDb);
-        }
-
-        private static string ConvertImagePathToDbImagePath(string resourceImagesPath, string imagePath)
-        {
-            int formatDot = imagePath.LastIndexOf('.');
-            if (formatDot != -1)
-            {
-                string fileFormat = imagePath.Substring(formatDot, imagePath.Length - formatDot);
-                var guid = Guid.NewGuid();
-
-                return Path.Combine(resourceImagesPath, string.Concat(guid, fileFormat));
-            }
-
-            throw new ArgumentException($"Не удалось конвертировать путь (appdata: {resourceImagesPath}, imagepath: {imagePath} )");
         }
     }
 }
