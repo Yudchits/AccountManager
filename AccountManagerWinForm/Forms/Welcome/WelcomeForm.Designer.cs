@@ -43,11 +43,12 @@
             // 
             // HeaderWelcomeLbl
             // 
+            HeaderWelcomeLbl.AutoSize = true;
             HeaderWelcomeLbl.Font = new System.Drawing.Font("Cascadia Code", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
             HeaderWelcomeLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             HeaderWelcomeLbl.Location = new System.Drawing.Point(230, 16);
             HeaderWelcomeLbl.Name = "HeaderWelcomeLbl";
-            HeaderWelcomeLbl.Size = new System.Drawing.Size(234, 30);
+            HeaderWelcomeLbl.Size = new System.Drawing.Size(199, 25);
             HeaderWelcomeLbl.TabIndex = 0;
             HeaderWelcomeLbl.Text = "Добро пожаловать,";
             // 
@@ -69,18 +70,19 @@
             HeaderUserLoginLbl.Location = new System.Drawing.Point(451, 16);
             HeaderUserLoginLbl.Margin = new System.Windows.Forms.Padding(0);
             HeaderUserLoginLbl.Name = "HeaderUserLoginLbl";
-            HeaderUserLoginLbl.Size = new System.Drawing.Size(0, 30);
+            HeaderUserLoginLbl.Size = new System.Drawing.Size(0, 25);
             HeaderUserLoginLbl.TabIndex = 1;
             // 
             // CreateResBtn
             // 
+            CreateResBtn.AutoSize = true;
             CreateResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             CreateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CreateResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             CreateResBtn.Image = Properties.Resources.Resources24;
             CreateResBtn.Location = new System.Drawing.Point(290, 270);
             CreateResBtn.Name = "CreateResBtn";
-            CreateResBtn.Size = new System.Drawing.Size(220, 47);
+            CreateResBtn.Size = new System.Drawing.Size(177, 47);
             CreateResBtn.TabIndex = 4;
             CreateResBtn.Text = "Создать ресурс";
             CreateResBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -112,6 +114,7 @@
             // AppDescLbl3
             // 
             AppDescLbl3.Location = new System.Drawing.Point(100, 170);
+            AppDescLbl3.Margin = new System.Windows.Forms.Padding(0);
             AppDescLbl3.Name = "AppDescLbl3";
             AppDescLbl3.Size = new System.Drawing.Size(600, 60);
             AppDescLbl3.TabIndex = 7;
@@ -120,6 +123,7 @@
             // AppDescLbl2
             // 
             AppDescLbl2.Location = new System.Drawing.Point(100, 100);
+            AppDescLbl2.Margin = new System.Windows.Forms.Padding(0);
             AppDescLbl2.Name = "AppDescLbl2";
             AppDescLbl2.Size = new System.Drawing.Size(600, 60);
             AppDescLbl2.TabIndex = 6;
@@ -128,6 +132,7 @@
             // AppDescLbl1
             // 
             AppDescLbl1.Location = new System.Drawing.Point(100, 30);
+            AppDescLbl1.Margin = new System.Windows.Forms.Padding(0);
             AppDescLbl1.Name = "AppDescLbl1";
             AppDescLbl1.Size = new System.Drawing.Size(600, 60);
             AppDescLbl1.TabIndex = 5;
@@ -135,7 +140,7 @@
             // 
             // WelcomeForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
@@ -150,6 +155,7 @@
             HeaderPnl.ResumeLayout(false);
             HeaderPnl.PerformLayout();
             NoResPnl.ResumeLayout(false);
+            NoResPnl.PerformLayout();
             ResumeLayout(false);
         }
 

@@ -27,6 +27,7 @@ namespace AccountManagerWinForm.Forms.Account
         private readonly UserContext _userContext;
         private readonly IDictionary<string, MatTextBox> _validationMappings;
 
+        private Panel createPnl;
         private MatTextBox nameTxtBx;
         private MatTextBox loginTxtBx;
         private MatTextBox passwordTxtBx;
@@ -93,6 +94,17 @@ namespace AccountManagerWinForm.Forms.Account
             }
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (createPnl != null)
+            {
+                int x = (Width - createPnl.Width) / 2;
+                createPnl.Location = new Point(x, 30);
+            }
+        }
+
         private async Task<string> DecryptText(string encryptedText)
         {
             var decryptResult = await _mediator.Send(new AesDecryptRequest(encryptedText));
@@ -103,14 +115,12 @@ namespace AccountManagerWinForm.Forms.Account
         {
             int inputWidth = Width / 2;
             int inputMarginBottom = 10;
-            int x = inputWidth - (inputWidth / 2);
             var font = new Font("Cascadia Code", 12f);
 
-            var createPnl = new Panel
+            createPnl = new Panel
             {
                 BorderStyle = BorderStyle.None,
-                Width = inputWidth,
-                Location = new Point(x, 0)
+                Width = inputWidth
             };
             Controls.Add(createPnl);
 
@@ -185,7 +195,6 @@ namespace AccountManagerWinForm.Forms.Account
                 + saveBtn.Height
                 + inputMarginBottom * 4
                 + btnMarginTop;
-            createPnl.Location = new Point(x, 30);
         }
 
         private void PasswordTxtBx_GotFocus(object? sender, EventArgs e)

@@ -86,7 +86,7 @@
             NoResourcesLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             NoResourcesLbl.Location = new System.Drawing.Point(120, 18);
             NoResourcesLbl.Name = "NoResourcesLbl";
-            NoResourcesLbl.Size = new System.Drawing.Size(252, 27);
+            NoResourcesLbl.Size = new System.Drawing.Size(190, 21);
             NoResourcesLbl.TabIndex = 4;
             NoResourcesLbl.Text = "Список ресурсов пуст";
             // 
@@ -105,11 +105,12 @@
             // 
             // DeleteResBtn
             // 
+            DeleteResBtn.AutoSize = true;
             DeleteResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             DeleteResBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             DeleteResBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             DeleteResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            DeleteResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            DeleteResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F);
             DeleteResBtn.ForeColor = System.Drawing.Color.Red;
             DeleteResBtn.Image = Properties.Resources.Delete24;
             DeleteResBtn.Location = new System.Drawing.Point(268, 32);
@@ -123,10 +124,11 @@
             // 
             // UpdateResBtn
             // 
+            UpdateResBtn.AutoSize = true;
             UpdateResBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             UpdateResBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             UpdateResBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            UpdateResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            UpdateResBtn.Font = new System.Drawing.Font("Cascadia Code", 10.2F);
             UpdateResBtn.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             UpdateResBtn.Image = Properties.Resources.Edit24;
             UpdateResBtn.Location = new System.Drawing.Point(54, 32);
@@ -140,10 +142,11 @@
             // 
             // Btn_ToAccounts
             // 
+            Btn_ToAccounts.AutoSize = true;
             Btn_ToAccounts.Cursor = System.Windows.Forms.Cursors.Hand;
             Btn_ToAccounts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             Btn_ToAccounts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Btn_ToAccounts.Font = new System.Drawing.Font("Cascadia Code", 10.2F);
             Btn_ToAccounts.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             Btn_ToAccounts.Image = Properties.Resources.Account24;
             Btn_ToAccounts.Location = new System.Drawing.Point(275, 333);
@@ -183,14 +186,14 @@
             // 
             // ResourcesForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(800, 490);
             Controls.Add(CreateResBtn);
             Controls.Add(HoverPnl);
             Controls.Add(ResourcesPnl);
-            Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Font = new System.Drawing.Font("Cascadia Code", 12F);
             ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Margin = new System.Windows.Forms.Padding(4);
@@ -199,6 +202,7 @@
             Load += ResourcesForm_Load;
             ((System.ComponentModel.ISupportInitialize)ImagePctrBx).EndInit();
             HoverPnl.ResumeLayout(false);
+            HoverPnl.PerformLayout();
             ResourcesPnl.ResumeLayout(false);
             ResourcesPnl.PerformLayout();
             ResumeLayout(false);

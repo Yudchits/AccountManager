@@ -38,8 +38,6 @@ namespace AccountManagerWinForm.Forms.Auth
             AuthHavingLbl = new System.Windows.Forms.Label();
             AuthBtn = new System.Windows.Forms.Button();
             AuthHeaderLbl = new System.Windows.Forms.Label();
-            PasswordTxtBx = new MatTextBox();
-            LoginTxtBx = new MatTextBox();
             AuthPnl.SuspendLayout();
             AuthHavingPnl.SuspendLayout();
             SuspendLayout();
@@ -67,8 +65,6 @@ namespace AccountManagerWinForm.Forms.Auth
             AuthPnl.Controls.Add(AuthHavingPnl);
             AuthPnl.Controls.Add(AuthBtn);
             AuthPnl.Controls.Add(AuthHeaderLbl);
-            AuthPnl.Controls.Add(PasswordTxtBx);
-            AuthPnl.Controls.Add(LoginTxtBx);
             AuthPnl.Dock = System.Windows.Forms.DockStyle.Fill;
             AuthPnl.Location = new System.Drawing.Point(0, 0);
             AuthPnl.Name = "AuthPnl";
@@ -93,7 +89,7 @@ namespace AccountManagerWinForm.Forms.Auth
             AuthHavingLinkLbl.Font = new System.Drawing.Font("Cascadia Code", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, 204);
             AuthHavingLinkLbl.Location = new System.Drawing.Point(132, 8);
             AuthHavingLinkLbl.Name = "AuthHavingLinkLbl";
-            AuthHavingLinkLbl.Size = new System.Drawing.Size(108, 20);
+            AuthHavingLinkLbl.Size = new System.Drawing.Size(84, 16);
             AuthHavingLinkLbl.TabIndex = 1;
             AuthHavingLinkLbl.Text = "Регистрация";
             AuthHavingLinkLbl.Click += AuthHavingLinkLbl_Click;
@@ -104,7 +100,7 @@ namespace AccountManagerWinForm.Forms.Auth
             AuthHavingLbl.Font = new System.Drawing.Font("Cascadia Code", 9F);
             AuthHavingLbl.Location = new System.Drawing.Point(12, 8);
             AuthHavingLbl.Name = "AuthHavingLbl";
-            AuthHavingLbl.Size = new System.Drawing.Size(126, 20);
+            AuthHavingLbl.Size = new System.Drawing.Size(98, 16);
             AuthHavingLbl.TabIndex = 0;
             AuthHavingLbl.Text = "Нет аккаунта?";
             // 
@@ -128,35 +124,13 @@ namespace AccountManagerWinForm.Forms.Auth
             AuthHeaderLbl.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
             AuthHeaderLbl.Location = new System.Drawing.Point(177, 79);
             AuthHeaderLbl.Name = "AuthHeaderLbl";
-            AuthHeaderLbl.Size = new System.Drawing.Size(65, 30);
+            AuthHeaderLbl.Size = new System.Drawing.Size(56, 25);
             AuthHeaderLbl.TabIndex = 2;
             AuthHeaderLbl.Text = "Вход";
             // 
-            // PasswordTxtBx
-            // 
-            PasswordTxtBx.ActiveColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            PasswordTxtBx.Error = "";
-            PasswordTxtBx.Label = "Пароль";
-            PasswordTxtBx.Location = new System.Drawing.Point(60, 222);
-            PasswordTxtBx.Name = "PasswordTxtBx";
-            PasswordTxtBx.PasswordChar = '*';
-            PasswordTxtBx.Size = new System.Drawing.Size(300, 79);
-            PasswordTxtBx.TabIndex = 1;
-            // 
-            // LoginTxtBx
-            // 
-            LoginTxtBx.ActiveColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            LoginTxtBx.Error = "";
-            LoginTxtBx.Label = "Логин";
-            LoginTxtBx.Location = new System.Drawing.Point(60, 134);
-            LoginTxtBx.Name = "LoginTxtBx";
-            LoginTxtBx.PasswordChar = '\0';
-            LoginTxtBx.Size = new System.Drawing.Size(300, 79);
-            LoginTxtBx.TabIndex = 0;
-            // 
             // AuthForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(24, 30, 54);
             ClientSize = new System.Drawing.Size(420, 510);
@@ -183,8 +157,6 @@ namespace AccountManagerWinForm.Forms.Auth
         private System.Windows.Forms.Panel AuthPnl;
         private System.Windows.Forms.Button AuthBtn;
         private System.Windows.Forms.Label AuthHeaderLbl;
-        private MatTextBox PasswordTxtBx;
-        private MatTextBox LoginTxtBx;
         private System.Windows.Forms.Panel AuthHavingPnl;
         private System.Windows.Forms.Label AuthHavingLinkLbl;
         private System.Windows.Forms.Label AuthHavingLbl;

@@ -154,11 +154,6 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
                 + textBox.Height
                 + panel.Height
                 + error.Height;
-
-            label.Location = new Point(-5, label.Height);
-            textBox.Location = new Point(0, label.Height);
-            panel.Location = new Point(0, textBox.Bottom);
-            error.Location = new Point(-5, panel.Bottom);
         }
 
         private void Label_Click(object? sender, EventArgs e)
@@ -218,10 +213,10 @@ namespace AccountManagerWinForm.Forms.Common.Elements.Mat
             textBox.Font = font;
             error.Font = new Font(Font.Name, (float)(font.Size * 0.85));
 
-            label.Location = new Point(label.Left, label.Height);
-            textBox.Location = new Point(textBox.Left, label.Height);
-            panel.Location = new Point(panel.Left, textBox.Bottom);
-            error.Location = new Point(error.Left, panel.Bottom);
+            label.Location = new Point(-5, label.Height);
+            textBox.Location = new Point(0, label.Height);
+            panel.Location = new Point(0, textBox.Bottom);
+            error.Location = new Point(-3, panel.Bottom);
 
             label.ForeColor = foreColor;
             panel.BackColor = foreColor;

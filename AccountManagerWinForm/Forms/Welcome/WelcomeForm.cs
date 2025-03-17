@@ -97,7 +97,7 @@ namespace AccountManagerWinForm.Forms.Welcome
                     Image = Resources.DeleteBookmark24,
                     ImageAlign = ContentAlignment.MiddleLeft,
                     Text = "Закладки",
-                    Width = 150,
+                    Width = 130,
                     TextAlign = ContentAlignment.MiddleCenter,
                 };
                 headerPnl.Controls.Add(headerLbl);

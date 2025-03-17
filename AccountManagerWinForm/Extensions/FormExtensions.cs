@@ -1,6 +1,7 @@
 ﻿using AccountManagerWinForm.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 

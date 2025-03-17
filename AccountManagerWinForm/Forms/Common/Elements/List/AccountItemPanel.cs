@@ -13,7 +13,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
 {
     public class AccountItemPanel : Panel
     {
-        private const int KEY_LBL_WIDTH = 100;
+        private const int KEY_LBL_WIDTH = 80;
         private const int LBL_HEIGHT = 27;
         private const int VALUE_BTN_WIDTH = 24;
         private const string PASSWORD_CHAR = "********";
@@ -107,7 +107,7 @@ namespace AccountManagerWinForm.Forms.Common.Elements.List
                 Parent = this,
                 Text = "Логин:",
                 TextAlign = ContentAlignment.MiddleRight,
-                Font = Font
+                Font = Font,
             };
             Controls.Add(loginKeyLbl);
 

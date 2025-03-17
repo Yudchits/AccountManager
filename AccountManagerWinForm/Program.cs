@@ -59,7 +59,7 @@ namespace AccountManagerWinForm
             ServiceProvider = host.Services;
 
             IndexForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateIndexForm();
-            
+
             var authForm = ServiceProvider.GetRequiredService<IFormFactory>().CreateAuthForm();
             if (authForm.ShowDialog() == DialogResult.OK)
             {

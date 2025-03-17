@@ -17,6 +17,9 @@ namespace AccountManagerWinForm.Forms.Auth
 {
     public partial class AuthForm : Form
     {
+        private MatTextBox loginTxtBx;
+        private MatTextBox passwordTxtBx;
+
         private readonly IDictionary<string, MatTextBox> _validationMappings;
         private readonly IMediator _mediator;
         private readonly UserContext _userContext;
@@ -35,22 +38,43 @@ namespace AccountManagerWinForm.Forms.Auth
         public AuthForm(IMediator mediator, UserContext userContext)
         {
             InitializeComponent();
+            InitializeTextBoxes();
 
             _mediator = mediator;
             _userContext = userContext;
 
             _validationMappings = new Dictionary<string, MatTextBox>
             {
-                { nameof(User.Login), LoginTxtBx },
-                { nameof(User.Password), PasswordTxtBx }
+                { nameof(User.Login), loginTxtBx },
+                { nameof(User.Password), passwordTxtBx }
             };
+        }
+
+        private void InitializeTextBoxes()
+        {
+            loginTxtBx = new MatTextBox
+            {
+                Width = 300,
+                Location = new Point(60, 135),
+                Label = "Логин"
+            };
+            AuthPnl.Controls.Add(loginTxtBx);
+
+            passwordTxtBx = new MatTextBox
+            {
+                Width = 300,
+                Location = new Point(60, loginTxtBx.Bottom + 15),
+                Label = "Пароль",
+                PasswordChar = '*'
+            };
+            AuthPnl.Controls.Add(passwordTxtBx);
         }
 
         private void AuthForm_Load(object sender, EventArgs e)
         {
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 25, 25));
             LocateAuthHavingLbls();
-            PasswordTxtBx.KeyDown += PasswordTxtBx_KeyPressAsync;
+            passwordTxtBx.KeyDown += PasswordTxtBx_KeyPressAsync;
         }
 
         private async void PasswordTxtBx_KeyPressAsync(object? sender, KeyEventArgs e)
@@ -86,7 +110,7 @@ namespace AccountManagerWinForm.Forms.Auth
             {
                 var generateCryptoKeyResponse = await _mediator.Send
                 (
-                    new GenerateHashRequest(PasswordTxtBx.Text)
+                    new GenerateHashRequest(passwordTxtBx.Text)
                 );
 
                 _userContext.Configure((int)userId, generateCryptoKeyResponse.Hash);
@@ -104,8 +128,8 @@ namespace AccountManagerWinForm.Forms.Auth
                 (
                     new AuthLoginRequest
                     (
-                        LoginTxtBx.Text,
-                        PasswordTxtBx.Text
+                        loginTxtBx.Text,
+                        passwordTxtBx.Text
                     )
                 );
 
@@ -133,8 +157,8 @@ namespace AccountManagerWinForm.Forms.Auth
                 (
                     new AuthRegistrationRequest
                     (
-                        LoginTxtBx.Text,
-                        PasswordTxtBx.Text
+                        loginTxtBx.Text,
+                        passwordTxtBx.Text
                     )
                 );
 
@@ -157,10 +181,10 @@ namespace AccountManagerWinForm.Forms.Auth
         private void AuthHavingLinkLbl_Click(object sender, EventArgs e)
         {
             isLogin = !isLogin;
-            LoginTxtBx.Text = string.Empty;
-            LoginTxtBx.Error = string.Empty;
-            PasswordTxtBx.Text = string.Empty;
-            PasswordTxtBx.Error = string.Empty;
+            loginTxtBx.Text = string.Empty;
+            loginTxtBx.Error = string.Empty;
+            passwordTxtBx.Text = string.Empty;
+            passwordTxtBx.Error = string.Empty;
             ActiveControl = null;
 
             if (isLogin)

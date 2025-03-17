@@ -12,7 +12,6 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,13 +19,14 @@ namespace AccountManagerWinForm.Forms.Resource
 {
     public partial class CreateResourceForm : Form
     {
+        private bool isFormLoaded = false;
+
         private readonly int? _resourceId;
         private readonly IMediator _mediator;
         private readonly IFormFactory _formFactory;
         private readonly UserContext _userContext;
         private readonly IDictionary<string, IMatControl> _validationMappings;
 
-        private Panel createPnl;
         private MatTextBox nameTxtBx;
         private MatPictureBox imagePctrBx;
         private Button saveBtn;
@@ -69,41 +69,26 @@ namespace AccountManagerWinForm.Forms.Resource
 
         private void InitializeCreateForm()
         {
-            var font = new Font("Cascadia Code", 12f);
-
-            createPnl = new Panel
-            {
-                Width = 500
-            };
-            Controls.Add(createPnl);
-            var pnlX = (Width - createPnl.Width) / 2;
-            createPnl.Location = new Point(pnlX, 0);
+            int width = 500;
 
             nameTxtBx = new MatTextBox
             {
-                Parent = createPnl,
-                Width = createPnl.Width,
+                Width = width,
                 Label = "Название",
-                Font = font,
-                Location = new Point(0, 0),
                 Padding = new Padding(0, 0, 0, 18)
             };
-            createPnl.Controls.Add(nameTxtBx);
+            Controls.Add(nameTxtBx);
 
             imagePctrBx = new MatPictureBox
             {
-                Parent = createPnl,
-                Width = createPnl.Width,
+                Width = width,
                 Height = 320,
-                Location = new Point(0, nameTxtBx.Bottom),
-                Font = font
+                Padding = new Padding(0, 0, 0, 3)
             };
-            createPnl.Controls.Add(imagePctrBx);
+            Controls.Add(imagePctrBx);
 
-            int buttonsMarginTop = 3;
             saveBtn = new Button
             {
-                Parent = createPnl,
                 AutoSize = true,
                 Image = Resources.Save24,
                 TextImageRelation = TextImageRelation.ImageBeforeText,
@@ -113,13 +98,11 @@ namespace AccountManagerWinForm.Forms.Resource
                 Padding = new Padding(3),
                 Cursor = Cursors.Hand
             };
-            saveBtn.Location = new Point(createPnl.Width - saveBtn.Width, imagePctrBx.Bottom + buttonsMarginTop);
             saveBtn.Click += SaveBtn_Click;
-            createPnl.Controls.Add(saveBtn);
+            Controls.Add(saveBtn);
 
             backBtn = new Button
             {
-                Parent = createPnl,
                 AutoSize = true,
                 Image = Resources.Back24,
                 TextImageRelation = TextImageRelation.ImageBeforeText,
@@ -130,19 +113,28 @@ namespace AccountManagerWinForm.Forms.Resource
                 Cursor = Cursors.Hand
             };
             backBtn.FlatAppearance.BorderSize = 0;
-            backBtn.FlatAppearance.MouseOverBackColor = backBtn.BackColor;
-            backBtn.Location = new Point(saveBtn.Left - backBtn.Width - 5, saveBtn.Top);
             backBtn.Click += BackBtn_Click;
-            createPnl.Controls.Add(backBtn);
-
-            createPnl.Height = nameTxtBx.Height
-                + imagePctrBx.Height
-                + saveBtn.Height + buttonsMarginTop;
+            Controls.Add(backBtn);
         }
 
         private void CreateResourceForm_Load(object sender, EventArgs e)
         {
             backBtn.Focus();
+            isFormLoaded = true;
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (isFormLoaded)
+            {
+                int x = (Width - nameTxtBx.Width) / 2;
+                nameTxtBx.Location = new Point(x, 0);
+                imagePctrBx.Location = new Point(x, nameTxtBx.Bottom);
+                saveBtn.Location = new Point(imagePctrBx.Right - saveBtn.Width, imagePctrBx.Bottom);
+                backBtn.Location = new Point(saveBtn.Left - backBtn.Width - 5, saveBtn.Top);
+            }
         }
 
         private void CreateResourceForm_Click(object sender, EventArgs e)

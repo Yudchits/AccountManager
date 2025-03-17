@@ -132,13 +132,16 @@
             // 
             // DashboardNameLabel
             // 
-            DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 12F, System.Drawing.FontStyle.Bold);
+            DashboardNameLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            DashboardNameLabel.Font = new System.Drawing.Font("Cascadia Code", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
             DashboardNameLabel.ForeColor = System.Drawing.Color.FromArgb(0, 180, 249);
-            DashboardNameLabel.Location = new System.Drawing.Point(10, 73);
+            DashboardNameLabel.Location = new System.Drawing.Point(0, 68);
             DashboardNameLabel.Name = "DashboardNameLabel";
-            DashboardNameLabel.Size = new System.Drawing.Size(180, 27);
+            DashboardNameLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            DashboardNameLabel.Size = new System.Drawing.Size(200, 42);
             DashboardNameLabel.TabIndex = 1;
             DashboardNameLabel.Text = "AccountManager";
+            DashboardNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DashboardLogoPicture
             // 
@@ -195,7 +198,7 @@
             ActiveFormNameLbl.ForeColor = System.Drawing.Color.FromArgb(158, 161, 176);
             ActiveFormNameLbl.Location = new System.Drawing.Point(15, 36);
             ActiveFormNameLbl.Name = "ActiveFormNameLbl";
-            ActiveFormNameLbl.Size = new System.Drawing.Size(104, 30);
+            ActiveFormNameLbl.Size = new System.Drawing.Size(89, 25);
             ActiveFormNameLbl.TabIndex = 2;
             ActiveFormNameLbl.Text = "Главная";
             // 
@@ -216,7 +219,7 @@
             // 
             // IndexForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(46, 51, 73);
             ClientSize = new System.Drawing.Size(1000, 600);
