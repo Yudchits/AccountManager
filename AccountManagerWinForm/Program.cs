@@ -31,7 +31,6 @@ namespace AccountManagerWinForm
             AppDomain.CurrentDomain.UnhandledException += 
                 new UnhandledExceptionEventHandler(HandleUnhandledExceptions);
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
